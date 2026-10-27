@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    content="width=device-width, initial-scale=1.0">
 
     <title>WasabiTech</title>
 
@@ -16,31 +15,61 @@
 
 <body>
 
+    <!-- ==========================
+         HEADER
+    =========================== -->
+
     <header>
 
         <div class="header-left">
 
-            <button id="menuBtn">
+            <!-- Hidden until Dev Mode -->
+
+            <button
+            id="menuBtn"
+            class="hidden">
+
                 ☰
+
             </button>
 
-            <div id="dropdownMenu" class="dropdown-menu">
+            <div
+            id="devDropdown"
+            class="dev-dropdown">
 
-                <button onclick="goHome()">
-                    Home
+                <button
+                onclick="toggleAddComputerMenu()">
+
+                    Add Computer
+
                 </button>
 
-                <button onclick="openCategory('basic')">
-                    Basic
-                </button>
+                <div
+                id="addComputerMenu"
+                class="add-computer-menu">
 
-                <button onclick="openCategory('business')">
-                    Business
-                </button>
+                    <button
+                    onclick="showDevCategory('basic')">
 
-                <button onclick="openCategory('professional')">
-                    Professional
-                </button>
+                        Basic
+
+                    </button>
+
+                    <button
+                    onclick="showDevCategory('business')">
+
+                        Business
+
+                    </button>
+
+                    <button
+                    onclick="showDevCategory('professional')">
+
+                        Professional
+
+                    </button>
+
+                </div>
 
             </div>
 
@@ -49,163 +78,238 @@
         <div class="header-center">
 
             <h1 class="logo">
-                <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
+
+                <span class="wasabi">
+                    Wasabi
+                </span>
+
+                <span class="tech">
+                    Tech
+                </span>
+
             </h1>
 
         </div>
 
         <div class="header-right">
 
-            <button onclick="setLanguage('en')">
+            <button
+            onclick="setLanguage('en')">
+
                 EN
+
             </button>
 
-            <button onclick="setLanguage('es')">
+            <button
+            onclick="setLanguage('es')">
+
                 ES
+
             </button>
 
         </div>
 
     </header>
 
+    <!-- ==========================
+         HERO
+    =========================== -->
+
     <section class="hero">
 
-        <h2>
+        <h2
+        data-en="Find The Right Computer"
+        data-es="Encuentra La Computadora Ideal">
+
             Find The Right Computer
+
         </h2>
 
-        <p>
-            Browse systems designed for everyday users,
+        <p
+        data-en="Browse systems designed for home users, businesses and professionals."
+        data-es="Explora sistemas diseñados para usuarios domésticos, negocios y profesionales.">
+
+            Browse systems designed for home users,
             businesses and professionals.
+
         </p>
 
     </section>
 
+    <!-- ==========================
+         MAIN CATEGORIES
+    =========================== -->
+
     <section id="mainCategories">
 
-        <div class="category" onclick="openCategory('basic')">
+        <div
+        class="category"
+        onclick="openCategory('basic')">
 
             <h2>Basic</h2>
 
             <p>
-                Internet, Word, Email,
-                Streaming and Daily Usage.
+
+                For web browsing,
+                email, streaming,
+                office work and daily use.
+
             </p>
 
         </div>
 
-        <div class="category" onclick="openCategory('business')">
+        <div
+        class="category"
+        onclick="openCategory('business')">
 
             <h2>Business</h2>
 
             <p>
-                Excel, Office Work,
-                Shared Documents and Storage.
+
+                For Excel,
+                Word,
+                file storage,
+                accounting,
+                and office productivity.
+
             </p>
 
         </div>
 
-        <div class="category" onclick="openCategory('professional')">
+        <div
+        class="category"
+        onclick="openCategory('professional')">
 
             <h2>Professional</h2>
 
             <p>
-                Programming, Graphic Design,
-                Video Editing and 3D Work.
+
+                For programming,
+                graphic design,
+                video editing,
+                engineering and 3D workloads.
+
             </p>
 
         </div>
 
     </section>
 
-    <section id="content"></section>
+    <!-- ==========================
+         PRODUCT AREA
+    =========================== -->
 
-    <div id="loginModal" class="modal">
+    <section
+    id="content">
 
-        <div class="modal-content">
+    </section>
 
-            <button class="close-modal"
-                onclick="closeLogin()">
+    <!-- ==========================
+         LOGIN MODAL
+    =========================== -->
+
+    <div
+    id="loginModal"
+    class="modal">
+
+        <div
+        class="modal-content">
+
+            <button
+            class="close-modal"
+            onclick="closeLogin()">
+
                 ×
+
             </button>
 
-            <h2>Developer Login</h2>
+            <h2>
+
+                Developer Login
+
+            </h2>
 
             <input
-                type="text"
-                id="username"
-                placeholder="Username">
+            type="text"
+            id="username"
+            placeholder="Username">
 
             <input
-                type="password"
-                id="password"
-                placeholder="Password">
+            type="password"
+            id="password"
+            placeholder="Password">
 
-            <button onclick="login()">
+            <button
+            onclick="login()">
+
                 Login
+
             </button>
 
         </div>
 
     </div>
 
+    <!-- ==========================
+         DEV PANEL
+    =========================== -->
+
     <section
-        id="devPanel"
-        class="hidden">
+    id="devPanel"
+    class="hidden">
 
         <h2>
+
             Catalog Manager
+
         </h2>
 
         <input
-            type="text"
-            id="pcName"
-            placeholder="Computer Name">
+        type="text"
+        id="pcName"
+        placeholder="Computer Name">
 
         <input
-            type="text"
-            id="pcImage"
-            placeholder="Image URL">
+        type="text"
+        id="pcImage"
+        placeholder="Image URL">
 
         <textarea
-            id="pcDescription"
-            placeholder="Description">
-        </textarea>
+        id="pcDescription"
+        placeholder="Description"></textarea>
 
         <input
-            type="text"
-            id="pcCPU"
-            placeholder="CPU">
+        type="text"
+        id="pcCPU"
+        placeholder="CPU">
 
         <input
-            type="text"
-            id="pcRAM"
-            placeholder="RAM">
+        type="text"
+        id="pcRAM"
+        placeholder="RAM">
 
         <input
-            type="text"
-            id="pcStorage"
-            placeholder="Storage">
+        type="text"
+        id="pcStorage"
+         <input
+        type="text"
+        id="pcGPU"
+        placeholder="GPU">
 
         <input
-            type="text"
-            id="pcGPU"
-            placeholder="GPU">
+        type="text"
+        id="pcOS"
+        placeholder="Operating System">
 
         <input
-            type="text"
-            id="pcOS"
-            placeholder="Operating System">
+        type="text"
+        id="pcScreen"
+        placeholder="Screen Size">
 
         <input
-            type="text"
-            id="pcScreen"
-            placeholder="Screen Size">
-
-        <input
-            type="text"
-            id="pcPrice"
-            placeholder="Price">
+        type="text"
+        id="pcPrice"
+        placeholder="Price">
 
         <select id="pcCategory">
 
@@ -231,16 +335,21 @@
 
         </select>
 
-        <button onclick="addComputer()">
+        <button
+        onclick="addComputer()">
+
             Add Computer
+
         </button>
 
-        <div id="catalogEditor"></div>
+        <div
+        id="catalogEditor">
+
+        </div>
 
     </section>
 
-    <script src="script.js"></script>
+    script.jsscript>
 
 </body>
-
 </html>
