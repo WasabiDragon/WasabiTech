@@ -1,64 +1,115 @@
+/* ==========================
+   SETTINGS
+========================== */
+
 let currentLanguage = "en";
 
+let logoClicks = 0;
+
+/* ==========================
+   COMPUTER DATABASE
+========================== */
+
 let computers =
-JSON.parse(localStorage.getItem("computers")) || {
+JSON.parse(
+    localStorage.getItem("computers")
+) || {
 
     "basic-stationary": [],
+
     "basic-portable": [],
 
     "business-stationary": [],
+
     "business-portable": [],
 
     "professional": []
 };
-let logoClicks = 0;
+
+/* ==========================
+   CATEGORY NAVIGATION
+========================== */
+
 function openCategory(category){
 
     const content =
     document.getElementById("content");
 
     if(category === "basic"){
+
         content.innerHTML = `
-            <h2>Basic</h2>
+
+            <h2>Basic Computers</h2>
 
             <button onclick="showList('basic-stationary')">
-            Stationary
+                Stationary
             </button>
 
             <button onclick="showList('basic-portable')">
-            Portable
+                Portable
             </button>
+
         `;
     }
 
     if(category === "business"){
+
         content.innerHTML = `
-            <h2>Business</h2>
+
+            <h2>Business Computers</h2>
 
             <button onclick="showList('business-stationary')">
-            Stationary
+                Stationary
             </button>
 
             <button onclick="showList('business-portable')">
-            Portable
+                Portable
             </button>
+
         `;
     }
 
     if(category === "professional"){
+
         showList("professional");
     }
 }
+
+/* ==========================
+   SHOW COMPUTER LIST
+========================== */
 
 function showList(type){
 
     const content =
     document.getElementById("content");
 
-    let html = `<h2>${type}</h2><ul>`;
+    let title =
+    type
+    .replaceAll("-"," ")
+    .replace(/\b\w/g, c => c.toUpperCase());
 
-    computers[type].forEach(pc=>{
-        html += `<li>${pc}</li>`;
+    let html = `
+
+        <h2>${title}</h2>
+
+        <ul>
+    `;
+
+    if(computers[type].length === 0){
+
+        html += `
+            <li>
+                No computers available.
+            </li>
+        `;
+    }
+
+    computers[type].forEach(pc => {
+
+        html += `
+            <li>${pc}</li>
+        `;
     });
 
     html += "</ul>";
@@ -66,63 +117,9 @@ function showList(type){
     content.innerHTML = html;
 }
 
-document
-.getElementById("devBtn")
-.addEventListener("click",()=>{
-
-    document
-    .getElementById("loginModal")
-    .style.display = "flex";
-
-});
-
-function login(){
-
-    const user =
-    document.getElementById("username").value;
-
-    const pass =
-    document.getElementById("password").value;
-
-  if(
-    user==="WasabiDragon53" &&
-    pass==="Tech!53"
-)
-
-        document
-        .getElementById("devPanel")
-        .classList.remove("hidden");
-
-        document
-        .getElementById("loginModal")
-        .style.display="none";
-    }
-    else{
-        alert("Invalid Login");
-    }
-}
-
-function addComputer(){
-
-    const name =
-    document.getElementById("pcName").value;
-
-    const category =
-    document.getElementById("pcCategory").value;
-
-    if(name === "") return;
-
-    computers[category].push(name);
-
-    localStorage.setItem(
-        "computers",
-        JSON.stringify(computers)
-    );
-
-    document.getElementById("pcName").value="";
-
-    alert("Computer Added");
-}
+/* ==========================
+   LANGUAGE SWITCHING
+========================== */
 
 function setLanguage(lang){
 
@@ -130,7 +127,7 @@ function setLanguage(lang){
 
     document
     .querySelectorAll("[data-en]")
-    .forEach(element=>{
+    .forEach(element => {
 
         element.textContent =
         element.getAttribute(
@@ -138,9 +135,14 @@ function setLanguage(lang){
         );
     });
 }
+
+/* ==========================
+   SECRET DEV MODE
+========================== */
+
 document
 .getElementById("logo")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
     logoClicks++;
 
@@ -153,9 +155,120 @@ document
         logoClicks = 0;
     }
 });
+
+/* ==========================
+   CLOSE LOGIN WINDOW
+========================== */
+
 function closeLogin(){
 
     document
     .getElementById("loginModal")
     .style.display = "none";
 }
+
+/* ==========================
+   LOGIN
+========================== */
+
+function login(){
+
+    const user =
+    document.getElementById(
+        "username"
+    ).value;
+
+    const pass =
+    document.getElementById(
+        "password"
+    ).value;
+
+    if(
+
+        user === "WasabiDragon53"
+        &&
+
+        pass === "Tech!53"
+
+    ){
+
+        document
+        .getElementById("loginModal")
+        .style.display = "none";
+
+        document
+        .getElementById("devPanel")
+        .classList.remove("hidden");
+
+        alert(
+            "Developer Mode Activated"
+        );
+    }
+
+    else{
+
+        alert(
+            "Invalid Username or Password"
+        );
+    }
+}
+
+/* ==========================
+   ADD COMPUTER
+========================== */
+
+function addComputer(){
+
+    const name =
+    document.getElementById(
+        "pcName"
+    ).value.trim();
+
+    const category =
+    document.getElementById(
+        "pcCategory"
+    ).value;
+
+    if(name === ""){
+
+        alert(
+            "Enter a computer name."
+        );
+
+        return;
+    }
+
+    computers[category].push(name);
+
+    localStorage.setItem(
+
+        "computers",
+
+        JSON.stringify(computers)
+    );
+
+    document
+    .getElementById("pcName")
+    .value = "";
+
+    alert(
+        "Computer Added Successfully"
+    );
+}
+
+/* ==========================
+   CLICK OUTSIDE MODAL
+========================== */
+
+window.onclick = function(event){
+
+    const modal =
+    document.getElementById(
+        "loginModal"
+    );
+
+    if(event.target === modal){
+
+        closeLogin();
+    }
+};
