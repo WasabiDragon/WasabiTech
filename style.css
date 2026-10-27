@@ -1444,3 +1444,8 @@ select option {
         animation-duration: 0.01ms !important;
     }
 }
+
+/* Hide developer-mode instructions from visitors */
+.dev-hint {
+    display: none !important;
+}
