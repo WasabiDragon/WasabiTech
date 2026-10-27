@@ -5,219 +5,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080d16">
-    <title>WasabiTech | Your Next Computer Starts Here</title>
+    <title>WasabiTech | Find Your Next Computer</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-
-<body data-page="home">
-
-    <!-- Navigation -->
+<body>
     <header class="site-header">
-        <a href="index.html" class="brand" aria-label="WasabiTech Home">
-            <span class="brand-mark">✦</span>
+        <a class="brand" href="index.html" aria-label="WasabiTech home">
+            <span class="brand-mark">W</span>
             <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span></span>
         </a>
 
         <nav class="main-nav">
-            <a href="index.html" class="active" data-i18n="navHome">Home</a>
+            <a class="active" href="index.html" data-i18n="navHome">Home</a>
             <a href="computers.html" data-i18n="navComputers">Computers</a>
             <a href="#about" data-i18n="navAbout">About</a>
             <a href="#support" data-i18n="navSupport">Support</a>
         </nav>
 
         <div class="header-actions">
-            <button id="languageToggle" class="language-button" type="button">
-                EN <span>|</span> ES
-            </button>
-
-            <span class="dev-hint">
-                ⇧ + W + D
-                <small data-i18n="devMode">Developer Mode</small>
-            </span>
+            <span class="dev-hint">Developer Mode<small>Shift + W, then D</small></span>
+            <button class="language-button" id="languageToggle" type="button">EN <span>|</span> ES</button>
         </div>
     </header>
 
     <main>
-
-        <!-- Homepage Hero -->
         <section class="hero">
             <div class="hero-copy">
-                <p class="eyebrow" data-i18n="heroEyebrow">
-                    TECHNOLOGY THAT FITS YOUR LIFE
-                </p>
-
-                <h1>
-                    <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
-                </h1>
-
-                <h2 data-i18n="heroTitle">
-                    Your next computer starts here.
-                </h2>
-
-                <p data-i18n="heroText">
-                    Discover computers for every need, from everyday browsing
-                    to professional-grade performance.
-                </p>
-
-                <!-- Opens the separate catalog page -->
-                <a href="computers.html" class="button button-primary">
-                    <span data-i18n="exploreComputers">Explore Computers</span>
-                    <span aria-hidden="true">→</span>
-                </a>
+                <p class="eyebrow" data-i18n="heroEyebrow">TECHNOLOGY THAT FITS YOUR LIFE</p>
+                <h1><span class="wasabi">Wasabi</span><span class="tech">Tech</span></h1>
+                <h2 data-i18n="heroTitle">Your next computer starts here.</h2>
+                <p data-i18n="heroText">Discover computers for every need, from everyday browsing to professional-grade performance.</p>
+                <a class="button button-primary" href="computers.html" data-i18n="exploreComputers">Explore Computers <span>→</span></a>
             </div>
 
-            <!-- Decorative computer illustration -->
-            <div class="hero-art" aria-hidden="true">
-                <div class="glow glow-green"></div>
-                <div class="glow glow-purple"></div>
-
+            <div class="hero-art" aria-label="Stylized desktop computer illustration">
+                <span class="glow glow-green"></span>
+                <span class="glow glow-purple"></span>
                 <div class="monitor">
                     <div class="monitor-screen">
-                        <span class="screen-logo">✦</span>
+                        <span class="screen-logo">W.</span>
                     </div>
                     <div class="monitor-stand"></div>
                 </div>
-
                 <div class="computer-tower">
                     <span class="tower-fan"></span>
                     <span class="tower-fan"></span>
                     <span class="tower-fan"></span>
                 </div>
-
                 <div class="desk"></div>
             </div>
         </section>
 
-        <!-- Benefits -->
         <section class="benefits">
             <article class="benefit">
-                <span class="benefit-icon">ϟ</span>
+                <div class="benefit-icon">✦</div>
                 <h3 data-i18n="benefit1">Reliable</h3>
-                <p data-i18n="benefit1Text">
-                    Built to last, backed by care.
-                </p>
+                <p data-i18n="benefit1Text">Built to last, backed by care.</p>
             </article>
-
             <article class="benefit">
-                <span class="benefit-icon">◈</span>
+                <div class="benefit-icon">ϟ</div>
                 <h3 data-i18n="benefit2">Powerful</h3>
-                <p data-i18n="benefit2Text">
-                    Performance you can count on.
-                </p>
+                <p data-i18n="benefit2Text">Performance you can count on.</p>
             </article>
-
             <article class="benefit">
-                <span class="benefit-icon">◇</span>
+                <div class="benefit-icon">◇</div>
                 <h3 data-i18n="benefit3">Great Value</h3>
-                <p data-i18n="benefit3Text">
-                    Great technology for your budget.
-                </p>
+                <p data-i18n="benefit3Text">Great technology for your budget.</p>
             </article>
         </section>
 
-        <!-- About -->
         <section class="about-section" id="about">
-            <p class="eyebrow" data-i18n="aboutEyebrow">
-                A BETTER WAY TO CHOOSE
-            </p>
-
-            <h2 data-i18n="aboutTitle">
-                Find the right computer for your world.
-            </h2>
-
-            <p data-i18n="aboutText">
-                Compare options, explore specifications, and find a computer
-                that fits the way you work, learn, and create.
-            </p>
-
-            <a href="computers.html" class="text-link" data-i18n="browseCatalog">
-                Browse the Catalog →
-            </a>
+            <p class="eyebrow" data-i18n="aboutEyebrow">A BETTER WAY TO CHOOSE</p>
+            <h2 data-i18n="aboutTitle">Find the right computer for your world.</h2>
+            <p data-i18n="aboutText">Compare options, explore specifications, and find a computer that fits the way you work, learn, and create.</p>
+            <a class="button button-secondary" href="computers.html" data-i18n="browseCatalog">Browse the Catalog →</a>
         </section>
 
+        <section class="about-section support-section" id="support">
+            <p class="eyebrow" data-i18n="navSupport">Support</p>
+            <h2 data-i18n="supportTitle">Need help choosing?</h2>
+            <p data-i18n="supportText">Explore our catalog to compare computer types, specifications, and prices.</p>
+            <a class="text-link" href="computers.html" data-i18n="exploreComputers">Explore Computers →</a>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="site-footer" id="support">
-        <a href="index.html" class="brand footer-brand">
-            <span class="brand-mark">✦</span>
-
-            <span>
-                <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
-                <small data-i18n="footerTagline">
-                    Tech for a better tomorrow.
-                </small>
-            </span>
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="index.html">
+            <span class="brand-mark">W</span>
+            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span><small data-i18n="footerTagline">Tech for a better tomorrow.</small></span>
         </a>
-
         <div class="footer-links">
             <a href="index.html" data-i18n="navHome">Home</a>
             <a href="computers.html" data-i18n="navComputers">Computers</a>
-            <a href="#support" data-i18n="navSupport">Support</a>
+            <a href="#about" data-i18n="navAbout">About</a>
         </div>
     </footer>
 
-    <!-- Developer Login -->
-    <dialog id="loginDialog" class="modal">
-        <form id="loginForm" class="modal-card">
-            <button
-                class="modal-close"
-                type="button"
-                data-close-dialog
-                aria-label="Close"
-            >×</button>
-
-            <p class="eyebrow">WASABITECH ADMIN</p>
-
+    <dialog class="modal" id="loginDialog">
+        <form class="modal-card" id="loginForm">
+            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+            <p class="eyebrow">WASABITECH</p>
             <h2 data-i18n="adminLogin">Developer Login</h2>
-
-            <p class="muted" data-i18n="loginNote">
-                Enter the developer password to manage catalog entries.
-            </p>
-
-            <label for="adminPassword" data-i18n="password">
-                Password
-            </label>
-
-            <input
-                id="adminPassword"
-                type="password"
-                autocomplete="current-password"
-                required
-            >
-
-            <p id="loginError" class="form-error" role="alert"></p>
-
-            <button
-                class="button button-primary full-width"
-                type="submit"
-                data-i18n="login"
-            >
-                Log In
-            </button>
-
-            <small class="muted">
-                Demo password: <code>wasabi-admin</code>
-            </small>
+            <p class="muted" data-i18n="loginNote">Enter the developer password to manage catalog entries.</p>
+            <label for="adminPassword" data-i18n="password">Password</label>
+            <input id="adminPassword" type="password" autocomplete="current-password" required>
+            <p class="form-error" id="loginError" role="alert"></p>
+            <button class="button button-primary full-width" type="submit" data-i18n="login">Log In</button>
         </form>
     </dialog>
 
-    <!-- Developer Menu -->
-    <aside id="adminMenu" class="admin-menu" hidden>
+    <aside class="admin-menu" id="adminMenu" hidden>
         <strong>Developer Tools</strong>
-
-        <a href="computers.html#manage" data-i18n="manageComputers">
-            Manage Computers
-        </a>
-
-        <button id="exitDeveloperMode" type="button" data-i18n="exitDev">
-            Exit Developer Mode
-        </button>
+        <a href="computers.html#manage" data-i18n="manageComputers">Manage Computers</a>
+        <button type="button" id="exitDeveloperMode" data-i18n="exitDev">Exit Developer Mode</button>
     </aside>
 
-    <!-- Notifications -->
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
