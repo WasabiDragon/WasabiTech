@@ -1,10 +1,8 @@
 /* ==========================
-   SETTINGS
+   WASABITECH SCRIPT
 ========================== */
 
 let currentLanguage = "en";
-
-let logoClicks = 0;
 
 /* ==========================
    COMPUTER DATABASE
@@ -16,11 +14,9 @@ JSON.parse(
 ) || {
 
     "basic-stationary": [],
-
     "basic-portable": [],
 
     "business-stationary": [],
-
     "business-portable": [],
 
     "professional": []
@@ -89,19 +85,12 @@ function showList(type){
     .replaceAll("-"," ")
     .replace(/\b\w/g, c => c.toUpperCase());
 
-    let html = `
-
-        <h2>${title}</h2>
-
-        <ul>
-    `;
+    let html = `<h2>${title}</h2><ul>`;
 
     if(computers[type].length === 0){
 
         html += `
-            <li>
-                No computers available.
-            </li>
+            <li>No computers available.</li>
         `;
     }
 
@@ -118,7 +107,7 @@ function showList(type){
 }
 
 /* ==========================
-   LANGUAGE SWITCHING
+   LANGUAGE SWITCH
 ========================== */
 
 function setLanguage(lang){
@@ -138,55 +127,46 @@ function setLanguage(lang){
 
 /* ==========================
    SECRET DEV MODE
+   SHIFT + W + D
 ========================== */
 
-let shiftPressed = false;
-let wPressed = false;
-let dPressed = false;
+let secretCode = "";
 
 document.addEventListener("keydown",(event)=>{
 
     if(event.key === "Shift"){
-        shiftPressed = true;
+
+        secretCode = "SHIFT";
     }
 
-    if(event.key.toLowerCase() === "w"){
-        wPressed = true;
+    else if(
+        secretCode === "SHIFT" &&
+        event.key.toLowerCase() === "w"
+    ){
+
+        secretCode = "SHIFTW";
     }
 
-    if(event.key.toLowerCase() === "d"){
-        dPressed = true;
-    }
-
-    if(
-        shiftPressed &&
-        wPressed &&
-        dPressed
+    else if(
+        secretCode === "SHIFTW" &&
+        event.key.toLowerCase() === "d"
     ){
 
         document
         .getElementById("loginModal")
         .style.display = "flex";
-    }
-});
 
-document.addEventListener("keyup",(event)=>{
-
-    if(event.key === "Shift"){
-        shiftPressed = false;
+        secretCode = "";
     }
 
-    if(event.key.toLowerCase() === "w"){
-        wPressed = false;
-    }
+    else{
 
-    if(event.key.toLowerCase() === "d"){
-        dPressed = false;
+        secretCode = "";
     }
 });
 
 /* ==========================
-   CLOSE LOGIN WINDOW
+   CLOSE LOGIN
 ========================== */
 
 function closeLogin(){
@@ -203,22 +183,18 @@ function closeLogin(){
 function login(){
 
     const user =
-    document.getElementById(
-        "username"
-    ).value;
+    document.getElementById("username")
+    .value
+    .trim();
 
     const pass =
-    document.getElementById(
-        "password"
-    ).value;
+    document.getElementById("password")
+    .value
+    .trim();
 
     if(
-
-        user === "WasabiDragon53"
-        &&
-
+        user === "WasabiDragon53" &&
         pass === "Tech!53"
-
     ){
 
         document
@@ -229,9 +205,7 @@ function login(){
         .getElementById("devPanel")
         .classList.remove("hidden");
 
-        alert(
-            "Developer Mode Activated"
-        );
+        alert("Developer Mode Activated");
     }
 
     else{
@@ -249,19 +223,20 @@ function login(){
 function addComputer(){
 
     const name =
-    document.getElementById(
-        "pcName"
-    ).value.trim();
+    document
+    .getElementById("pcName")
+    .value
+    .trim();
 
     const category =
-    document.getElementById(
-        "pcCategory"
-    ).value;
+    document
+    .getElementById("pcCategory")
+    .value;
 
     if(name === ""){
 
         alert(
-            "Enter a computer name."
+            "Please enter a computer name."
         );
 
         return;
@@ -270,9 +245,7 @@ function addComputer(){
     computers[category].push(name);
 
     localStorage.setItem(
-
         "computers",
-
         JSON.stringify(computers)
     );
 
@@ -286,15 +259,14 @@ function addComputer(){
 }
 
 /* ==========================
-   CLICK OUTSIDE MODAL
+   CLOSE MODAL IF CLICKING
+   OUTSIDE OF IT
 ========================== */
 
 window.onclick = function(event){
 
     const modal =
-    document.getElementById(
-        "loginModal"
-    );
+    document.getElementById("loginModal");
 
     if(event.target === modal){
 
