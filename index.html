@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0">
 
     <title>WasabiTech</title>
 
@@ -15,10 +16,6 @@
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-
     <header>
 
         <div class="header-left">
@@ -27,20 +24,32 @@
                 ☰
             </button>
 
+            <div id="dropdownMenu" class="dropdown-menu">
+
+                <button onclick="goHome()">
+                    Home
+                </button>
+
+                <button onclick="openCategory('basic')">
+                    Basic
+                </button>
+
+                <button onclick="openCategory('business')">
+                    Business
+                </button>
+
+                <button onclick="openCategory('professional')">
+                    Professional
+                </button>
+
+            </div>
+
         </div>
 
         <div class="header-center">
 
             <h1 class="logo">
-
-                <span class="wasabi">
-                    Wasabi
-                </span>
-
-                <span class="tech">
-                    Tech
-                </span>
-
+                <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
             </h1>
 
         </div>
@@ -59,238 +68,144 @@
 
     </header>
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
-
-    <div id="sidebar" class="sidebar">
-
-        <button
-        class="close-sidebar"
-        onclick="closeSidebar()">
-
-            ×
-
-        </button>
-
-        <h2>Navigation</h2>
-
-        <button onclick="goHome()">
-            Home
-        </button>
-
-        <button onclick="openCategory('basic')">
-            Basic
-        </button>
-
-        <button onclick="openCategory('business')">
-            Business
-        </button>
-
-        <button onclick="openCategory('professional')">
-            Professional
-        </button>
-
-    </div>
-
-    <!-- =========================
-         HERO
-    ========================== -->
-
     <section class="hero">
 
-        <h2
-        data-en="Find the Right Computer"
-        data-es="Encuentra la Computadora Correcta">
-
-            Find the Right Computer
-
+        <h2>
+            Find The Right Computer
         </h2>
 
-        <p
-        data-en="Browse systems built for home users, businesses, and professionals."
-        data-es="Explore sistemas diseñados para usuarios domésticos, negocios y profesionales.">
-
-            Browse systems built for home users,
-            businesses, and professionals.
-
+        <p>
+            Browse systems designed for everyday users,
+            businesses and professionals.
         </p>
 
     </section>
 
-    <!-- =========================
-         MAIN CATEGORY CARDS
-    ========================== -->
-
     <section id="mainCategories">
 
-        <div
-        class="category"
-        onclick="openCategory('basic')">
+        <div class="category" onclick="openCategory('basic')">
 
             <h2>Basic</h2>
 
             <p>
-
-                For internet browsing,
-                email, streaming,
-                office work and
-                everyday use.
-
+                Internet, Word, Email,
+                Streaming and Daily Usage.
             </p>
 
         </div>
 
-        <div
-        class="category"
-        onclick="openCategory('business')">
+        <div class="category" onclick="openCategory('business')">
 
             <h2>Business</h2>
 
             <p>
-
-                For offices, document storage,
-                accounting,
-                spreadsheets and
-                productivity.
-
+                Excel, Office Work,
+                Shared Documents and Storage.
             </p>
 
         </div>
 
-        <div
-        class="category"
-        onclick="openCategory('professional')">
+        <div class="category" onclick="openCategory('professional')">
 
             <h2>Professional</h2>
 
             <p>
-
-                For programming,
-                engineering,
-                graphic design,
-                video editing and 3D work.
-
+                Programming, Graphic Design,
+                Video Editing and 3D Work.
             </p>
 
         </div>
 
     </section>
 
-    <!-- =========================
-         DYNAMIC CONTENT
-    ========================== -->
+    <section id="content"></section>
 
-    <section id="content">
-
-    </section>
-
-    <!-- =========================
-         LOGIN MODAL
-    ========================== -->
-
-    <div
-    id="loginModal"
-    class="modal">
+    <div id="loginModal" class="modal">
 
         <div class="modal-content">
 
-            <button
-            class="close-modal"
-            onclick="closeLogin()">
-
+            <button class="close-modal"
+                onclick="closeLogin()">
                 ×
-
             </button>
 
-            <h2>
-
-                Developer Login
-
-            </h2>
+            <h2>Developer Login</h2>
 
             <input
-            type="text"
-            id="username"
-            placeholder="Username">
+                type="text"
+                id="username"
+                placeholder="Username">
 
             <input
-            type="password"
-            id="password"
-            placeholder="Password">
+                type="password"
+                id="password"
+                placeholder="Password">
 
-            <button
-            onclick="login()">
-
+            <button onclick="login()">
                 Login
-
             </button>
 
         </div>
 
     </div>
 
-    <!-- =========================
-         DEVELOPER PANEL
-    ========================== -->
-
     <section
-    id="devPanel"
-    class="hidden">
+        id="devPanel"
+        class="hidden">
 
         <h2>
             Catalog Manager
         </h2>
 
         <input
-        type="text"
-        id="pcName"
-        placeholder="Computer Name">
+            type="text"
+            id="pcName"
+            placeholder="Computer Name">
 
         <input
-        type="text"
-        id="pcImage"
-        placeholder="Image URL">
+            type="text"
+            id="pcImage"
+            placeholder="Image URL">
 
         <textarea
-        id="pcDescription"
-        placeholder="Description">
+            id="pcDescription"
+            placeholder="Description">
         </textarea>
 
         <input
-        type="text"
-        id="pcCPU"
-        placeholder="CPU">
+            type="text"
+            id="pcCPU"
+            placeholder="CPU">
 
         <input
-        type="text"
-        id="pcRAM"
-        placeholder="RAM">
+            type="text"
+            id="pcRAM"
+            placeholder="RAM">
 
         <input
-        type="text"
-        id="pcStorage"
-        placeholder="Storage">
+            type="text"
+            id="pcStorage"
+            placeholder="Storage">
 
         <input
-        type="text"
-        id="pcGPU"
-        placeholder="GPU">
+            type="text"
+            id="pcGPU"
+            placeholder="GPU">
 
         <input
-        type="text"
-        id="pcOS"
-        placeholder="Operating System">
+            type="text"
+            id="pcOS"
+            placeholder="Operating System">
 
         <input
-        type="text"
-        id="pcScreen"
-        placeholder="Screen Size">
+            type="text"
+            id="pcScreen"
+            placeholder="Screen Size">
 
         <input
-        type="text"
-        id="pcPrice"
-        placeholder="Price">
+            type="text"
+            id="pcPrice"
+            placeholder="Price">
 
         <select id="pcCategory">
 
@@ -306,7 +221,7 @@
                 Business - Stationary
             </option>
 
-            <">
+            <option value="business-portable">
                 Business - Portable
             </option>
 
@@ -317,18 +232,15 @@
         </select>
 
         <button onclick="addComputer()">
-
             Add Computer
-
         </button>
 
-        <div id="catalogEditor">
-
-        </div>
+        <div id="catalogEditor"></div>
 
     </section>
 
-    script.jsscript>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
