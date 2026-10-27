@@ -14,7 +14,7 @@
     const DEV_KEY = "wasabitech_developer";
 
     // Demo only. Do not use a client-side password for real security.
-    const DEMO_PASSWORD = "wasabi-admin";
+    const DEMO_PASSWORD = "WasabiTech!53";
 
     let language = localStorage.getItem(LANGUAGE_KEY) || "en";
     let developerMode = sessionStorage.getItem(DEV_KEY) === "true";
