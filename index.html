@@ -1,99 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WasabiTech</title>
-<link rel="stylesheet" href="style.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>WasabiTech</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-<header>
-   <h1 class="logo" id="logo">
-    <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
-</h1>
-<section class="hero">
-    <h2>Find the Right Computer for Your Needs</h2>
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-    <p>
-        From home users to growing businesses and professional creators,
-        WasabiTech helps you find the perfect system.
-    </p>
-</section>
-    <div class="language-switch">
-        <button onclick="setLanguage('en')">English</button>
-        <button onclick="setLanguage('es')">Español</button>
+    <header>
+
+        <div class="header-left">
+
+            <button id="menuBtn">
+                ☰
+            </button>
+
+        </div>
+
+        <div class="header-center">
+
+            <h1 class="logo">
+
+                <span class="wasabi">
+                    Wasabi
+                </span>
+
+                <span class="tech">
+                    Tech
+                </span>
+
+            </h1>
+
+        </div>
+
+        <div class="header-right">
+
+            <button onclick="setLanguage('en')">
+                EN
+            </button>
+
+            <button onclick="setLanguage('es')">
+                ES
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <div id="sidebar" class="sidebar">
+
+        <button
+        class="close-sidebar"
+        onclick="closeSidebar()">
+
+            ×
+
+        </button>
+
+        <h2>Navigation</h2>
+
+        <button onclick="goHome()">
+            Home
+        </button>
+
+        <button onclick="openCategory('basic')">
+            Basic
+        </button>
+
+        <button onclick="openCategory('business')">
+            Business
+        </button>
+
+        <button onclick="openCategory('professional')">
+            Professional
+        </button>
+
     </div>
 
-    <button id="devBtn" style="display:none;">Developer Mode</button>
-</header>
+    <!-- =========================
+         HERO
+    ========================== -->
 
-<section id="mainCategories">
+    <section class="hero">
 
-    <div class="category" onclick="openCategory('basic')">
-        <h2 data-en="Basic" data-es="Básico">Basic</h2>
-        <p data-en="For internet browsing, email, and everyday use."
-           data-es="Para navegar por internet, correo electrónico y uso diario.">
-           For internet browsing, email, and everyday use.
+        <h2
+        data-en="Find the Right Computer"
+        data-es="Encuentra la Computadora Correcta">
+
+            Find the Right Computer
+
+        </h2>
+
+        <p
+        data-en="Browse systems built for home users, businesses, and professionals."
+        data-es="Explore sistemas diseñados para usuarios domésticos, negocios y profesionales.">
+
+            Browse systems built for home users,
+            businesses, and professionals.
+
         </p>
+
+    </section>
+
+    <!-- =========================
+         MAIN CATEGORY CARDS
+    ========================== -->
+
+    <section id="mainCategories">
+
+        <div
+        class="category"
+        onclick="openCategory('basic')">
+
+            <h2>Basic</h2>
+
+            <p>
+
+                For internet browsing,
+                email, streaming,
+                office work and
+                everyday use.
+
+            </p>
+
+        </div>
+
+        <div
+        class="category"
+        onclick="openCategory('business')">
+
+            <h2>Business</h2>
+
+            <p>
+
+                For offices, document storage,
+                accounting,
+                spreadsheets and
+                productivity.
+
+            </p>
+
+        </div>
+
+        <div
+        class="category"
+        onclick="openCategory('professional')">
+
+            <h2>Professional</h2>
+
+            <p>
+
+                For programming,
+                engineering,
+                graphic design,
+                video editing and 3D work.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- =========================
+         DYNAMIC CONTENT
+    ========================== -->
+
+    <section id="content">
+
+    </section>
+
+    <!-- =========================
+         LOGIN MODAL
+    ========================== -->
+
+    <div
+    id="loginModal"
+    class="modal">
+
+        <div class="modal-content">
+
+            <button
+            class="close-modal"
+            onclick="closeLogin()">
+
+                ×
+
+            </button>
+
+            <h2>
+
+                Developer Login
+
+            </h2>
+
+            <input
+            type="text"
+            id="username"
+            placeholder="Username">
+
+            <input
+            type="password"
+            id="password"
+            placeholder="Password">
+
+            <button
+            onclick="login()">
+
+                Login
+
+            </button>
+
+        </div>
+
     </div>
 
-    <div class="category" onclick="openCategory('business')">
-        <h2 data-en="Business" data-es="Negocios">Business</h2>
-        <p data-en="For offices, Excel, Word, and document storage."
-           data-es="Para oficinas, Excel, Word y almacenamiento de documentos.">
-           For offices, Excel, Word, and document storage.
-        </p>
-    </div>
+    <!-- =========================
+         DEVELOPER PANEL
+    ========================== -->
 
-    <div class="category" onclick="openCategory('professional')">
-        <h2 data-en="Professional" data-es="Profesional">Professional</h2>
-        <p data-en="For graphic design, programming and 3D work."
-           data-es="Para diseño gráfico, programación y trabajo 3D.">
-           For graphic design, programming and 3D work.
-        </p>
-    </div>
+    <section
+    id="devPanel"
+    class="hidden">
 
-</section>
+        <h2>
+            Catalog Manager
+        </h2>
 
-<section id="content"></section>
+        <input
+        type="text"
+        id="pcName"
+        placeholder="Computer Name">
 
-<div id="loginModal" class="modal">
-   <div class="modal-content">
+        <input
+        type="text"
+        id="pcImage"
+        placeholder="Image URL">
 
-    <button class="close-modal" onclick="closeLogin()">
-        ×
-    </button>
+        <textarea
+        id="pcDescription"
+        placeholder="Description">
+        </textarea>
 
-    <h2>Developer Login</h2>
+        <input
+        type="text"
+        id="pcCPU"
+        placeholder="CPU">
 
-        <input type="text" id="username" placeholder="Username">
+        <input
+        type="text"
+        id="pcRAM"
+        placeholder="RAM">
 
-        <input type="password" id="password" placeholder="Password">
+        <input
+        type="text"
+        id="pcStorage"
+        placeholder="Storage">
 
-        <button onclick="login()">Login</button>
-    </div>
-</div>
+        <input
+        type="text"
+        id="pcGPU"
+        placeholder="GPU">
 
-<div id="devPanel" class="hidden">
+        <input
+        type="text"
+        id="pcOS"
+        placeholder="Operating System">
 
-    <h2>Add Computer</h2>
+        <input
+        type="text"
+        id="pcScreen"
+        placeholder="Screen Size">
 
-    <input type="text" id="pcName" placeholder="Computer Name">
+        <input
+        type="text"
+        id="pcPrice"
+        placeholder="Price">
 
-    <select id="pcCategory">
-        <option value="basic-stationary">Basic - Stationary</option>
-        <option value="basic-portable">Basic - Portable</option>
-        <option value="business-stationary">Business - Stationary</option>
-        <option value="business-portable">Business - Portable</option>
-        <option value="professional">Professional</option>
-    </select>
+        <select id="pcCategory">
 
-    <button onclick="addComputer()">Add Computer</button>
+            <option value="basic-stationary">
+                Basic - Stationary
+            </option>
 
-</div>
+            <option value="basic-portable">
+                Basic - Portable
+            </option>
 
-<script src="script.js"></script>
+            <option value="business-stationary">
+                Business - Stationary
+            </option>
+
+            <">
+                Business - Portable
+            </option>
+
+            <option value="professional">
+                Professional
+            </option>
+
+        </select>
+
+        <button onclick="addComputer()">
+
+            Add Computer
+
+        </button>
+
+        <div id="catalogEditor">
+
+        </div>
+
+    </section>
+
+    script.jsscript>
 
 </body>
 </html>
