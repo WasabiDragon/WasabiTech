@@ -1,12 +1,8 @@
-/* ==========================
-   WASABITECH SCRIPT
-========================== */
+/* =====================================
+   WASABITECH V2
+===================================== */
 
 let currentLanguage = "en";
-
-/* ==========================
-   COMPUTER DATABASE
-========================== */
 
 let computers =
 JSON.parse(
@@ -15,100 +11,36 @@ JSON.parse(
 
     "basic-stationary": [],
     "basic-portable": [],
-
     "business-stationary": [],
     "business-portable": [],
-
     "professional": []
 };
 
-/* ==========================
-   CATEGORY NAVIGATION
-========================== */
+/* =====================================
+   SIDEBAR
+===================================== */
 
-function openCategory(category){
+document
+.getElementById("menuBtn")
+.addEventListener("click",openSidebar);
 
-    const content =
-    document.getElementById("content");
+function openSidebar(){
 
-    if(category === "basic"){
-
-        content.innerHTML = `
-
-            <h2>Basic Computers</h2>
-
-            <button onclick="showList('basic-stationary')">
-                Stationary
-            </button>
-
-            <button onclick="showList('basic-portable')">
-                Portable
-            </button>
-
-        `;
-    }
-
-    if(category === "business"){
-
-        content.innerHTML = `
-
-            <h2>Business Computers</h2>
-
-            <button onclick="showList('business-stationary')">
-                Stationary
-            </button>
-
-            <button onclick="showList('business-portable')">
-                Portable
-            </button>
-
-        `;
-    }
-
-    if(category === "professional"){
-
-        showList("professional");
-    }
+    document
+    .getElementById("sidebar")
+    .classList.add("active");
 }
 
-/* ==========================
-   SHOW COMPUTER LIST
-========================== */
+function closeSidebar(){
 
-function showList(type){
-
-    const content =
-    document.getElementById("content");
-
-    let title =
-    type
-    .replaceAll("-"," ")
-    .replace(/\b\w/g, c => c.toUpperCase());
-
-    let html = `<h2>${title}</h2><ul>`;
-
-    if(computers[type].length === 0){
-
-        html += `
-            <li>No computers available.</li>
-        `;
-    }
-
-    computers[type].forEach(pc => {
-
-        html += `
-            <li>${pc}</li>
-        `;
-    });
-
-    html += "</ul>";
-
-    content.innerHTML = html;
+    document
+    .getElementById("sidebar")
+    .classList.remove("active");
 }
 
-/* ==========================
-   LANGUAGE SWITCH
-========================== */
+/* =====================================
+   LANGUAGE
+===================================== */
 
 function setLanguage(lang){
 
@@ -116,7 +48,7 @@ function setLanguage(lang){
 
     document
     .querySelectorAll("[data-en]")
-    .forEach(element => {
+    .forEach(element=>{
 
         element.textContent =
         element.getAttribute(
@@ -125,36 +57,269 @@ function setLanguage(lang){
     });
 }
 
-/* ==========================
-   SECRET DEV MODE
-   SHIFT + W + D
-========================== */
+/* =====================================
+   HOME
+===================================== */
+
+function goHome(){
+
+    document
+    .getElementById("content")
+    .innerHTML = "";
+
+    document
+    .getElementById("mainCategories")
+    .style.display = "flex";
+}
+
+/* =====================================
+   CATEGORYS
+===================================== */
+
+function openCategory(category){
+
+    document
+    .getElementById("mainCategories")
+    .style.display = "none";
+
+    closeSidebar();
+
+    const content =
+    document.getElementById("content");
+
+    if(category === "basic"){
+
+        content.innerHTML = `
+
+        <h2>Basic Computers</h2>
+
+        <button onclick="showProducts('basic-stationary')">
+            Stationary
+        </button>
+
+        <button onclick="showProducts('basic-portable')">
+            Portable
+        </button>
+
+        `;
+    }
+
+    if(category === "business"){
+
+        content.innerHTML = `
+
+        <h2>Business Computers</h2>
+
+        <button onclick="showProducts('business-stationary')">
+            Stationary
+        </button>
+
+        <button onclick="showProducts('business-portable')">
+            Portable
+        </button>
+
+        `;
+    }
+
+    if(category === "professional"){
+
+        showProducts(
+            "professional"
+        );
+    }
+}
+
+/* =====================================
+   PRODUCT GRID
+===================================== */
+
+function showProducts(category){
+
+    let html =
+    `<div class="product-grid">`;
+
+    if(
+        !computers[category] ||
+        computers[category].length === 0
+    ){
+
+        html += `
+        <p>
+            No computers available.
+        </p>
+        `;
+    }
+
+    else{
+
+        computers[category]
+        .forEach((pc,index)=>{
+
+            html += `
+
+            <div class="product-card">
+
+                <img
+                src="${pc.image}"
+                onerror="this.src='https://placehold.co/600x400'">
+
+                <div
+                class="product-info">
+
+                    <h3>
+                        ${pc.name}
+                    </h3>
+
+                    <div
+                    class="product-price">
+
+                        ${pc.price}
+                    </div>
+
+                    <button
+                    onclick="
+                    viewComputer(
+                    '${category}',
+                    ${index}
+                    )">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+        });
+    }
+
+    html += "</div>";
+
+    document
+    .getElementById("content")
+    .innerHTML = html;
+}
+
+/* =====================================
+   PRODUCT DETAILS
+===================================== */
+
+function viewComputer(
+    category,
+    index
+){
+
+    const pc =
+    computers[category][index];
+
+    document
+    .getElementById("content")
+    .innerHTML = `
+
+    <div class="detail-card">
+
+        <img
+        src="${pc.image}"
+        onerror="this.src='https://placehold.co/1000x500'">
+
+        <div
+        class="detail-content">
+
+            <h2>
+                ${pc.name}
+            </h2>
+
+            <p>
+                ${pc.description}
+            </p>
+
+            <div class="specs">
+
+                <div class="spec">
+                    CPU: ${pc.cpu}
+                </div>
+
+                <div class="spec">
+                    RAM: ${pc.ram}
+                </div>
+
+                <div class="spec">
+                    Storage: ${pc.storage}
+                </div>
+
+                <div class="spec">
+                    GPU: ${pc.gpu}
+                </div>
+
+                <div class="spec">
+                    Operating System:
+                    ${pc.os}
+                </div>
+
+                <div class="spec">
+                    Screen Size:
+                    ${pc.screen}
+                </div>
+
+                <div class="spec">
+                    Price:
+                    ${pc.price}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    `;
+}
+
+/* =====================================
+   SECRET DEV LOGIN
+===================================== */
 
 let secretCode = "";
 
-document.addEventListener("keydown",(event)=>{
+document
+.addEventListener(
+"keydown",
+(event)=>{
 
-    if(event.key === "Shift"){
+    if(
+        event.key === "Shift"
+    ){
 
         secretCode = "SHIFT";
     }
 
     else if(
-        secretCode === "SHIFT" &&
-        event.key.toLowerCase() === "w"
+        secretCode === "SHIFT"
+        &&
+        event.key.toLowerCase()
+        === "w"
     ){
 
-        secretCode = "SHIFTW";
+        secretCode =
+        "SHIFTW";
     }
 
     else if(
-        secretCode === "SHIFTW" &&
-        event.key.toLowerCase() === "d"
+        secretCode ===
+        "SHIFTW"
+        &&
+        event.key.toLowerCase()
+        === "d"
     ){
 
         document
-        .getElementById("loginModal")
-        .style.display = "flex";
+        .getElementById(
+            "loginModal"
+        )
+        .style.display =
+        "flex";
 
         secretCode = "";
     }
@@ -165,111 +330,257 @@ document.addEventListener("keydown",(event)=>{
     }
 });
 
-/* ==========================
-   CLOSE LOGIN
-========================== */
+/* =====================================
+   MODAL
+===================================== */
 
 function closeLogin(){
 
     document
-    .getElementById("loginModal")
+    .getElementById(
+        "loginModal"
+    )
     .style.display = "none";
 }
 
-/* ==========================
+window.onclick =
+function(event){
+
+    const modal =
+    document.getElementById(
+        "loginModal"
+    );
+
+    if(
+        event.target === modal
+    ){
+
+        closeLogin();
+    }
+};
+
+/* =====================================
    LOGIN
-========================== */
+===================================== */
 
 function login(){
 
-    const user =
-    document.getElementById("username")
+    const username =
+    document
+    .getElementById(
+        "username"
+    )
     .value
     .trim();
 
-    const pass =
-    document.getElementById("password")
+    const password =
+    document
+    .getElementById(
+        "password"
+    )
     .value
     .trim();
 
     if(
-        user === "WasabiDragon53" &&
-        pass === "Tech!53"
+
+        username ===
+        "WasabiDragon53"
+
+        &&
+
+        password ===
+        "Tech!53"
+
     ){
 
         document
-        .getElementById("loginModal")
-        .style.display = "none";
+        .getElementById(
+            "loginModal"
+        )
+        .style.display =
+        "none";
 
         document
-        .getElementById("devPanel")
-        .classList.remove("hidden");
+        .getElementById(
+            "devPanel"
+        )
+        .classList
+        .remove(
+            "hidden"
+        );
 
-        alert("Developer Mode Activated");
+        renderEditor();
     }
 
     else{
 
         alert(
-            "Invalid Username or Password"
-        );
+        "Invalid Login");
     }
 }
 
-/* ==========================
+/* =====================================
    ADD COMPUTER
-========================== */
+===================================== */
 
 function addComputer(){
 
-    const name =
-    document
-    .getElementById("pcName")
-    .value
-    .trim();
-
     const category =
     document
-    .getElementById("pcCategory")
+    .getElementById(
+        "pcCategory"
+    )
     .value;
 
-    if(name === ""){
+    const newPC = {
 
-        alert(
-            "Please enter a computer name."
-        );
+        name:
+        document
+        .getElementById("pcName")
+        .value,
 
-        return;
-    }
+        image:
+        document
+        .getElementById("pcImage")
+        .value,
 
-    computers[category].push(name);
+        description:
+        document
+        .getElementById("pcDescription")
+        .value,
 
-    localStorage.setItem(
-        "computers",
-        JSON.stringify(computers)
-    );
+        cpu:
+        document
+        .getElementById("pcCPU")
+        .value,
 
-    document
-    .getElementById("pcName")
-    .value = "";
+        ram:
+        document
+        .getElementById("pcRAM")
+        .value,
+
+        storage:
+        document
+        .getElementById("pcStorage")
+        .value,
+
+        gpu:
+        document
+        .getElementById("pcGPU")
+        .value,
+
+        os:
+        document
+        .getElementById("pcOS")
+        .value,
+
+        screen:
+        document
+        .getElementById("pcScreen")
+        .value,
+
+        price:
+        document
+        .getElementById("pcPrice")
+        .value
+    };
+
+    computers[category]
+    .push(newPC);
+
+    saveData();
+
+    renderEditor();
 
     alert(
-        "Computer Added Successfully"
+        "Computer Added"
     );
 }
 
-/* ==========================
-   CLOSE MODAL IF CLICKING
-   OUTSIDE OF IT
-========================== */
+/* =====================================
+   DELETE COMPUTER
+==========   renderEditor();
+}
 
-window.onclick = function(event){
+/* =====================================
+   SAVE
+===================================== */
 
-    const modal =
-    document.getElementById("loginModal");
+function saveData(){
 
-    if(event.target === modal){
+    localStorage
+    .setItem(
 
-        closeLogin();
-    }
-};
+        "computers",
+
+        JSON.stringify(
+            computers
+        )
+
+    );
+}
+
+/* =====================================
+   DEV CATALOG EDITOR
+===================================== */
+
+function renderEditor(){
+
+    let html = "";
+
+    Object.keys(
+        computers
+    )
+    .forEach(category=>{
+
+        computers[
+        category
+        ]
+        .forEach(
+        (
+        computer,
+        index
+        )=>{
+
+            html += `
+
+            <div class="spec">
+
+                <strong>
+
+                ${
+                computer.name
+                }
+
+                </strong>
+
+                <br><br>
+
+                ${category}
+
+                <br><br>
+
+                <button
+                onclick="
+                deleteComputer(
+                '${category}',
+                ${index}
+                )">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+            `;
+        });
+    });
+
+    document
+    .getElementById(
+        "catalogEditor"
+    )
+    .innerHTML =
+    html;
+}
