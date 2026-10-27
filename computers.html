@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#080d16">
     <title>Computer Catalog | WasabiTech</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -24,7 +25,6 @@
         </nav>
 
         <div class="header-actions">
-            <span class="dev-hint">Developer Mode<small>Shift + W, then D</small></span>
             <button class="language-button" id="languageToggle" type="button">EN <span>|</span> ES</button>
         </div>
     </header>
@@ -100,7 +100,7 @@
         <section class="manage-section" id="manage" hidden>
             <p class="eyebrow">DEVELOPER AREA</p>
             <h2 data-i18n="manageTitle">Manage Catalog</h2>
-            <p class="muted" data-i18n="storageNote">Changes are saved in this browser only.</p>
+            <p class="muted" data-i18n="storageNote">Changes are saved to the shared WasabiTech catalog.</p>
 
             <div id="manageList" class="manage-list"></div>
             <button class="button button-primary" id="addComputerButton" type="button" data-i18n="addComputer">+ Add Computer</button>
@@ -224,9 +224,14 @@
             <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
             <p class="eyebrow">WASABITECH</p>
             <h2 data-i18n="adminLogin">Developer Login</h2>
-            <p class="muted" data-i18n="loginNote">Enter the developer password to manage catalog entries.</p>
+            <p class="muted" data-i18n="loginNote">Log in with your authorized administrator email and password.</p>
+
+            <label for="adminEmail">Administrator Email</label>
+            <input id="adminEmail" type="email" autocomplete="username" required>
+
             <label for="adminPassword" data-i18n="password">Password</label>
             <input id="adminPassword" type="password" autocomplete="current-password" required>
+
             <p class="form-error" id="loginError" role="alert"></p>
             <button class="button button-primary full-width" type="submit" data-i18n="login">Log In</button>
         </form>
