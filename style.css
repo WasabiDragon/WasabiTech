@@ -398,6 +398,8 @@ button:hover{
 
     padding:35px;
 
+    position:relative;
+
     box-shadow:
     0 25px 60px rgba(0,0,0,.35);
 
@@ -412,7 +414,37 @@ button:hover{
 
     margin-bottom:25px;
 }
+.close-modal{
 
+    position:absolute;
+
+    top:15px;
+    right:15px;
+
+    width:35px;
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--tech);
+
+    color:white;
+
+    font-size:1.2rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.close-modal:hover{
+
+    background:#d9534f;
+
+    transform:scale(1.1);
+}
 /* ==========================
    INPUTS
 ========================== */
