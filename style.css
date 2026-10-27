@@ -1,27 +1,11 @@
-/* =====================================
-   WASABITECH V2
-===================================== */
-
 :root{
 
     --wasabi:#8CCF4D;
-    --wasabi-dark:#6CB53C;
-
     --tech:#5B3F8C;
-    --tech-dark:#432E68;
-    --tech-light:#7A5AC0;
-
-    --bg-light:#f6fff0;
-    --bg-purple:#f7f3ff;
-
-    --text:#252525;
-
-    --shadow:
-    0 15px 35px rgba(0,0,0,.15);
+    --tech-dark:#432f66;
 }
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -29,42 +13,28 @@
 
 body{
 
-    font-family:
-    "Segoe UI",
-    sans-serif;
+    font-family:Segoe UI,sans-serif;
 
     background:
     linear-gradient(
-    135deg,
-    var(--bg-light),
-    var(--bg-purple)
+        135deg,
+        #f4fff0,
+        #f7f2ff
     );
-
-    color:var(--text);
 
     min-height:100vh;
 }
 
-/* =====================================
-   HEADER
-===================================== */
-
 header{
-
-    position:sticky;
-
-    top:0;
-
-    z-index:1000;
-
-    height:80px;
 
     background:
     linear-gradient(
-    135deg,
-    var(--tech),
-    var(--tech-dark)
+        135deg,
+        var(--tech),
+        var(--tech-dark)
     );
+
+    height:90px;
 
     display:flex;
 
@@ -74,173 +44,92 @@ header{
 
     padding:0 20px;
 
-    box-shadow:var(--shadow);
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
 }
 
 .header-left{
 
-    width:100px;
+    position:relative;
 }
-
-.header-center{
-
-    flex:1;
-
-    text-align:center;
-}
-
-.header-right{
-
-    width:100px;
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    gap:5px;
-}
-
-/* =====================================
-   LOGO
-===================================== */
 
 .logo{
 
-    font-size:2.5rem;
-
+    font-size:3rem;
     font-weight:800;
 }
 
 .wasabi{
-
     color:var(--wasabi);
 }
 
 .tech{
-
-    color:#d5c1ff;
+    color:#d0c1ff;
 }
-
-/* =====================================
-   BUTTONS
-===================================== */
 
 button{
 
-    cursor:pointer;
-
     border:none;
 
-    border-radius:12px;
+    cursor:pointer;
+
+    background:var(--wasabi);
 
     color:white;
 
-    background:
-    linear-gradient(
-    135deg,
-    var(--wasabi),
-    var(--wasabi-dark)
-    );
-
     padding:12px 20px;
 
-    transition:.25s;
+    border-radius:12px;
+
+    font-weight:600;
 }
-
-button:hover{
-
-    transform:
-    translateY(-2px);
-
-    background:
-    linear-gradient(
-    135deg,
-    var(--tech-light),
-    var(--tech)
-    );
-}
-
-/* =====================================
-   HAMBURGER
-===================================== */
 
 #menuBtn{
 
-    font-size:1.3rem;
-
     width:50px;
-
     height:50px;
 
-    padding:0;
+    font-size:1.3rem;
 }
 
-/* =====================================
-   SIDEBAR
-===================================== */
+.dropdown-menu{
 
-.sidebar{
+    display:none;
 
-    position:fixed;
+    position:absolute;
 
-    top:0;
+    top:60px;
+    left:0;
 
-    left:-300px;
-
-    width:300px;
-
-    height:100%;
+    width:220px;
 
     background:white;
 
+    border-radius:16px;
+
+    padding:15px;
+
     box-shadow:
-    5px 0 20px rgba(0,0,0,.2);
+    0 10px 20px rgba(0,0,0,.2);
+}
 
-    padding:30px;
-
-    transition:.3s;
-
-    z-index:2000;
+.dropdown-menu.active{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:15px;
+    gap:10px;
 }
-
-.sidebar.active{
-
-    left:0;
-}
-
-.sidebar h2{
-
-    color:var(--tech);
-
-    margin-bottom:20px;
-}
-
-.close-sidebar{
-
-    width:45px;
-
-    height:45px;
-
-    align-self:flex-end;
-
-    background:var(--tech);
-}
-
-/* =====================================
-   HERO
-===================================== */
 
 .hero{
 
-    text-align:center;
+    padding:80px 20px;
 
-    padding:70px 20px;
+    text-align:center;
 }
 
 .hero h2{
@@ -248,32 +137,20 @@ button:hover{
     font-size:3rem;
 
     color:var(--tech);
-
-    margin-bottom:15px;
 }
 
 .hero p{
 
-    font-size:1.1rem;
-
-    max-width:800px;
-
-    margin:auto;
-
-    line-height:1.6;
+    margin-top:15px;
 }
-
-/* =====================================
-   CATEGORY CARDS
-===================================== */
 
 #mainCategories{
 
     display:flex;
 
-    flex-wrap:wrap;
-
     justify-content:center;
+
+    flex-wrap:wrap;
 
     gap:30px;
 
@@ -284,71 +161,24 @@ button:hover{
 
     width:350px;
 
-    min-height:260px;
-
-    background:
-    rgba(255,255,255,.8);
-
-    backdrop-filter:blur(10px);
-
-    border-radius:24px;
-
     padding:30px;
+
+    border-radius:20px;
+
+    background:white;
 
     cursor:pointer;
 
-    transition:.3s;
-
-    box-shadow:var(--shadow);
-
-    position:relative;
-}
-
-.category::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:0;
-
-    width:100%;
-
-    height:8px;
-
-    background:
-    linear-gradient(
-    90deg,
-    var(--wasabi),
-    var(--tech)
-    );
-}
-
-.category:hover{
-
-    transform:
-    translateY(-10px);
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.1);
 }
 
 .category h2{
 
     color:var(--tech);
 
-    margin-bottom:20px;
-
-    font-size:2rem;
+    margin-bottom:15px;
 }
-
-.category p{
-
-    line-height:1.6;
-}
-
-/* =====================================
-   CONTENT
-===================================== */
 
 #content{
 
@@ -359,26 +189,18 @@ button:hover{
     padding:30px;
 }
 
-/* =====================================
-   PRODUCT GRID
-===================================== */
-
 .product-grid{
 
     display:grid;
 
+    gap:25px;
+
     grid-template-columns:
     repeat(
-    auto-fill,
-    minmax(300px,1fr)
+        auto-fill,
+        minmax(300px,1fr)
     );
-
-    gap:25px;
 }
-
-/* =====================================
-   PRODUCT CARD
-===================================== */
 
 .product-card{
 
@@ -388,15 +210,8 @@ button:hover{
 
     overflow:hidden;
 
-    box-shadow:var(--shadow);
-
-    transition:.3s;
-}
-
-.product-card:hover{
-
-    transform:
-    translateY(-6px);
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.1);
 }
 
 .product-card img{
@@ -413,85 +228,14 @@ button:hover{
     padding:20px;
 }
 
-.product-info h3{
-
-    color:var(--tech);
-
-    margin-bottom:10px;
-}
-
 .product-price{
 
-    color:var(--wasabi-dark);
+    color:green;
 
-    font-size:1.3rem;
+    font-size:1.2rem;
 
-    font-weight:700;
-
-    margin-bottom:15px;
+    margin:10px 0;
 }
-
-/* =====================================
-   DETAIL CARD
-===================================== */
-
-.detail-card{
-
-    max-width:1000px;
-
-    margin:auto;
-
-    background:white;
-
-    border-radius:24px;
-
-    overflow:hidden;
-
-    box-shadow:var(--shadow);
-}
-
-.detail-card img{
-
-    width:100%;
-
-    max-height:500px;
-
-    object-fit:cover;
-}
-
-.detail-content{
-
-    padding:30px;
-}
-
-.detail-content h2{
-
-    color:var(--tech);
-
-    margin-bottom:15px;
-}
-
-.specs{
-
-    margin-top:20px;
-
-    display:grid;
-
-    gap:12px;
-}
-
-.spec{
-
-    background:#f5f5f5;
-
-    padding:12px;
-
-    border-radius:10px;
-}
-
-/* =====================================
-   MODAL
-===================================== */
 
 .modal{
 
@@ -499,11 +243,11 @@ button:hover{
 
     position:fixed;
 
-    top:0;
-    left:0;
-
     width:100%;
     height:100%;
+
+    top:0;
+    left:0;
 
     justify-content:center;
     align-items:center;
@@ -516,20 +260,17 @@ button:hover{
 
 .modal-content{
 
-    position:relative;
-
     width:450px;
 
     max-width:90%;
 
     background:white;
 
-    padding:35px;
+    border-radius:20px;
 
-    border-radius:24px;
+    padding:30px;
 
-    box-shadow:
-    0 25px 60px rgba(0,0,0,.3);
+    position:relative;
 }
 
 .close-modal{
@@ -537,19 +278,11 @@ button:hover{
     position:absolute;
 
     top:10px;
-
     right:10px;
 
     width:40px;
-
     height:40px;
-
-    background:var(--tech);
 }
-
-/* =====================================
-   INPUTS
-===================================== */
 
 input,
 textarea,
@@ -557,49 +290,13 @@ select{
 
     width:100%;
 
-    margin-bottom:12px;
-
     padding:14px;
 
-    border-radius:12px;
+    margin-bottom:12px;
 
-    border:2px solid #ddd;
+    border-radius:10px;
 
-    font-size:1rem;
-}
-
-textarea{
-
-    min-height:120px;
-
-    resize:vertical;
-}
-
-/* =====================================
-   DEV PANEL
-===================================== */
-
-#devPanel{
-
-    max-width:1200px;
-
-    margin:40px auto;
-
-    background:
-    rgba(255,255,255,.9);
-
-    padding:35px;
-
-    border-radius:24px;
-
-    box-shadow:var(--shadow);
-}
-
-#devPanel h2{
-
-    color:var(--tech);
-
-    margin-bottom:20px;
+    border:1px solid #ccc;
 }
 
 .hidden{
@@ -607,42 +304,15 @@ textarea{
     display:none;
 }
 
-/* =====================================
-   EDITOR AREA
-===================================== */
+#devPanel{
 
-#catalogEditor{
+    max-width:1200px;
 
-    margin-top:30px;
+    margin:40px auto;
 
-    display:grid;
+    background:white;
 
-    gap:15px;
-}
+    padding:30px;
 
-/* =====================================
-   MOBILE
-===================================== */
-
-@media(max-width:768px){
-
-    .logo{
-
-        font-size:2rem;
-    }
-
-    .hero h2{
-
-        font-size:2rem;
-    }
-
-    #mainCategories{
-
-        padding:20px;
-    }
-
-    .category{
-
-        width:100%;
-    }
+    border-radius:20px;
 }
