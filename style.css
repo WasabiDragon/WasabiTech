@@ -1,37 +1,58 @@
+/* ==========================================
+   WASABITECH V3
+========================================== */
+
 :root{
 
     --wasabi:#8CCF4D;
+    --wasabi-dark:#70b63a;
+
     --tech:#5B3F8C;
     --tech-dark:#432f66;
+
+    --white:#ffffff;
+
+    --shadow:
+    0 12px 30px rgba(0,0,0,.15);
 }
 
 *{
+
     margin:0;
     padding:0;
+
     box-sizing:border-box;
 }
 
 body{
 
-    font-family:Segoe UI,sans-serif;
+    font-family:
+    "Segoe UI",
+    sans-serif;
 
     background:
     linear-gradient(
-        135deg,
-        #f4fff0,
-        #f7f2ff
+    135deg,
+    #f4fff1,
+    #f5f0ff
     );
 
     min-height:100vh;
+
+    color:#252525;
 }
+
+/* ==========================================
+   HEADER
+========================================== */
 
 header{
 
     background:
     linear-gradient(
-        135deg,
-        var(--tech),
-        var(--tech-dark)
+    135deg,
+    var(--tech),
+    var(--tech-dark)
     );
 
     height:90px;
@@ -42,33 +63,66 @@ header{
 
     justify-content:space-between;
 
-    padding:0 20px;
+    padding:0 25px;
 
     position:sticky;
 
     top:0;
 
-    z-index:1000;
+    z-index:5000;
+
+    box-shadow:var(--shadow);
 }
 
 .header-left{
 
     position:relative;
+
+    width:90px;
 }
+
+.header-center{
+
+    flex:1;
+
+    text-align:center;
+}
+
+.header-right{
+
+    width:120px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+}
+
+/* ==========================================
+   LOGO
+========================================== */
 
 .logo{
 
     font-size:3rem;
+
     font-weight:800;
 }
 
 .wasabi{
+
     color:var(--wasabi);
 }
 
 .tech{
-    color:#d0c1ff;
+
+    color:#d7c5ff;
 }
+
+/* ==========================================
+   BUTTONS
+========================================== */
 
 button{
 
@@ -76,47 +130,103 @@ button{
 
     cursor:pointer;
 
-    background:var(--wasabi);
-
-    color:white;
+    border-radius:12px;
 
     padding:12px 20px;
 
-    border-radius:12px;
-
     font-weight:600;
+
+    color:white;
+
+    background:
+    linear-gradient(
+    135deg,
+    var(--wasabi),
+    var(--wasabi-dark)
+    );
+
+    transition:.25s;
 }
+
+button:hover{
+
+    transform:
+    translateY(-2px);
+
+    background:
+    linear-gradient(
+    135deg,
+    #6d51aa,
+    var(--tech)
+    );
+}
+
+/* ==========================================
+   DEV HAMBURGER
+========================================== */
 
 #menuBtn{
 
     width:50px;
+
     height:50px;
 
-    font-size:1.3rem;
+    font-size:1.4rem;
 }
 
-.dropdown-menu{
+/* ==========================================
+   DEV DROPDOWN
+========================================== */
+
+.dev-dropdown{
 
     display:none;
 
     position:absolute;
 
-    top:60px;
+    top:70px;
+
     left:0;
 
-    width:220px;
+    width:240px;
 
     background:white;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    padding:15px;
+    padding:18px;
 
     box-shadow:
-    0 10px 20px rgba(0,0,0,.2);
+    0 15px 35px rgba(0,0,0,.18);
 }
 
-.dropdown-menu.active{
+.dev-dropdown.active{
+
+    display:block;
+}
+
+.dev-dropdown button{
+
+    width:100%;
+}
+
+/* ==========================================
+   ADD COMPUTER MENU
+========================================== */
+
+.add-computer-menu{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding-top:15px;
+
+    border-top:
+    1px solid #ddd;
+}
+
+.add-computer-menu.active{
 
     display:flex;
 
@@ -125,24 +235,40 @@ button{
     gap:10px;
 }
 
+/* ==========================================
+   HERO
+========================================== */
+
 .hero{
 
-    padding:80px 20px;
+    padding:80px 25px;
 
     text-align:center;
 }
 
 .hero h2{
 
+    color:var(--tech);
+
     font-size:3rem;
 
-    color:var(--tech);
+    margin-bottom:15px;
 }
 
 .hero p{
 
-    margin-top:15px;
+    max-width:800px;
+
+    margin:auto;
+
+    line-height:1.7;
+
+    font-size:1.1rem;
 }
+
+/* ==========================================
+   MAIN CATEGORIES
+========================================== */
 
 #mainCategories{
 
@@ -159,18 +285,54 @@ button{
 
 .category{
 
-    width:350px;
+    width:340px;
 
-    padding:30px;
-
-    border-radius:20px;
+    min-height:260px;
 
     background:white;
 
+    border-radius:24px;
+
+    padding:30px;
+
     cursor:pointer;
 
-    box-shadow:
-    0 10px 20px rgba(0,0,0,.1);
+    transition:.3s;
+
+    box-shadow:var(--shadow);
+
+    position:relative;
+}
+
+.category::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:8px;
+
+    border-radius:
+    24px 24px 0 0;
+
+    background:
+    linear-gradient(
+    90deg,
+    var(--wasabi),
+    var(--tech)
+    );
+}
+
+.category:hover{
+
+    transform:
+    translateY(-8px);
 }
 
 .category h2{
@@ -178,141 +340,14 @@ button{
     color:var(--tech);
 
     margin-bottom:15px;
+
+    font-size:2rem;
 }
 
-#content{
+.category p{
 
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:30px;
+    line-height:1.6;
 }
 
-.product-grid{
-
-    display:grid;
-
-    gap:25px;
-
-    grid-template-columns:
-    repeat(
-        auto-fill,
-        minmax(300px,1fr)
-    );
-}
-
-.product-card{
-
-    background:white;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 10px 20px rgba(0,0,0,.1);
-}
-
-.product-card img{
-
-    width:100%;
-
-    height:220px;
-
-    object-fit:cover;
-}
-
-.product-info{
-
-    padding:20px;
-}
-
-.product-price{
-
-    color:green;
-
-    font-size:1.2rem;
-
-    margin:10px 0;
-}
-
-.modal{
-
-    display:none;
-
-    position:fixed;
-
-    width:100%;
-    height:100%;
-
-    top:0;
-    left:0;
-
-    justify-content:center;
-    align-items:center;
-
-    background:
-    rgba(0,0,0,.7);
-
-    z-index:9999;
-}
-
-.modal-content{
-
-    width:450px;
-
-    max-width:90%;
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:30px;
-
-    position:relative;
-}
-
-.close-modal{
-
-    position:absolute;
-
-    top:10px;
-    right:10px;
-
-    width:40px;
-    height:40px;
-}
-
-input,
-textarea,
-select{
-
-    width:100%;
-
-    padding:14px;
-
-    margin-bottom:12px;
-
-    border-radius:10px;
-
-    border:1px solid #ccc;
-}
-
-.hidden{
-
-    display:none;
-}
-
-#devPanel{
-
-    max-width:1200px;
-
-    margin:40px auto;
-
-    background:white;
-
-    padding:30px;
-
-    border-radius:20px;
-}
+/* ==========================================
+   CONTENT
