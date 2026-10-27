@@ -11,7 +11,7 @@ JSON.parse(localStorage.getItem("computers")) || {
 
     "professional": []
 };
-
+let logoClicks = 0;
 function openCategory(category){
 
     const content =
@@ -84,10 +84,10 @@ function login(){
     const pass =
     document.getElementById("password").value;
 
-    if(
-        user==="admin" &&
-        pass==="WasabiTech2026"
-    ){
+  if(
+    user==="WasabiDragon53" &&
+    pass==="Tech!53"
+)
 
         document
         .getElementById("devPanel")
@@ -137,4 +137,25 @@ function setLanguage(lang){
             "data-" + lang
         );
     });
+}
+document
+.getElementById("logo")
+.addEventListener("click",()=>{
+
+    logoClicks++;
+
+    if(logoClicks >= 5){
+
+        document
+        .getElementById("loginModal")
+        .style.display = "flex";
+
+        logoClicks = 0;
+    }
+});
+function closeLogin(){
+
+    document
+    .getElementById("loginModal")
+    .style.display = "none";
 }
