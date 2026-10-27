@@ -4,205 +4,278 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#8CCF4D">
-  <meta name="description" content="WasabiTech computer catalog. Find the right computer for your needs.">
-  <title>WasabiTech | Computer Catalog</title>
+  <meta name="description" content="WasabiTech helps you find the right computer for your needs.">
+  <title>WasabiTech | Find Your PC</title>
   <link rel="stylesheet" href="./style.css">
   <script src="./script.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <button id="menu-toggle" class="icon-button" aria-label="Open developer menu" hidden>☰</button>
+  <header class="topbar">
+    <div class="header-left">
+      <button id="menu-toggle" class="icon-button hidden"
+        aria-label="Open developer menu" aria-expanded="false">☰</button>
+      <a class="brand" href="#" id="home-link" aria-label="WasabiTech home">
+        <span>Wasabi</span><span>Tech</span>
+      </a>
+    </div>
 
-    <a href="#" class="brand" id="home-link">
-      <span class="brand-wasabi">Wasabi</span><span class="brand-tech">Tech</span>
-    </a>
-
-    <nav class="header-actions">
+    <div class="header-right">
       <label class="sr-only" for="language-select">Language</label>
       <select id="language-select" aria-label="Language">
         <option value="en">English</option>
         <option value="es">Español</option>
       </select>
-      <button id="developer-login" class="secondary-button">Developer Login</button>
-      <button id="logout-button" class="secondary-button" hidden>Logout</button>
-    </nav>
+    </div>
   </header>
 
+  <aside id="dev-menu" class="dev-menu hidden">
+    <p class="menu-heading" data-i18n="devTools">Developer tools</p>
+    <button id="add-page-button" class="menu-button" data-i18n="addComputer">
+      Add Computer
+    </button>
+    <button id="manage-page-button" class="menu-button" data-i18n="modifyExisting">
+      Modify Existing
+    </button>
+    <button id="exit-dev-button" class="menu-button muted-button" data-i18n="exitDev">
+      Exit Developer Mode
+    </button>
+  </aside>
+
+  <div id="menu-overlay" class="menu-overlay hidden"></div>
+
   <main>
-    <section class="hero">
-      <p class="eyebrow" data-i18n="eyebrow">YOUR NEXT COMPUTER STARTS HERE</p>
-      <h1 data-i18n="heroTitle">Find the right computer for you.</h1>
-      <p data-i18n="heroText">Explore computers for everyday tasks, business, and professional workloads.</p>
-      <a class="primary-button" href="#catalog" data-i18n="browse">Browse Catalog</a>
+    <!-- CATALOG PAGE -->
+    <section id="catalog-page" class="page">
+      <section class="hero">
+        <p class="eyebrow" data-i18n="eyebrow">YOUR NEXT PC STARTS HERE</p>
+        <h1 data-i18n="heroTitle">Find the computer that's right for you.</h1>
+        <p class="hero-description" data-i18n="heroDescription">
+          Straightforward computer recommendations for school, work, and professional projects.
+        </p>
+      </section>
+
+      <section class="categories-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="chooseCategory">CHOOSE YOUR NEEDS</p>
+            <h2 data-i18n="categoriesTitle">What will you use your PC for?</h2>
+          </div>
+        </div>
+
+        <div class="category-grid">
+          <button class="category-card basic-card active" data-category="Basic">
+            <span class="category-number">01</span>
+            <span class="category-name" data-i18n="basic">Basic</span>
+            <span class="category-description" data-i18n="basicDescription">
+              Everyday use, browsing, and school.
+            </span>
+            <span class="category-action" data-i18n="explore">Explore computers →</span>
+          </button>
+
+          <button class="category-card business-card" data-category="Business">
+            <span class="category-number">02</span>
+            <span class="category-name" data-i18n="business">Business</span>
+            <span class="category-description" data-i18n="businessDescription">
+              Office work, multitasking, and productivity.
+            </span>
+            <span class="category-action" data-i18n="explore">Explore computers →</span>
+          </button>
+
+          <button class="category-card professional-card" data-category="Professional">
+            <span class="category-number">03</span>
+            <span class="category-name" data-i18n="professional">Professional</span>
+            <span class="category-description" data-i18n="professionalDescription">
+              Programming, design, and 3D modeling.
+            </span>
+            <span class="category-action" data-i18n="explore">Explore computers →</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="catalog-list-section" class="catalog-section">
+        <div class="catalog-heading">
+          <div>
+            <p class="eyebrow" data-i18n="recommended">OUR RECOMMENDATIONS</p>
+            <h2 id="catalog-title">Basic Computers</h2>
+            <p id="catalog-subtitle" class="muted-text"></p>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <label class="filter-control">
+            <span data-i18n="search">Search computers</span>
+            <input id="search-input" type="search"
+              data-i18n-placeholder="searchPlaceholder"
+              placeholder="Search by name or hardware...">
+          </label>
+
+          <label class="filter-control">
+            <span data-i18n="type">Computer type</span>
+            <select id="type-filter">
+              <option value="All" data-i18n="allTypes">All types</option>
+              <option value="Desktop" data-i18n="desktop">Desktop</option>
+              <option value="Laptop" data-i18n="laptop">Laptop</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="results-count" class="results-count" aria-live="polite"></p>
+        <div id="computer-grid" class="computer-grid"></div>
+        <p id="empty-state" class="empty-state hidden" data-i18n="noComputers">
+          No computers match your search yet.
+        </p>
+      </section>
     </section>
 
-    <section id="catalog" class="catalog-section">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow" data-i18n="catalogEyebrow">THE WASABITECH CATALOG</p>
-          <h2 data-i18n="catalogTitle">Explore Computers</h2>
+    <!-- ADD / EDIT PAGE -->
+    <section id="form-page" class="page hidden">
+      <button class="back-button" data-go-catalog>← <span data-i18n="backToCatalog">Back to catalog</span></button>
+
+      <div class="admin-heading">
+        <p class="eyebrow" data-i18n="devTools">Developer tools</p>
+        <h1 id="form-page-title" data-i18n="addComputer">Add Computer</h1>
+        <p class="muted-text" data-i18n="formIntro">
+          Fill in the details to add a recommendation to WasabiTech.
+        </p>
+      </div>
+
+      <form id="computer-form" class="editor-form">
+        <input id="computer-id" type="hidden">
+
+        <div class="form-grid">
+          <label class="form-field full-width">
+            <span data-i18n="computerName">Computer name *</span>
+            <input id="computer-name" required maxlength="100"
+              data-i18n-placeholder="namePlaceholder" placeholder="Example: Wasabi Office PC">
+          </label>
+
+          <label class="form-field full-width">
+            <span data-i18n="imageUrl">Image URL</span>
+            <input id="computer-image" type="url"
+              data-i18n-placeholder="imagePlaceholder" placeholder="https://example.com/computer.jpg">
+          </label>
+
+          <div class="image-preview-box full-width">
+            <img id="image-preview" class="image-preview hidden" alt="Computer preview">
+            <p id="image-preview-placeholder" class="muted-text" data-i18n="imagePreview">
+              Image preview will appear here.
+            </p>
+          </div>
+
+          <label class="form-field full-width">
+            <span data-i18n="description">Description *</span>
+            <textarea id="computer-description" required maxlength="1000" rows="4"
+              data-i18n-placeholder="descriptionPlaceholder"
+              placeholder="Explain who this computer is best for."></textarea>
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="category">Category *</span>
+            <select id="computer-category" required>
+              <option value="Basic" data-i18n="basic">Basic</option>
+              <option value="Business" data-i18n="business">Business</option>
+              <option value="Professional" data-i18n="professional">Professional</option>
+            </select>
+          </label>
+
+          <label id="computer-type-field" class="form-field">
+            <span data-i18n="type">Computer type</span>
+            <select id="computer-type">
+              <option value="Desktop" data-i18n="desktop">Desktop</option>
+              <option value="Laptop" data-i18n="laptop">Laptop</option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="cpu">Processor (CPU)</span>
+            <input id="computer-cpu" maxlength="150" placeholder="Example: AMD Ryzen 7">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="ram">Memory (RAM)</span>
+            <input id="computer-ram" maxlength="100" placeholder="Example: 16 GB">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="storage">Storage</span>
+            <input id="computer-storage" maxlength="150" placeholder="Example: 1 TB SSD">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="gpu">Graphics (GPU)</span>
+            <input id="computer-gpu" maxlength="150" placeholder="Example: NVIDIA RTX 4060">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="os">Operating system</span>
+            <input id="computer-os" maxlength="100" placeholder="Example: Windows 11">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="screenSize">Screen size</span>
+            <input id="computer-screen" maxlength="100" placeholder="Example: 15.6 inches">
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="price">Price (USD) *</span>
+            <input id="computer-price" type="number" min="0" max="1000000"
+              step="0.01" required placeholder="799.99">
+          </label>
         </div>
-        <label class="search-box">
-          <span class="sr-only" data-i18n="searchLabel">Search computers</span>
-          <input id="search-input" type="search" placeholder="Search computers..." data-i18n-placeholder="searchPlaceholder">
-        </label>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-button" data-go-catalog data-i18n="cancel">Cancel</button>
+          <button type="submit" class="primary-button" data-i18n="saveComputer">Save Computer</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- MODIFY EXISTING PAGE -->
+    <section id="manage-page" class="page hidden">
+      <button class="back-button" data-go-catalog>← <span data-i18n="backToCatalog">Back to catalog</span></button>
+
+      <div class="admin-heading">
+        <p class="eyebrow" data-i18n="devTools">Developer tools</p>
+        <h1 data-i18n="manageTitle">Modify Existing Computers</h1>
+        <p class="muted-text" data-i18n="manageIntro">
+          Edit computer details or remove recommendations from the catalog.
+        </p>
       </div>
 
-      <div class="category-tabs" id="category-tabs">
-        <button class="category-tab active" data-category="All" data-i18n="all">All Computers</button>
-        <button class="category-tab" data-category="Basic" data-i18n="basic">Basic</button>
-        <button class="category-tab" data-category="Business" data-i18n="business">Business</button>
-        <button class="category-tab" data-category="Professional" data-i18n="professional">Professional</button>
-      </div>
+      <label class="filter-control manage-search">
+        <span data-i18n="search">Search computers</span>
+        <input id="manage-search" type="search"
+          data-i18n-placeholder="searchPlaceholder" placeholder="Search by name or hardware...">
+      </label>
 
-      <div id="subcategory-filters" class="subcategory-filters" hidden>
-        <button class="filter-chip active" data-subcategory="All" data-i18n="allTypes">All Types</button>
-        <button class="filter-chip" data-subcategory="Stationary" data-i18n="stationary">Stationary</button>
-        <button class="filter-chip" data-subcategory="Portable" data-i18n="portable">Portable</button>
-      </div>
-
-      <p id="results-count" class="results-count" aria-live="polite"></p>
-      <div id="product-grid" class="product-grid"></div>
-      <div id="empty-state" class="empty-state" hidden>
-        <h3 data-i18n="noResults">No computers found</h3>
-        <p data-i18n="trySearch">Try another search or category.</p>
-      </div>
+      <div id="manage-list" class="manage-list"></div>
+      <p id="manage-empty" class="empty-state hidden" data-i18n="noManagedComputers">
+        No computers have been added yet.
+      </p>
     </section>
   </main>
 
   <footer class="site-footer">
-    <a href="#" class="brand"><span class="brand-wasabi">Wasabi</span><span class="brand-tech">Tech</span></a>
-    <p data-i18n="footer">Find your next computer with confidence.</p>
+    <a class="brand footer-brand" href="#" data-go-catalog>
+      <span>Wasabi</span><span>Tech</span>
+    </a>
+    <p data-i18n="footerText">Helping you choose the right computer.</p>
   </footer>
 
-  <!-- Product details dialog -->
-  <dialog id="details-dialog" class="modal">
-    <button class="modal-close" data-close="details-dialog" aria-label="Close">×</button>
-    <div id="details-content"></div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <dialog id="detail-dialog" class="detail-dialog">
+    <button id="close-detail" class="dialog-close" aria-label="Close">×</button>
+    <div id="detail-content"></div>
   </dialog>
 
-  <!-- Developer login dialog -->
-  <dialog id="login-dialog" class="modal login-modal">
-    <button class="modal-close" data-close="login-dialog" aria-label="Close">×</button>
-    <p class="eyebrow">WASABITECH</p>
-    <h2 data-i18n="loginTitle">Developer Login</h2>
-    <p data-i18n="loginDescription">Sign in to manage the computer catalog.</p>
-    <form id="login-form">
-      <label for="username" data-i18n="username">Username</label>
-      <input id="username" name="username" autocomplete="username" required>
-      <label for="password" data-i18n="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" required>
-      <p id="login-error" class="form-error" role="alert"></p>
-      <button class="primary-button full-width" type="submit" data-i18n="loginButton">Log In</button>
-    </form>
-  </dialog>
-
-  <!-- Developer administration menu -->
-  <aside id="admin-menu" class="admin-menu" hidden>
-    <div class="admin-menu-heading">
-      <strong data-i18n="adminMenu">Catalog Administration</strong>
-      <button id="menu-close" class="icon-button" aria-label="Close menu">×</button>
+  <dialog id="confirm-dialog" class="confirm-dialog">
+    <h2 data-i18n="confirmDeleteTitle">Remove this computer?</h2>
+    <p data-i18n="confirmDeleteText">This action cannot be undone in this browser.</p>
+    <div class="form-actions">
+      <button id="cancel-delete" class="secondary-button" data-i18n="cancel">Cancel</button>
+      <button id="confirm-delete" class="danger-button" data-i18n="delete">Delete</button>
     </div>
-    <button id="add-computer-toggle" class="admin-menu-main" data-i18n="addComputer">＋ Add Computer</button>
-    <div id="admin-category-links" class="admin-category-links" hidden>
-      <button data-admin-category="Basic" data-i18n="basic">Basic</button>
-      <button data-admin-category="Business" data-i18n="business">Business</button>
-      <button data-admin-category="Professional" data-i18n="professional">Professional</button>
-    </div>
-    <button id="manage-catalog-button" class="admin-menu-main" data-i18n="manageCatalog">Manage Existing Computers</button>
-  </aside>
-  <div id="menu-backdrop" class="menu-backdrop" hidden></div>
-
-  <!-- Add/edit computer dialog -->
-  <dialog id="computer-dialog" class="modal editor-modal">
-    <button class="modal-close" data-close="computer-dialog" aria-label="Close">×</button>
-    <p class="eyebrow">WASABITECH ADMIN</p>
-    <h2 id="editor-title" data-i18n="addComputer">Add Computer</h2>
-
-    <form id="computer-form">
-      <input id="computer-id" type="hidden">
-
-      <div class="form-grid">
-        <div class="form-field span-2">
-          <label for="computer-name" data-i18n="computerName">Computer Name *</label>
-          <input id="computer-name" required maxlength="120">
-        </div>
-
-        <div class="form-field span-2">
-          <label for="computer-image" data-i18n="imageUrl">Image URL</label>
-          <input id="computer-image" type="url" placeholder="https://example.com/computer.jpg">
-          <div id="image-preview" class="image-preview">
-            <span data-i18n="imagePreview">Image preview will appear here</span>
-          </div>
-        </div>
-
-        <div class="form-field span-2">
-          <label for="computer-description" data-i18n="description">Description</label>
-          <textarea id="computer-description" rows="3" maxlength="1000"></textarea>
-        </div>
-
-        <div class="form-field">
-          <label for="computer-cpu">CPU *</label>
-          <input id="computer-cpu" required>
-        </div>
-        <div class="form-field">
-          <label for="computer-ram">RAM *</label>
-          <input id="computer-ram" required>
-        </div>
-        <div class="form-field">
-          <label for="computer-storage" data-i18n="storage">Storage *</label>
-          <input id="computer-storage" required>
-        </div>
-        <div class="form-field">
-          <label for="computer-gpu">GPU</label>
-          <input id="computer-gpu">
-        </div>
-        <div class="form-field">
-          <label for="computer-os" data-i18n="operatingSystem">Operating System *</label>
-          <input id="computer-os" required>
-        </div>
-        <div class="form-field">
-          <label for="computer-screen" data-i18n="screenSize">Screen Size</label>
-          <input id="computer-screen" placeholder="27&quot;">
-        </div>
-        <div class="form-field">
-          <label for="computer-price" data-i18n="price">Price (USD) *</label>
-          <input id="computer-price" type="number" min="0.01" step="0.01" required>
-        </div>
-        <div class="form-field">
-          <label for="computer-category" data-i18n="category">Category *</label>
-          <select id="computer-category" required>
-            <option value="Basic">Basic</option>
-            <option value="Business">Business</option>
-            <option value="Professional">Professional</option>
-          </select>
-        </div>
-        <div class="form-field" id="computer-subcategory-field">
-          <label for="computer-subcategory" data-i18n="type">Type *</label>
-          <select id="computer-subcategory">
-            <option value="Stationary" data-i18n="stationary">Stationary</option>
-            <option value="Portable" data-i18n="portable">Portable</option>
-          </select>
-        </div>
-      </div>
-
-      <p id="computer-form-error" class="form-error" role="alert"></p>
-      <div class="form-actions">
-        <button type="button" class="secondary-button" data-close="computer-dialog" data-i18n="cancel">Cancel</button>
-        <button type="submit" class="primary-button" data-i18n="saveComputer">Save Computer</button>
-      </div>
-    </form>
   </dialog>
-
-  <!-- Admin catalog management dialog -->
-  <dialog id="manage-dialog" class="modal editor-modal">
-    <button class="modal-close" data-close="manage-dialog" aria-label="Close">×</button>
-    <h2 data-i18n="manageTitle">Manage Catalog</h2>
-    <p data-i18n="manageDescription">Edit or remove computers from your catalog.</p>
-    <div id="manage-list" class="manage-list"></div>
-  </dialog>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
