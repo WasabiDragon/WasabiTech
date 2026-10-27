@@ -70,9 +70,9 @@ document
 .getElementById("devBtn")
 .addEventListener("click",()=>{
 
-document
-.getElementById("loginModal")
-.style.display = "block";
+    document
+    .getElementById("loginModal")
+    .style.display = "flex";
 
 });
 
