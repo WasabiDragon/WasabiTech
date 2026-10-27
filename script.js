@@ -1,27 +1,40 @@
 
 /* =========================================
-   WASABITECH — MAIN JAVASCRIPT
+   WASABITECH — SUPABASE DATABASE VERSION
    ========================================= */
 
 (() => {
     "use strict";
 
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => [...document.querySelectorAll(selector)];
+    const SUPABASE_URL = "https://vklrhqcueuflwxudppsl.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_F-ICpD4OXE-JDdYqOmm-zA_50OYw_6I";
 
-    const STORAGE_KEY = "wasabitech_computers_v2";
-    const LANGUAGE_KEY = "wasabitech_language";
+    const STORAGE_KEY = "wasabitech_language";
     const DEV_KEY = "wasabitech_developer";
 
-    // Demo only. Do not use a client-side password for real security.
-    const DEMO_PASSWORD = "WasabiTech!53";
+    const $ = selector => document.querySelector(selector);
+    const $$ = selector => [...document.querySelectorAll(selector)];
 
-    let language = localStorage.getItem(LANGUAGE_KEY) || "en";
-    let developerMode = sessionStorage.getItem(DEV_KEY) === "true";
+    if (!window.supabase) {
+        console.error("Supabase library did not load.");
+        return;
+    }
+
+    const db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    let language = localStorage.getItem(STORAGE_KEY) || "en";
+    let developerMode = false;
     let activeCategory = "";
     let activeType = "";
     let selectedCategory = "";
+    let computers = [];
     let toastTimeout;
+    let shortcutStep = 0;
+    let shortcutTimer;
+    let loading = true;
 
     const translations = {
         en: {
@@ -29,7 +42,6 @@
             navComputers: "Computers",
             navAbout: "About",
             navSupport: "Support",
-            devMode: "Developer Mode",
             heroEyebrow: "TECHNOLOGY THAT FITS YOUR LIFE",
             heroTitle: "Your next computer starts here.",
             heroText: "Discover computers for every need, from everyday browsing to professional-grade performance.",
@@ -79,7 +91,7 @@
             noResults: "No computers match those filters.",
             manageTitle: "Manage Catalog",
             addComputer: "+ Add Computer",
-            storageNote: "Changes are saved in this browser only. A static website cannot publish your edits to other visitors automatically.",
+            storageNote: "Changes are saved to the shared WasabiTech catalog.",
             computerName: "Computer Name",
             brand: "Brand",
             category: "Category",
@@ -96,15 +108,15 @@
             saveComputer: "Save Computer",
             cancel: "Cancel",
             adminLogin: "Developer Login",
-            loginNote: "Enter the developer password to manage catalog entries.",
+            loginNote: "Log in with your administrator email and password.",
             password: "Password",
             login: "Log In",
             manageComputers: "Manage Computers",
             exitDev: "Exit Developer Mode",
-            loginFailed: "Incorrect password.",
+            loginFailed: "Login failed. Check your email and password.",
             loginSuccess: "Developer mode activated.",
             devExited: "Developer mode deactivated.",
-            addSuccess: "Computer added.",
+            addSuccess: "Computer added to the shared catalog.",
             editSuccess: "Computer updated.",
             deleteSuccess: "Computer deleted.",
             confirmDelete: "Delete this computer?",
@@ -113,25 +125,22 @@
             details: "Details",
             specifications: "Specifications",
             noDescription: "No description provided.",
-            allCategories: "All Categories",
             showing: "Showing",
             computers: "computers",
-            chooseCategory: "Choose a category",
-            invalidImage: "Image could not be loaded.",
             invalidForm: "Please complete all required fields.",
             editorAdd: "Add Computer",
             editorEdit: "Edit Computer",
-            categoryFilter: "Category",
-            typeFilter: "Type",
-            priceLabel: "Price",
-            imagePlaceholder: "Image not available"
+            imagePlaceholder: "Image not available",
+            loading: "Loading computers...",
+            loadError: "Could not load the catalog. Please refresh the page.",
+            saveError: "Could not save changes. Check your login and database permissions.",
+            loginRequired: "Please log in to Developer Mode first."
         },
         es: {
             navHome: "Inicio",
             navComputers: "Computadoras",
             navAbout: "Acerca de",
             navSupport: "Ayuda",
-            devMode: "Modo de desarrollador",
             heroEyebrow: "TECNOLOGÍA PARA TU VIDA",
             heroTitle: "Tu próxima computadora comienza aquí.",
             heroText: "Descubre computadoras para cada necesidad, desde tareas cotidianas hasta trabajo profesional.",
@@ -181,7 +190,7 @@
             noResults: "Ninguna computadora coincide con esos filtros.",
             manageTitle: "Administrar catálogo",
             addComputer: "+ Añadir computadora",
-            storageNote: "Los cambios se guardan solo en este navegador. Un sitio estático no publica tus cambios automáticamente para otros visitantes.",
+            storageNote: "Los cambios se guardan en el catálogo compartido de WasabiTech.",
             computerName: "Nombre de la computadora",
             brand: "Marca",
             category: "Categoría",
@@ -198,15 +207,15 @@
             saveComputer: "Guardar computadora",
             cancel: "Cancelar",
             adminLogin: "Acceso de desarrollador",
-            loginNote: "Introduce la contraseña para administrar el catálogo.",
+            loginNote: "Inicia sesión con tu correo y contraseña de administrador.",
             password: "Contraseña",
             login: "Iniciar sesión",
             manageComputers: "Administrar computadoras",
             exitDev: "Salir del modo desarrollador",
-            loginFailed: "Contraseña incorrecta.",
+            loginFailed: "No se pudo iniciar sesión. Verifica tu correo y contraseña.",
             loginSuccess: "Modo desarrollador activado.",
             devExited: "Modo desarrollador desactivado.",
-            addSuccess: "Computadora añadida.",
+            addSuccess: "Computadora añadida al catálogo compartido.",
             editSuccess: "Computadora actualizada.",
             deleteSuccess: "Computadora eliminada.",
             confirmDelete: "¿Eliminar esta computadora?",
@@ -215,24 +224,23 @@
             details: "Detalles",
             specifications: "Especificaciones",
             noDescription: "No hay descripción disponible.",
-            allCategories: "Todas las categorías",
             showing: "Mostrando",
             computers: "computadoras",
-            chooseCategory: "Elige una categoría",
-            invalidImage: "No se pudo cargar la imagen.",
-            invalidForm: "Completa todos los campos obligatorios.",
+            invalidForm: "Completa los campos obligatorios.",
             editorAdd: "Añadir computadora",
             editorEdit: "Editar computadora",
-            categoryFilter: "Categoría",
-            typeFilter: "Tipo",
-            priceLabel: "Precio",
-            imagePlaceholder: "Imagen no disponible"
+            imagePlaceholder: "Imagen no disponible",
+            loading: "Cargando computadoras...",
+            loadError: "No se pudo cargar el catálogo. Recarga la página.",
+            saveError: "No se pudieron guardar los cambios. Verifica tu sesión y permisos.",
+            loginRequired: "Inicia sesión en el modo desarrollador primero."
         }
     };
 
+    // Sample computers are inserted only when an administrator logs in
+    // and the online database is completely empty.
     const starterComputers = [
         {
-            id: "basic-laptop-1",
             name: "EverydayBook 15",
             brand: "Lenovo",
             category: "Basic",
@@ -248,7 +256,6 @@
             description: "A practical laptop for browsing, schoolwork, video calls, and everyday tasks."
         },
         {
-            id: "basic-desktop-1",
             name: "HomeDesk S",
             brand: "HP",
             category: "Basic",
@@ -264,7 +271,6 @@
             description: "An affordable desktop for everyday computing, homework, and home use."
         },
         {
-            id: "business-laptop-1",
             name: "ThinkBook Pro 14",
             brand: "Lenovo",
             category: "Business",
@@ -280,7 +286,6 @@
             description: "A productivity-focused laptop suited to office work, meetings, and multitasking."
         },
         {
-            id: "business-desktop-1",
             name: "OfficeTower 5",
             brand: "Dell",
             category: "Business",
@@ -296,7 +301,6 @@
             description: "A dependable office desktop designed for documents, spreadsheets, and business applications."
         },
         {
-            id: "professional-laptop-1",
             name: "CreatorBook 16",
             brand: "ASUS",
             category: "Professional",
@@ -312,7 +316,6 @@
             description: "A powerful laptop for programming, creative applications, and demanding workloads."
         },
         {
-            id: "professional-desktop-1",
             name: "StudioTower X",
             brand: "Custom Build",
             category: "Professional",
@@ -330,7 +333,7 @@
     ];
 
     function t(key) {
-        return translations[language][key] || translations.en[key] || key;
+        return translations[language]?.[key] || translations.en[key] || key;
     }
 
     function escapeHTML(value) {
@@ -343,76 +346,111 @@
         })[char]);
     }
 
-    function makeId() {
-        return "pc-" + Date.now().toString(36) + "-" +
-            Math.random().toString(36).slice(2, 8);
-    }
-
-    function getComputers() {
-        try {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                if (Array.isArray(parsed)) return parsed;
-            }
-        } catch (error) {
-            console.error("Could not read saved computers:", error);
-        }
-
-        return starterComputers.map(item => ({ ...item }));
-    }
-
-    let computers = getComputers();
-
-    function saveComputers() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(computers));
-            return true;
-        } catch (error) {
-            console.error("Could not save computers:", error);
-            showToast("Could not save data in this browser.");
-            return false;
-        }
-    }
-
     function showToast(message) {
         const toast = $("#toast");
-        if (!toast) return;
+        if (!toast) {
+            console.log(message);
+            return;
+        }
 
         toast.textContent = message;
         toast.classList.add("visible");
-
         clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove("visible");
-        }, 3000);
+        toastTimeout = setTimeout(() => toast.classList.remove("visible"), 3500);
     }
 
-    function setLanguage(nextLanguage) {
-        language = nextLanguage === "es" ? "es" : "en";
-        localStorage.setItem(LANGUAGE_KEY, language);
-        document.documentElement.lang = language;
+    function formatPrice(price) {
+        return new Intl.NumberFormat(language === "es" ? "es-PR" : "en-US", {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 2
+        }).format(Number(price) || 0);
+    }
 
-        $$("[data-i18n]").forEach(element => {
-            const key = element.dataset.i18n;
-            const translated = t(key);
-            if (translated) element.textContent = translated;
-        });
+    function categoryLabel(category) {
+        const key = {
+            Basic: "basic",
+            Business: "business",
+            Professional: "professional"
+        }[category];
+        return key ? t(key) : category || "";
+    }
 
-        $$("[data-i18n-placeholder]").forEach(element => {
-            element.placeholder = t(element.dataset.i18nPlaceholder);
-        });
+    function typeLabel(type) {
+        if (type === "Desktop") return t("desktop");
+        if (type === "Laptop") return t("laptop");
+        return type || "";
+    }
 
-        const toggle = $("#languageToggle");
-        if (toggle) {
-            toggle.innerHTML = language === "en"
-                ? 'EN <span>|</span> ES'
-                : 'ES <span>|</span> EN';
+    function normalizeComputer(row) {
+        return {
+            ...row,
+            id: String(row.id),
+            price: Number(row.price) || 0,
+            name: row.name || "",
+            brand: row.brand || "",
+            category: row.category || "Basic",
+            type: row.type || "Laptop",
+            cpu: row.cpu || "",
+            ram: row.ram || "",
+            storage: row.storage || "",
+            gpu: row.gpu || "",
+            os: row.os || "",
+            screen: row.screen || "",
+            image: row.image || "",
+            description: row.description || ""
+        };
+    }
+
+    async function loadComputers() {
+        loading = true;
+        renderComputers();
+
+        const { data, error } = await db
+            .from("computers")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        loading = false;
+
+        if (error) {
+            console.error("Supabase catalog load error:", error);
+            computers = [];
+            renderComputers();
+            showToast(t("loadError"));
+            return false;
         }
 
+        computers = (data || []).map(normalizeComputer);
         updateBrandOptions();
         renderComputers();
         renderManageList();
+        return true;
+    }
+
+    async function seedStarterComputersIfEmpty() {
+        const { count, error: countError } = await db
+            .from("computers")
+            .select("id", { count: "exact", head: true });
+
+        if (countError) {
+            console.error("Could not check existing computers:", countError);
+            return;
+        }
+
+        if (count !== 0) return;
+
+        const { error } = await db
+            .from("computers")
+            .insert(starterComputers);
+
+        if (error) {
+            console.error("Could not add starter computers:", error);
+            showToast(t("saveError"));
+            return;
+        }
+
+        await loadComputers();
     }
 
     function updateBrandOptions() {
@@ -432,14 +470,6 @@
         if (brands.includes(selected)) select.value = selected;
     }
 
-    function formatPrice(price) {
-        return new Intl.NumberFormat(language === "es" ? "es-PR" : "en-US", {
-            style: "currency",
-            currency: "USD",
-            maximumFractionDigits: 2
-        }).format(Number(price) || 0);
-    }
-
     function getFilteredComputers() {
         const search = ($("#searchInput")?.value || "").trim().toLowerCase();
         const brand = $("#brandFilter")?.value || "";
@@ -457,46 +487,31 @@
             if (activeCategory && pc.category !== activeCategory) return false;
             if (activeType && pc.type !== activeType) return false;
 
-            if (price === "500" && Number(pc.price) >= 500) return false;
-            if (price === "1000" && Number(pc.price) >= 1000) return false;
-            if (price === "1001" && Number(pc.price) < 1001) return false;
+            if (price === "500" && pc.price >= 500) return false;
+            if (price === "1000" && pc.price >= 1000) return false;
+            if (price === "1001" && pc.price < 1001) return false;
 
             return true;
         });
 
-        if (sort === "price-asc") {
-            results.sort((a, b) => Number(a.price) - Number(b.price));
-        } else if (sort === "price-desc") {
-            results.sort((a, b) => Number(b.price) - Number(a.price));
-        } else if (sort === "name") {
-            results.sort((a, b) => a.name.localeCompare(b.name));
-        }
+        if (sort === "price-asc") results.sort((a, b) => a.price - b.price);
+        if (sort === "price-desc") results.sort((a, b) => b.price - a.price);
+        if (sort === "name") results.sort((a, b) => a.name.localeCompare(b.name));
 
         return results;
-    }
-
-    function categoryLabel(category) {
-        const key = ({
-            Basic: "basic",
-            Business: "business",
-            Professional: "professional"
-        })[category];
-
-        return key ? t(key) : category;
-    }
-
-    function typeLabel(type) {
-        if (type === "Desktop") return t("desktop");
-        if (type === "Laptop") return t("laptop");
-        return type || "";
     }
 
     function renderComputers() {
         const grid = $("#computerGrid");
         if (!grid) return;
 
+        if (loading) {
+            grid.innerHTML = `<p>${escapeHTML(t("loading"))}</p>`;
+            if ($("#emptyState")) $("#emptyState").hidden = true;
+            return;
+        }
+
         const results = getFilteredComputers();
-        const empty = $("#emptyState");
 
         grid.innerHTML = results.map(pc => {
             const image = pc.image
@@ -509,32 +524,27 @@
                         ${image}
                         <span class="computer-placeholder" ${pc.image ? "hidden" : ""} aria-hidden="true">⌘</span>
                     </div>
-
                     <div class="computer-card-body">
                         <div class="computer-badges">
                             <span class="computer-badge">${escapeHTML(categoryLabel(pc.category))}</span>
                             <span class="computer-badge type">${escapeHTML(typeLabel(pc.type))}</span>
                         </div>
-
                         <h3>${escapeHTML(pc.name)}</h3>
                         <p class="computer-description">${escapeHTML(pc.description || t("noDescription"))}</p>
-
                         <ul class="spec-list">
                             <li><span>${escapeHTML(t("cpu"))}</span><span>${escapeHTML(pc.cpu || "—")}</span></li>
                             <li><span>${escapeHTML(t("ram"))}</span><span>${escapeHTML(pc.ram || "—")}</span></li>
                             <li><span>${escapeHTML(t("storage"))}</span><span>${escapeHTML(pc.storage || "—")}</span></li>
                         </ul>
-
                         <div class="computer-card-footer">
                             <span class="computer-price">${formatPrice(pc.price)}</span>
                             <button class="details-button" type="button" data-details-id="${escapeHTML(pc.id)}">${escapeHTML(t("details"))}</button>
                         </div>
                     </div>
-                </article>
-            `;
+                </article>`;
         }).join("");
 
-        if (empty) empty.hidden = results.length > 0;
+        if ($("#emptyState")) $("#emptyState").hidden = results.length > 0;
 
         const title = $("#resultsTitle");
         if (title) {
@@ -559,7 +569,7 @@
     }
 
     function openDetails(id) {
-        const pc = computers.find(item => item.id === id);
+        const pc = computers.find(item => String(item.id) === String(id));
         if (!pc) return;
 
         const dialog = $("#detailDialog");
@@ -596,12 +606,10 @@
                             <div class="detail-spec">
                                 <span>${escapeHTML(label)}</span>
                                 <span>${escapeHTML(value)}</span>
-                            </div>
-                        `).join("")}
+                            </div>`).join("")}
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
 
         if (!dialog.open) dialog.showModal();
     }
@@ -620,34 +628,81 @@
                     <button class="small-button" type="button" data-edit-id="${escapeHTML(pc.id)}">${escapeHTML(t("edit"))}</button>
                     <button class="small-button delete" type="button" data-delete-id="${escapeHTML(pc.id)}">${escapeHTML(t("delete"))}</button>
                 </div>
-            </div>
-        `).join("");
+            </div>`).join("");
     }
 
     function updateDeveloperUI() {
-        const menu = $("#adminMenu");
-        const manage = $("#manage");
+        if ($("#adminMenu")) $("#adminMenu").hidden = !developerMode;
+        if ($("#manage")) $("#manage").hidden = !developerMode;
+        if (developerMode) renderManageList();
+    }
 
-        if (menu) menu.hidden = !developerMode;
-        if (manage) manage.hidden = !developerMode;
+    function ensureEmailField() {
+        const form = $("#loginForm");
+        const password = $("#adminPassword");
+        if (!form || !password || $("#adminEmail")) return;
 
-        if (developerMode) {
-            renderManageList();
-        }
+        const label = document.createElement("label");
+        label.htmlFor = "adminEmail";
+        label.textContent = "Administrator Email";
+
+        const email = document.createElement("input");
+        email.id = "adminEmail";
+        email.type = "email";
+        email.autocomplete = "username";
+        email.required = true;
+
+        password.parentNode.insertBefore(label, password);
+        password.parentNode.insertBefore(email, password);
     }
 
     function openLogin() {
+        ensureEmailField();
+
         const dialog = $("#loginDialog");
-        const password = $("#adminPassword");
+        const error = $("#loginError");
+        if (error) error.textContent = "";
+
+        if (dialog && !dialog.open) dialog.showModal();
+        setTimeout(() => $("#adminEmail")?.focus(), 0);
+    }
+
+    async function handleLogin(event) {
+        event.preventDefault();
+        ensureEmailField();
+
+        const email = ($("#adminEmail")?.value || "").trim();
+        const password = $("#adminPassword")?.value || "";
         const error = $("#loginError");
 
         if (error) error.textContent = "";
-        if (password) password.value = "";
-        if (dialog && !dialog.open) dialog.showModal();
-        setTimeout(() => password?.focus(), 0);
+
+        const { data, error: loginError } = await db.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (loginError || !data.user) {
+            console.error("Supabase login error:", loginError);
+            if (error) error.textContent = t("loginFailed");
+            return;
+        }
+
+        developerMode = true;
+        sessionStorage.setItem(DEV_KEY, "true");
+
+        const dialog = $("#loginDialog");
+        if (dialog?.open) dialog.close();
+
+        updateDeveloperUI();
+        showToast(t("loginSuccess"));
+
+        await loadComputers();
+        await seedStarterComputersIfEmpty();
     }
 
-    function exitDeveloperMode() {
+    async function exitDeveloperMode() {
+        await db.auth.signOut();
         developerMode = false;
         sessionStorage.removeItem(DEV_KEY);
         updateDeveloperUI();
@@ -659,61 +714,51 @@
         if (!form) return;
 
         form.reset();
-        $("#editId").value = "";
-        $("#imagePreview").hidden = true;
-        $("#imagePreview").removeAttribute("src");
-        $("#editorTitle").textContent = t("editorAdd");
+        if ($("#editId")) $("#editId").value = "";
+        if ($("#imagePreview")) {
+            $("#imagePreview").hidden = true;
+            $("#imagePreview").removeAttribute("src");
+        }
+        if ($("#editorTitle")) $("#editorTitle").textContent = t("editorAdd");
         form.hidden = true;
     }
 
     function editComputer(id) {
-        const pc = computers.find(item => item.id === id);
+        const pc = computers.find(item => String(item.id) === String(id));
         if (!pc) return;
 
         const form = $("#computerForm");
+        if (!form) return;
         form.hidden = false;
 
         $("#editId").value = pc.id;
-        $("#computerName").value = pc.name || "";
-        $("#computerBrand").value = pc.brand || "";
-        $("#computerCategory").value = pc.category || "Basic";
-        $("#computerType").value = pc.type || "Laptop";
-        $("#computerPrice").value = pc.price ?? "";
-        $("#computerCPU").value = pc.cpu || "";
-        $("#computerRAM").value = pc.ram || "";
-        $("#computerStorage").value = pc.storage || "";
-        $("#computerGPU").value = pc.gpu || "";
-        $("#computerOS").value = pc.os || "";
-        $("#computerScreen").value = pc.screen || "";
-        $("#computerImage").value = pc.image || "";
-        $("#computerDescription").value = pc.description || "";
+        $("#computerName").value = pc.name;
+        $("#computerBrand").value = pc.brand;
+        $("#computerCategory").value = pc.category;
+        $("#computerType").value = pc.type;
+        $("#computerPrice").value = pc.price;
+        $("#computerCPU").value = pc.cpu;
+        $("#computerRAM").value = pc.ram;
+        $("#computerStorage").value = pc.storage;
+        $("#computerGPU").value = pc.gpu;
+        $("#computerOS").value = pc.os;
+        $("#computerScreen").value = pc.screen;
+        $("#computerImage").value = pc.image;
+        $("#computerDescription").value = pc.description;
         $("#editorTitle").textContent = t("editorEdit");
 
         const preview = $("#imagePreview");
-        if (pc.image) {
-            preview.src = pc.image;
-            preview.hidden = false;
-        } else {
-            preview.hidden = true;
+        if (preview) {
+            preview.hidden = !pc.image;
+            if (pc.image) preview.src = pc.image;
+            else preview.removeAttribute("src");
         }
 
         form.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function saveComputerFromForm(event) {
-        event.preventDefault();
-
-        const form = $("#computerForm");
-        if (!form.reportValidity()) {
-            showToast(t("invalidForm"));
-            return;
-        }
-
-        const editId = $("#editId").value;
-        const oldComputer = computers.find(pc => pc.id === editId);
-
-        const pc = {
-            id: editId || makeId(),
+    function getComputerFromForm() {
+        return {
             name: $("#computerName").value.trim(),
             brand: $("#computerBrand").value.trim(),
             category: $("#computerCategory").value,
@@ -728,25 +773,85 @@
             image: $("#computerImage").value.trim(),
             description: $("#computerDescription").value.trim()
         };
+    }
 
-        if (!pc.name || !pc.brand || !Number.isFinite(pc.price) || pc.price < 0) {
+    async function saveComputerFromForm(event) {
+        event.preventDefault();
+
+        if (!developerMode) {
+            showToast(t("loginRequired"));
+            return;
+        }
+
+        const form = $("#computerForm");
+        if (!form.reportValidity()) {
             showToast(t("invalidForm"));
             return;
         }
 
-        if (oldComputer) {
-            computers = computers.map(item => item.id === editId ? pc : item);
-        } else {
-            computers.push(pc);
+        const editId = $("#editId").value;
+        const computer = getComputerFromForm();
+
+        if (!computer.name || !computer.brand ||
+            !Number.isFinite(computer.price) || computer.price < 0) {
+            showToast(t("invalidForm"));
+            return;
         }
 
-        if (!saveComputers()) return;
+        const saveButton = form.querySelector('[type="submit"]');
+        if (saveButton) saveButton.disabled = true;
 
-        updateBrandOptions();
-        renderComputers();
-        renderManageList();
+        let result;
+
+        if (editId) {
+            result = await db
+                .from("computers")
+                .update(computer)
+                .eq("id", editId)
+                .select()
+                .single();
+        } else {
+            result = await db
+                .from("computers")
+                .insert(computer)
+                .select()
+                .single();
+        }
+
+        if (saveButton) saveButton.disabled = false;
+
+        if (result.error) {
+            console.error("Supabase save error:", result.error);
+            showToast(t("saveError"));
+            return;
+        }
+
+        await loadComputers();
         resetEditor();
-        showToast(oldComputer ? t("editSuccess") : t("addSuccess"));
+        showToast(editId ? t("editSuccess") : t("addSuccess"));
+    }
+
+    async function deleteComputer(id) {
+        if (!developerMode) {
+            showToast(t("loginRequired"));
+            return;
+        }
+
+        if (!confirm(t("confirmDelete"))) return;
+
+        const { error } = await db
+            .from("computers")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            console.error("Supabase delete error:", error);
+            showToast(t("saveError"));
+            return;
+        }
+
+        await loadComputers();
+        showToast(t("deleteSuccess"));
     }
 
     function clearFilters() {
@@ -779,30 +884,41 @@
         if (dialog?.open) dialog.close();
 
         renderComputers();
+        $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
-        $("#catalogResults")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
+    function setLanguage(nextLanguage) {
+        language = nextLanguage === "es" ? "es" : "en";
+        localStorage.setItem(STORAGE_KEY, language);
+        document.documentElement.lang = language;
+
+        $$("[data-i18n]").forEach(element => {
+            const key = element.dataset.i18n;
+            if (t(key)) element.textContent = t(key);
         });
+
+        $$("[data-i18n-placeholder]").forEach(element => {
+            element.placeholder = t(element.dataset.i18nPlaceholder);
+        });
+
+        const toggle = $("#languageToggle");
+        if (toggle) {
+            toggle.innerHTML = language === "en"
+                ? 'EN <span>|</span> ES'
+                : 'ES <span>|</span> EN';
+        }
+
+        updateBrandOptions();
+        renderComputers();
+        renderManageList();
     }
 
     function setupEvents() {
+        ensureEmailField();
+
         $("#languageToggle")?.addEventListener("click", () => {
             setLanguage(language === "en" ? "es" : "en");
         });
-
-        document.addEventListener("keydown", event => {
-            if (event.shiftKey &&
-                event.key.toLowerCase() === "d" &&
-                event.code === "KeyD") {
-                // Shortcut is Shift + W + D, tracked below.
-                return;
-            }
-        });
-
-        // Detect Shift + W + D in sequence.
-        let shortcutStep = 0;
-        let shortcutTimer;
 
         document.addEventListener("keydown", event => {
             if (!event.shiftKey) {
@@ -824,39 +940,17 @@
                 clearTimeout(shortcutTimer);
 
                 if (developerMode) {
-                    const menu = $("#adminMenu");
-                    if (menu) menu.hidden = !menu.hidden;
+                    if ($("#adminMenu")) $("#adminMenu").hidden = !$("#adminMenu").hidden;
                 } else {
                     openLogin();
                 }
             }
         });
 
-        $("#loginForm")?.addEventListener("submit", event => {
-            event.preventDefault();
-
-            const password = $("#adminPassword")?.value || "";
-            const error = $("#loginError");
-
-            if (password !== DEMO_PASSWORD) {
-                if (error) error.textContent = t("loginFailed");
-                return;
-            }
-
-            developerMode = true;
-            sessionStorage.setItem(DEV_KEY, "true");
-
-            const dialog = $("#loginDialog");
-            if (dialog?.open) dialog.close();
-
-            updateDeveloperUI();
-            showToast(t("loginSuccess"));
-        });
+        $("#loginForm")?.addEventListener("submit", handleLogin);
 
         $$("[data-close-dialog]").forEach(button => {
-            button.addEventListener("click", () => {
-                button.closest("dialog")?.close();
-            });
+            button.addEventListener("click", () => button.closest("dialog")?.close());
         });
 
         $("#exitDeveloperMode")?.addEventListener("click", exitDeveloperMode);
@@ -870,10 +964,7 @@
                     activeCategory = category;
                     activeType = "";
                     renderComputers();
-                    $("#catalogResults")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
                 } else {
                     openTypeDialog(category);
                 }
@@ -881,19 +972,14 @@
         });
 
         $$("[data-computer-type]").forEach(button => {
-            button.addEventListener("click", () => {
-                chooseType(button.dataset.computerType);
-            });
+            button.addEventListener("click", () => chooseType(button.dataset.computerType));
         });
 
         ["searchInput", "brandFilter", "priceFilter", "sortFilter"].forEach(id => {
             const element = $("#" + id);
             if (!element) return;
 
-            element.addEventListener(
-                id === "searchInput" ? "input" : "change",
-                renderComputers
-            );
+            element.addEventListener(id === "searchInput" ? "input" : "change", renderComputers);
         });
 
         $("#clearFilters")?.addEventListener("click", clearFilters);
@@ -904,46 +990,33 @@
         });
 
         $("#addComputerButton")?.addEventListener("click", () => {
+            if (!developerMode) {
+                showToast(t("loginRequired"));
+                return;
+            }
+
             resetEditor();
             $("#computerForm").hidden = false;
             $("#editorTitle").textContent = t("editorAdd");
-            $("#computerForm").scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            $("#computerForm").scrollIntoView({ behavior: "smooth", block: "start" });
         });
 
         $("#cancelEditor")?.addEventListener("click", resetEditor);
-
         $("#computerForm")?.addEventListener("submit", saveComputerFromForm);
 
         $("#manageList")?.addEventListener("click", event => {
             const editButton = event.target.closest("[data-edit-id]");
             const deleteButton = event.target.closest("[data-delete-id]");
 
-            if (editButton) {
-                editComputer(editButton.dataset.editId);
-            }
-
-            if (deleteButton) {
-                const id = deleteButton.dataset.deleteId;
-                if (!confirm(t("confirmDelete"))) return;
-
-                computers = computers.filter(pc => pc.id !== id);
-
-                if (saveComputers()) {
-                    updateBrandOptions();
-                    renderComputers();
-                    renderManageList();
-                    showToast(t("deleteSuccess"));
-                }
-            }
+            if (editButton) editComputer(editButton.dataset.editId);
+            if (deleteButton) deleteComputer(deleteButton.dataset.deleteId);
         });
 
         $("#computerImage")?.addEventListener("input", event => {
             const preview = $("#imagePreview");
-            const url = event.target.value.trim();
+            if (!preview) return;
 
+            const url = event.target.value.trim();
             if (!url) {
                 preview.hidden = true;
                 preview.removeAttribute("src");
@@ -954,25 +1027,23 @@
             preview.onerror = () => preview.hidden = true;
             preview.src = url;
         });
-
-        $("#computerCategory")?.addEventListener("change", event => {
-            const typeSelect = $("#computerType");
-            if (!typeSelect) return;
-
-            // Professional computers can still be desktops or laptops.
-            typeSelect.disabled = false;
-            typeSelect.value = typeSelect.value || "Laptop";
-        });
     }
 
-    function init() {
+    async function init() {
         setupEvents();
         setLanguage(language);
-        updateBrandOptions();
-        renderComputers();
         updateDeveloperUI();
 
-        // Open management section when arriving at computers.html#manage.
+        await loadComputers();
+
+        const { data: sessionData } = await db.auth.getSession();
+        if (sessionData.session) {
+            // A session alone does not grant admin privileges.
+            // The database policies still decide whether writes are allowed.
+            developerMode = sessionStorage.getItem(DEV_KEY) === "true";
+            updateDeveloperUI();
+        }
+
         if (location.hash === "#manage" && developerMode) {
             $("#manage")?.scrollIntoView({ behavior: "smooth" });
         }
