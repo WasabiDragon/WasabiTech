@@ -1,9 +1,3 @@
-/* =====================================
-   WASABITECH V2
-===================================== */
-
-let currentLanguage = "en";
-
 let computers =
 JSON.parse(
     localStorage.getItem("computers")
@@ -14,52 +8,22 @@ JSON.parse(
     "business-stationary": [],
     "business-portable": [],
     "professional": []
+
 };
 
-/* =====================================
-   SIDEBAR
-===================================== */
+/* MENU */
 
 document
 .getElementById("menuBtn")
-.addEventListener("click",openSidebar);
-
-function openSidebar(){
+.addEventListener("click",()=>{
 
     document
-    .getElementById("sidebar")
-    .classList.add("active");
-}
+    .getElementById("dropdownMenu")
+    .classList.toggle("active");
 
-function closeSidebar(){
+});
 
-    document
-    .getElementById("sidebar")
-    .classList.remove("active");
-}
-
-/* =====================================
-   LANGUAGE
-===================================== */
-
-function setLanguage(lang){
-
-    currentLanguage = lang;
-
-    document
-    .querySelectorAll("[data-en]")
-    .forEach(element=>{
-
-        element.textContent =
-        element.getAttribute(
-            "data-" + lang
-        );
-    });
-}
-
-/* =====================================
-   HOME
-===================================== */
+/* HOME */
 
 function goHome(){
 
@@ -72,9 +36,7 @@ function goHome(){
     .style.display = "flex";
 }
 
-/* =====================================
-   CATEGORYS
-===================================== */
+/* CATEGORY */
 
 function openCategory(category){
 
@@ -82,7 +44,9 @@ function openCategory(category){
     .getElementById("mainCategories")
     .style.display = "none";
 
-    closeSidebar();
+    document
+    .getElementById("dropdownMenu")
+    .classList.remove("active");
 
     const content =
     document.getElementById("content");
@@ -90,110 +54,82 @@ function openCategory(category){
     if(category === "basic"){
 
         content.innerHTML = `
-
         <h2>Basic Computers</h2>
-
+        <br>
         <button onclick="showProducts('basic-stationary')">
-            Stationary
+        Stationary
         </button>
 
         <button onclick="showProducts('basic-portable')">
-            Portable
+        Portable
         </button>
-
         `;
     }
 
     if(category === "business"){
 
         content.innerHTML = `
-
         <h2>Business Computers</h2>
-
+        <br>
         <button onclick="showProducts('business-stationary')">
-            Stationary
+        Stationary
         </button>
 
         <button onclick="showProducts('business-portable')">
-            Portable
+        Portable
         </button>
-
         `;
     }
 
     if(category === "professional"){
 
-        showProducts(
-            "professional"
-        );
+        showProducts("professional");
     }
 }
 
-/* =====================================
-   PRODUCT GRID
-===================================== */
+/* PRODUCTS */
 
 function showProducts(category){
 
     let html =
     `<div class="product-grid">`;
 
-    if(
-        !computers[category] ||
-        computers[category].length === 0
-    ){
+    computers[category]
+    .forEach((pc,index)=>{
 
         html += `
-        <p>
-            No computers available.
-        </p>
-        `;
-    }
 
-    else{
+        <div class="product-card">
 
-        computers[category]
-        .forEach((pc,index)=>{
+            <img
+            src="${pc.image}"
+            alt="${pc.name}">
 
-            html += `
+            <div class="product-info">
 
-            <div class="product-card">
+                <h3>
+                    ${pc.name}
+                </h3>
 
-                <img
-                src="${pc.image}"
-                onerror="this.src='https://placehold.co/600x400'">
-
-                <div
-                class="product-info">
-
-                    <h3>
-                        ${pc.name}
-                    </h3>
-
-                    <div
-                    class="product-price">
-
-                        ${pc.price}
-                    </div>
-
-                    <button
-                    onclick="
-                    viewComputer(
-                    '${category}',
-                    ${index}
-                    )">
-
-                        View Details
-
-                    </button>
-
+                <div class="product-price">
+                    ${pc.price}
                 </div>
+
+                <button
+                onclick="
+                viewComputer(
+                '${category}',
+                ${index}
+                )">
+                    View Details
+                </button>
 
             </div>
 
-            `;
-        });
-    }
+        </div>
+
+        `;
+    });
 
     html += "</div>";
 
@@ -202,14 +138,9 @@ function showProducts(category){
     .innerHTML = html;
 }
 
-/* =====================================
-   PRODUCT DETAILS
-===================================== */
+/* DETAILS */
 
-function viewComputer(
-    category,
-    index
-){
+function viewComputer(category,index){
 
     const pc =
     computers[category][index];
@@ -218,57 +149,29 @@ function viewComputer(
     .getElementById("content")
     .innerHTML = `
 
-    <div class="detail-card">
+    <div class="product-card">
 
         <img
-        src="${pc.image}"
-        onerror="this.src='https://placehold.co/1000x500'">
+        src="${pc.image}">
 
         <div
-        class="detail-content">
+        class="product-info">
 
-            <h2>
-                ${pc.name}
-            </h2>
+            <h2>${pc.name}</h2>
 
             <p>
                 ${pc.description}
             </p>
 
-            <div class="specs">
+            <br>
 
-                <div class="spec">
-                    CPU: ${pc.cpu}
-                </div>
-
-                <div class="spec">
-                    RAM: ${pc.ram}
-                </div>
-
-                <div class="spec">
-                    Storage: ${pc.storage}
-                </div>
-
-                <div class="spec">
-                    GPU: ${pc.gpu}
-                </div>
-
-                <div class="spec">
-                    Operating System:
-                    ${pc.os}
-                </div>
-
-                <div class="spec">
-                    Screen Size:
-                    ${pc.screen}
-                </div>
-
-                <div class="spec">
-                    Price:
-                    ${pc.price}
-                </div>
-
-            </div>
+            <p><b>CPU:</b> ${pc.cpu}</p>
+            <p><b>RAM:</b> ${pc.ram}</p>
+            <p><b>Storage:</b> ${pc.storage}</p>
+            <p><b>GPU:</b> ${pc.gpu}</p>
+            <p><b>OS:</b> ${pc.os}</p>
+            <p><b>Screen:</b> ${pc.screen}</p>
+            <p><b>Price:</b> ${pc.price}</p>
 
         </div>
 
@@ -277,9 +180,7 @@ function viewComputer(
     `;
 }
 
-/* =====================================
-   SECRET DEV LOGIN
-===================================== */
+/* SECRET LOGIN */
 
 let secretCode = "";
 
@@ -292,13 +193,18 @@ document
         event.key === "Shift"
     ){
 
-        secretCode = "SHIFT";
+        secretCode =
+        "SHIFT";
     }
 
     else if(
-        secretCode === "SHIFT"
+        secretCode ===
+        "SHIFT"
+
         &&
-        event.key.toLowerCase()
+
+        event.key
+        .toLowerCase()
         === "w"
     ){
 
@@ -309,278 +215,134 @@ document
     else if(
         secretCode ===
         "SHIFTW"
+
         &&
-        event.key.toLowerCase()
+
+        event.key
+        .toLowerCase()
         === "d"
     ){
 
         document
         .getElementById(
-            "loginModal"
-        )
+        "loginModal")
         .style.display =
         "flex";
 
         secretCode = "";
     }
 
-    else{
-
-        secretCode = "";
-    }
 });
 
-/* =====================================
-   MODAL
-===================================== */
+/* LOGIN */
 
 function closeLogin(){
 
     document
     .getElementById(
-        "loginModal"
-    )
-    .style.display = "none";
+    "loginModal")
+    .style.display =
+    "none";
 }
-
-window.onclick =
-function(event){
-
-    const modal =
-    document.getElementById(
-        "loginModal"
-    );
-
-    if(
-        event.target === modal
-    ){
-
-        closeLogin();
-    }
-};
-
-/* =====================================
-   LOGIN
-===================================== */
 
 function login(){
 
-    const username =
+    const user =
     document
     .getElementById(
-        "username"
-    )
-    .value
-    .trim();
+    "username")
+    .value;
 
-    const password =
+    const pass =
     document
     .getElementById(
-        "password"
-    )
-    .value
-    .trim();
+    "password")
+    .value;
 
     if(
 
-        username ===
-        "WasabiDragon53"
-
-        &&
-
-        password ===
-        "Tech!53"
+       "Tech!53"
 
     ){
 
         document
         .getElementById(
-            "loginModal"
-        )
+        "loginModal")
         .style.display =
         "none";
 
         document
         .getElementById(
-            "devPanel"
-        )
+        "devPanel")
         .classList
         .remove(
-            "hidden"
+        "hidden"
         );
-
-        renderEditor();
     }
 
     else{
 
         alert(
-        "Invalid Login");
+        "Invalid Login"
+        );
     }
 }
 
-/* =====================================
-   ADD COMPUTER
-===================================== */
+/* ADD PC */
 
 function addComputer(){
 
     const category =
     document
     .getElementById(
-        "pcCategory"
-    )
+    "pcCategory")
     .value;
 
-    const newPC = {
+    computers[category]
+    .push({
 
         name:
-        document
-        .getElementById("pcName")
-        .value,
+        pcName.value,
 
         image:
-        document
-        .getElementById("pcImage")
-        .value,
+        pcImage.value,
 
         description:
-        document
-        .getElementById("pcDescription")
-        .value,
+        pcDescription.value,
 
         cpu:
-        document
-        .getElementById("pcCPU")
-        .value,
+        pcCPU.value,
 
         ram:
-        document
-        .getElementById("pcRAM")
-        .value,
+        pcRAM.value,
 
         storage:
-        document
-        .getElementById("pcStorage")
-        .value,
+        pcStorage.value,
 
         gpu:
-        document
-        .getElementById("pcGPU")
-        .value,
+        pcGPU.value,
 
         os:
-        document
-        .getElementById("pcOS")
-        .value,
+        pcOS.value,
 
         screen:
-        document
-        .getElementById("pcScreen")
-        .value,
+        pcScreen.value,
 
         price:
-        document
-        .getElementById("pcPrice")
-        .value
-    };
+        pcPrice.value
 
-    computers[category]
-    .push(newPC);
-
-    saveData();
-
-    renderEditor();
-
-    alert(
-        "Computer Added"
-    );
-}
-
-/* =====================================
-   DELETE COMPUTER
-==========   renderEditor();
-}
-
-/* =====================================
-   SAVE
-===================================== */
-
-function saveData(){
-
-    localStorage
-    .setItem(
-
-        "computers",
-
-        JSON.stringify(
-            computers
-        )
-
-    );
-}
-
-/* =====================================
-   DEV CATALOG EDITOR
-===================================== */
-
-function renderEditor(){
-
-    let html = "";
-
-    Object.keys(
-        computers
-    )
-    .forEach(category=>{
-
-        computers[
-        category
-        ]
-        .forEach(
-        (
-        computer,
-        index
-        )=>{
-
-            html += `
-
-            <div class="spec">
-
-                <strong>
-
-                ${
-                computer.name
-                }
-
-                </strong>
-
-                <br><br>
-
-                ${category}
-
-                <br><br>
-
-                <button
-                onclick="
-                deleteComputer(
-                '${category}',
-                ${index}
-                )">
-
-                    Delete
-
-                </button>
-
-            </div>
-
-            `;
-        });
     });
 
-    document
-    .getElementById(
-        "catalogEditor"
-    )
-    .innerHTML =
-    html;
+    localStorage.setItem(
+        "computers",
+        JSON.stringify(
+        computers
+        )
+    );
+
+    alert(
+    "Computer Added"
+    );
 }
+
+function setLanguage(lang){}
