@@ -1445,7 +1445,9 @@ select option {
     }
 }
 
-/* Hide developer-mode instructions from visitors */
+
+/* Keep developer mode hint invisible to everyone */
 .dev-hint {
     display: none !important;
 }
+
