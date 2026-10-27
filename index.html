@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WasabiTech</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>WasabiTech</h1>
+
+    <div class="language-switch">
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+    </div>
+
+    <button id="devBtn">Developer Mode</button>
+</header>
+
+<section id="mainCategories">
+
+    <div class="category" onclick="openCategory('basic')">
+        <h2 data-en="Basic" data-es="Básico">Basic</h2>
+        <p data-en="For internet browsing, email, and everyday use."
+           data-es="Para navegar por internet, correo electrónico y uso diario.">
+           For internet browsing, email, and everyday use.
+        </p>
+    </div>
+
+    <div class="category" onclick="openCategory('business')">
+        <h2 data-en="Business" data-es="Negocios">Business</h2>
+        <p data-en="For offices, Excel, Word, and document storage."
+           data-es="Para oficinas, Excel, Word y almacenamiento de documentos.">
+           For offices, Excel, Word, and document storage.
+        </p>
+    </div>
+
+    <div class="category" onclick="openCategory('professional')">
+        <h2 data-en="Professional" data-es="Profesional">Professional</h2>
+        <p data-en="For graphic design, programming and 3D work."
+           data-es="Para diseño gráfico, programación y trabajo 3D.">
+           For graphic design, programming and 3D work.
+        </p>
+    </div>
+
+</section>
+
+<section id="content"></section>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2>Developer Login</h2>
+
+        <input type="text" id="username" placeholder="Username">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
+<div id="devPanel" class="hidden">
+
+    <h2>Add Computer</h2>
+
+    <input type="text" id="pcName" placeholder="Computer Name">
+
+    <select id="pcCategory">
+        <option value="basic-stationary">Basic - Stationary</option>
+        <option value="basic-portable">Basic - Portable</option>
+        <option value="business-stationary">Business - Stationary</option>
+        <option value="business-portable">Business - Portable</option>
+        <option value="professional">Professional</option>
+    </select>
+
+    <button onclick="addComputer()">Add Computer</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
