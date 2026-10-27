@@ -1,90 +1,69 @@
-/* ==========================================
-   WASABITECH V3
-========================================== */
-
 :root{
-
     --wasabi:#8CCF4D;
-    --wasabi-dark:#70b63a;
+    --wasabi-dark:#6fb93e;
 
     --tech:#5B3F8C;
-    --tech-dark:#432f66;
-
-    --white:#ffffff;
+    --tech-dark:#442c6a;
 
     --shadow:
-    0 12px 30px rgba(0,0,0,.15);
+    0 10px 25px rgba(0,0,0,.15);
 }
 
 *{
-
     margin:0;
     padding:0;
-
     box-sizing:border-box;
 }
 
 body{
-
-    font-family:
-    "Segoe UI",
-    sans-serif;
+    font-family:Segoe UI,sans-serif;
 
     background:
     linear-gradient(
-    135deg,
-    #f4fff1,
-    #f5f0ff
+        135deg,
+        #f4fff0,
+        #f4efff
     );
 
     min-height:100vh;
-
-    color:#252525;
 }
 
-/* ==========================================
+/* ==========================
    HEADER
-========================================== */
+========================== */
 
 header{
 
-    background:
-    linear-gradient(
-    135deg,
-    var(--tech),
-    var(--tech-dark)
-    );
+    position:sticky;
+    top:0;
 
     height:90px;
 
+    background:
+    linear-gradient(
+        135deg,
+        var(--tech),
+        var(--tech-dark)
+    );
+
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     padding:0 25px;
 
-    position:sticky;
-
-    top:0;
-
-    z-index:5000;
+    z-index:1000;
 
     box-shadow:var(--shadow);
 }
 
 .header-left{
-
+    width:120px;
     position:relative;
-
-    width:90px;
 }
 
 .header-center{
-
     flex:1;
-
     text-align:center;
 }
 
@@ -93,36 +72,28 @@ header{
     width:120px;
 
     display:flex;
-
     justify-content:flex-end;
 
     gap:8px;
 }
 
-/* ==========================================
-   LOGO
-========================================== */
-
 .logo{
 
     font-size:3rem;
-
     font-weight:800;
 }
 
 .wasabi{
-
     color:var(--wasabi);
 }
 
 .tech{
-
-    color:#d7c5ff;
+    color:#d4c4ff;
 }
 
-/* ==========================================
+/* ==========================
    BUTTONS
-========================================== */
+========================== */
 
 button{
 
@@ -132,17 +103,17 @@ button{
 
     border-radius:12px;
 
-    padding:12px 20px;
-
-    font-weight:600;
+    padding:12px 18px;
 
     color:white;
 
+    font-weight:600;
+
     background:
     linear-gradient(
-    135deg,
-    var(--wasabi),
-    var(--wasabi-dark)
+        135deg,
+        var(--wasabi),
+        var(--wasabi-dark)
     );
 
     transition:.25s;
@@ -150,33 +121,27 @@ button{
 
 button:hover{
 
-    transform:
-    translateY(-2px);
+    transform:translateY(-2px);
 
     background:
     linear-gradient(
-    135deg,
-    #6d51aa,
-    var(--tech)
+        135deg,
+        #7354b4,
+        var(--tech)
     );
 }
 
-/* ==========================================
-   DEV HAMBURGER
-========================================== */
+/* ==========================
+   DEV MENU
+========================== */
 
 #menuBtn{
 
     width:50px;
-
     height:50px;
 
-    font-size:1.4rem;
+    font-size:1.2rem;
 }
-
-/* ==========================================
-   DEV DROPDOWN
-========================================== */
 
 .dev-dropdown{
 
@@ -184,43 +149,32 @@ button:hover{
 
     position:absolute;
 
-    top:70px;
-
+    top:65px;
     left:0;
 
-    width:240px;
+    width:250px;
 
     background:white;
 
+    padding:15px;
+
     border-radius:18px;
 
-    padding:18px;
-
     box-shadow:
-    0 15px 35px rgba(0,0,0,.18);
+    0 10px 30px rgba(0,0,0,.2);
 }
 
 .dev-dropdown.active{
-
     display:block;
 }
-
-.dev-dropdown button{
-
-    width:100%;
-}
-
-/* ==========================================
-   ADD COMPUTER MENU
-========================================== */
 
 .add-computer-menu{
 
     display:none;
 
-    margin-top:15px;
+    margin-top:12px;
 
-    padding-top:15px;
+    padding-top:12px;
 
     border-top:
     1px solid #ddd;
@@ -235,22 +189,26 @@ button:hover{
     gap:10px;
 }
 
-/* ==========================================
+.add-computer-menu button{
+    width:100%;
+}
+
+/* ==========================
    HERO
-========================================== */
+========================== */
 
 .hero{
 
-    padding:80px 25px;
-
     text-align:center;
+
+    padding:80px 20px;
 }
 
 .hero h2{
 
-    color:var(--tech);
-
     font-size:3rem;
+
+    color:var(--tech);
 
     margin-bottom:15px;
 }
@@ -261,14 +219,14 @@ button:hover{
 
     margin:auto;
 
-    line-height:1.7;
+    font-size:1.05rem;
 
-    font-size:1.1rem;
+    line-height:1.6;
 }
 
-/* ==========================================
-   MAIN CATEGORIES
-========================================== */
+/* ==========================
+   CATEGORIES
+========================== */
 
 #mainCategories{
 
@@ -287,7 +245,7 @@ button:hover{
 
     width:340px;
 
-    min-height:260px;
+    min-height:250px;
 
     background:white;
 
@@ -295,11 +253,11 @@ button:hover{
 
     padding:30px;
 
+    box-shadow:var(--shadow);
+
     cursor:pointer;
 
     transition:.3s;
-
-    box-shadow:var(--shadow);
 
     position:relative;
 }
@@ -311,22 +269,20 @@ button:hover{
     position:absolute;
 
     top:0;
-
     left:0;
 
     width:100%;
-
     height:8px;
-
-    border-radius:
-    24px 24px 0 0;
 
     background:
     linear-gradient(
-    90deg,
-    var(--wasabi),
-    var(--tech)
+        90deg,
+        var(--wasabi),
+        var(--tech)
     );
+
+    border-radius:
+    24px 24px 0 0;
 }
 
 .category:hover{
@@ -340,8 +296,6 @@ button:hover{
     color:var(--tech);
 
     margin-bottom:15px;
-
-    font-size:2rem;
 }
 
 .category p{
@@ -349,5 +303,280 @@ button:hover{
     line-height:1.6;
 }
 
-/* ==========================================
+/* ==========================
    CONTENT
+========================== */
+
+#content{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:30px;
+}
+
+/* ==========================
+   PRODUCT GRID
+========================== */
+
+.product-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fill,
+        minmax(300px,1fr)
+    );
+
+    gap:25px;
+}
+
+/* ==========================
+   PRODUCT CARD
+========================== */
+
+.product-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.product-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+.product-info{
+    padding:20px;
+}
+
+.product-info h3{
+
+    color:var(--tech);
+
+    margin-bottom:10px;
+}
+
+.product-price{
+
+    color:#3a963a;
+
+    font-size:1.2rem;
+
+    margin-bottom:15px;
+
+    font-weight:700;
+}
+
+/* ==========================
+   DETAIL PAGE
+========================== */
+
+.detail-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+    max-width:1000px;
+
+    margin:auto;
+}
+
+.detail-card img{
+
+    width:100%;
+
+    max-height:500px;
+
+    object-fit:cover;
+}
+
+.detail-content{
+    padding:30px;
+}
+
+.detail-content h2{
+
+    color:var(--tech);
+
+    margin-bottom:15px;
+}
+
+.detail-content p{
+
+    margin-bottom:10px;
+}
+
+/* ==========================
+   LOGIN POPUP
+========================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(0,0,0,.65);
+
+    z-index:5000;
+}
+
+.modal-content{
+
+    background:white;
+
+    width:450px;
+
+    max-width:90%;
+
+    border-radius:24px;
+
+    padding:30px;
+
+    position:relative;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+}
+
+.close-modal{
+
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    width:40px;
+    height:40px;
+}
+
+/* ==========================
+   FORMS
+========================== */
+
+input,
+textarea,
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    border-radius:12px;
+
+    border:
+    1px solid #d8d8d8;
+
+    font-size:1rem;
+}
+
+textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+}
+
+/* ==========================
+   DEV PANEL
+========================== */
+
+#devPanel{
+
+    max-width:1200px;
+
+    margin:50px auto;
+
+    padding:35px;
+
+    background:white;
+
+    border-radius:24px;
+
+    box-shadow:var(--shadow);
+}
+
+#devPanel h2{
+
+    color:var(--tech);
+
+    margin-bottom:20px;
+}
+
+/* ==========================
+   EDITOR
+========================== */
+
+#catalogEditor{
+
+    margin-top:25px;
+
+    display:grid;
+
+    gap:15px;
+}
+
+.editor-item{
+
+    background:#f5f5f5;
+
+    padding:15px;
+
+    border-radius:12px;
+}
+
+/* ==========================
+   UTILITIES
+========================== */
+
+.hidden{
+    display:none !important;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px){
+
+    .logo{
+        font-size:2rem;
+    }
+
+    .hero h2{
+        font-size:2rem;
+    }
+
+    .category{
+        width:100%;
+    }
+}
