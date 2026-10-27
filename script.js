@@ -141,18 +141,17 @@ function setLanguage(lang){
 ========================== */
 
 document
-.getElementById("logo")
-.addEventListener("click", () => {
+.addEventListener("keydown",(event)=>{
 
-    logoClicks++;
-
-    if(logoClicks >= 5){
+    if(
+        event.ctrlKey &&
+        event.shiftKey &&
+        event.key.toLowerCase() === "w"
+    ){
 
         document
         .getElementById("loginModal")
         .style.display = "flex";
-
-        logoClicks = 0;
     }
 });
 
