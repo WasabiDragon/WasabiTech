@@ -241,9 +241,7 @@ function showProducts(category){
             <div
             class="product-card">
 
-                <img
-                src="${pc.image}"
-                alt="${pc.name}">
+                ${pc.image}
 
                 <div
                 class="product-info">
@@ -308,9 +306,7 @@ function viewComputer(
 
     <div class="detail-card">
 
-        <img
-        src="${pc.image}"
-        alt="${pc.name}">
+        ${pc.image}
 
         <div
         class="detail-content">
@@ -572,7 +568,14 @@ function addComputer(){
     .getElementById(
         "pcCategory"
     )
-    .Name"
+    .value;
+
+    const newComputer = {
+
+        name:
+        document
+        .getElementById(
+            "pcName"
         )
         .value,
 
