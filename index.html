@@ -9,7 +9,7 @@
 <body>
 
 <header>
-    <h1 class="logo">
+   <h1 class="logo" id="logo">
     <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
 </h1>
 <section class="hero">
@@ -59,8 +59,13 @@
 <section id="content"></section>
 
 <div id="loginModal" class="modal">
-    <div class="modal-content">
-        <h2>Developer Login</h2>
+   <div class="modal-content">
+
+    <button class="close-modal" onclick="closeLogin()">
+        ×
+    </button>
+
+    <h2>Developer Login</h2>
 
         <input type="text" id="username" placeholder="Username">
 
