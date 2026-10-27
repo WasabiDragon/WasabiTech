@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
 
     <title>WasabiTech</title>
 
-    style.css
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -24,49 +25,36 @@
         <div class="header-left">
 
             <!-- Hidden until Dev Mode -->
-
             <button
-            id="menuBtn"
-            class="hidden">
-
+                id="menuBtn"
+                class="hidden">
                 ☰
-
             </button>
 
+            <!-- Dev Dropdown -->
             <div
-            id="devDropdown"
-            class="dev-dropdown">
+                id="devDropdown"
+                class="dev-dropdown">
 
                 <button
-                onclick="toggleAddComputerMenu()">
-
+                    onclick="toggleAddComputerMenu()">
                     Add Computer
-
                 </button>
 
                 <div
-                id="addComputerMenu"
-                class="add-computer-menu">
+                    id="addComputerMenu"
+                    class="add-computer-menu">
 
-                    <button
-                    onclick="showDevCategory('basic')">
-
+                    <button onclick="showDevCategory('basic')">
                         Basic
-
                     </button>
 
-                    <button
-                    onclick="showDevCategory('business')">
-
+                    <button onclick="showDevCategory('business')">
                         Business
-
                     </button>
 
-                    <button
-                    onclick="showDevCategory('professional')">
-
+                    <button onclick="showDevCategory('professional')">
                         Professional
-
                     </button>
 
                 </div>
@@ -93,18 +81,12 @@
 
         <div class="header-right">
 
-            <button
-            onclick="setLanguage('en')">
-
+            <button onclick="setLanguage('en')">
                 EN
-
             </button>
 
-            <button
-            onclick="setLanguage('es')">
-
+            <button onclick="setLanguage('es')">
                 ES
-
             </button>
 
         </div>
@@ -118,77 +100,64 @@
     <section class="hero">
 
         <h2
-        data-en="Find The Right Computer"
-        data-es="Encuentra La Computadora Ideal">
+            data-en="Find The Right Computer"
+            data-es="Encuentra La Computadora Ideal">
 
             Find The Right Computer
 
         </h2>
 
         <p
-        data-en="Browse systems designed for home users, businesses and professionals."
-        data-es="Explora sistemas diseñados para usuarios domésticos, negocios y profesionales.">
+            data-en="Browse systems for home users, businesses, and professionals."
+            data-es="Explora sistemas para usuarios domésticos, negocios y profesionales.">
 
-            Browse systems designed for home users,
-            businesses and professionals.
+            Browse systems for home users, businesses, and professionals.
 
         </p>
 
     </section>
 
     <!-- ==========================
-         MAIN CATEGORIES
+         CATEGORIES
     =========================== -->
 
     <section id="mainCategories">
 
         <div
-        class="category"
-        onclick="openCategory('basic')">
+            class="category"
+            onclick="openCategory('basic')">
 
             <h2>Basic</h2>
 
             <p>
-
-                For web browsing,
-                email, streaming,
-                office work and daily use.
-
+                Everyday browsing, email, streaming,
+                Word, and general tasks.
             </p>
 
         </div>
 
         <div
-        class="category"
-        onclick="openCategory('business')">
+            class="category"
+            onclick="openCategory('business')">
 
             <h2>Business</h2>
 
             <p>
-
-                For Excel,
-                Word,
-                file storage,
-                accounting,
-                and office productivity.
-
+                Excel, Office applications,
+                file storage, and productivity.
             </p>
 
         </div>
 
         <div
-        class="category"
-        onclick="openCategory('professional')">
+            class="category"
+            onclick="openCategory('professional')">
 
             <h2>Professional</h2>
 
             <p>
-
-                For programming,
-                graphic design,
-                video editing,
-                engineering and 3D workloads.
-
+                Programming, engineering,
+                design, editing, and 3D workloads.
             </p>
 
         </div>
@@ -196,11 +165,10 @@
     </section>
 
     <!-- ==========================
-         PRODUCT AREA
+         DYNAMIC CONTENT
     =========================== -->
 
-    <section
-    id="content">
+    <section id="content">
 
     </section>
 
@@ -209,41 +177,34 @@
     =========================== -->
 
     <div
-    id="loginModal"
-    class="modal">
+        id="loginModal"
+        class="modal">
 
-        <div
-        class="modal-content">
+        <div class="modal-content">
 
             <button
-            class="close-modal"
-            onclick="closeLogin()">
+                class="close-modal"
+                onclick="closeLogin()">
 
                 ×
 
             </button>
 
             <h2>
-
                 Developer Login
-
             </h2>
 
             <input
-            type="text"
-            id="username"
-            placeholder="Username">
+                type="text"
+                id="username"
+                placeholder="Username">
 
             <input
-            type="password"
-            id="password"
-            placeholder="Password">
+                type="password"
+               placeholder="Password">
 
-            <button
-            onclick="login()">
-
+            <button onclick="login()">
                 Login
-
             </button>
 
         </div>
@@ -255,63 +216,61 @@
     =========================== -->
 
     <section
-    id="devPanel"
-    class="hidden">
+        id="devPanel"
+        class="hidden">
 
         <h2>
-
             Catalog Manager
-
         </h2>
 
         <input
-        type="text"
-        id="pcName"
-        placeholder="Computer Name">
+            type="text"
+            id="pcName"
+            placeholder="Computer Name">
 
         <input
-        type="text"
-        id="pcImage"
-        placeholder="Image URL">
+            type="text"
+            id="pcImage"
+            placeholder="Image URL">
 
         <textarea
-        id="pcDescription"
-        placeholder="Description"></textarea>
+            id="pcDescription"
+            placeholder="Description"></textarea>
 
         <input
-        type="text"
-        id="pcCPU"
-        placeholder="CPU">
+            type="text"
+            id="pcCPU"
+            placeholder="CPU">
 
         <input
-        type="text"
-        id="pcRAM"
-        placeholder="RAM">
+            type="text"
+            id="pcRAM"
+            placeholder="RAM">
 
         <input
-        type="text"
-        id="pcStorage"
-        placeholder="Storage">
+            type="text"
+            id="pcStorage"
+            placeholder="Storage">
 
         <input
-        type="text"
-        id="pcGPU"
-        placeholder="GPU">
+            type="text"
+            id="pcGPU"
+            placeholder="GPU">
 
         <input
-        type="text"
-        id="pcOS"
-        placeholder="Operating System">
+            type="text"
+            id="pcOS"
+            placeholder="Operating System">
 
         <input
-        type="text"
-        id="pcScreen"
-        placeholder="Screen Size">
+            type="text"
+            id="pcScreen"
+            placeholder="Screen Size">
 
         <input
-        type="text"
-        id="pcPrice"
-        placeholder="Price">
+            type="text"
+            id="pcPrice"
+            placeholder="Price">
 
         <select id="pcCategory">
 
@@ -337,21 +296,18 @@
 
         </select>
 
-        <button
-        onclick="addComputer()">
-
+        <button onclick="addComputer()">
             Add Computer
-
         </button>
 
-        <div
-        id="catalogEditor">
+        <div id="catalogEditor">
 
         </div>
 
     </section>
 
-    <script src="script.js"></script>
+    script.jsscript>
 
 </body>
+
 </html>
