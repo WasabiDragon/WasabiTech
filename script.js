@@ -140,18 +140,48 @@ function setLanguage(lang){
    SECRET DEV MODE
 ========================== */
 
-document
-.addEventListener("keydown",(event)=>{
+let shiftPressed = false;
+let wPressed = false;
+let dPressed = false;
+
+document.addEventListener("keydown",(event)=>{
+
+    if(event.key === "Shift"){
+        shiftPressed = true;
+    }
+
+    if(event.key.toLowerCase() === "w"){
+        wPressed = true;
+    }
+
+    if(event.key.toLowerCase() === "d"){
+        dPressed = true;
+    }
 
     if(
-        event.ctrlKey &&
-        event.shiftKey &&
-        event.key.toLowerCase() === "w"
+        shiftPressed &&
+        wPressed &&
+        dPressed
     ){
 
         document
         .getElementById("loginModal")
         .style.display = "flex";
+    }
+});
+
+document.addEventListener("keyup",(event)=>{
+
+    if(event.key === "Shift"){
+        shiftPressed = false;
+    }
+
+    if(event.key.toLowerCase() === "w"){
+        wPressed = false;
+    }
+
+    if(event.key.toLowerCase() === "d"){
+        dPressed = false;
     }
 });
 
