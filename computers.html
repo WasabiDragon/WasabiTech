@@ -191,26 +191,61 @@
         </div>
     </footer>
 
-    <dialog class="modal" id="typeDialog">
-        <div class="modal-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
-            <p class="eyebrow" data-i18n="chooseTypeEyebrow">FIND YOUR SETUP</p>
-            <h2 id="typeDialogTitle" data-i18n="chooseType">Choose your computer type</h2>
-            <p data-i18n="chooseTypeText">Would you prefer a desktop or a laptop?</p>
-            <div class="type-choice-grid">
-                <button class="type-choice" type="button" data-computer-type="Desktop">
-                    <span class="type-choice-icon">▣</span>
-                    <strong data-i18n="desktop">Desktop</strong>
-                    <span data-i18n="desktopDesc">Power and flexibility.</span>
-                </button>
-                <button class="type-choice" type="button" data-computer-type="Laptop">
-                    <span class="type-choice-icon">▱</span>
-                    <strong data-i18n="laptop">Laptop</strong>
-                    <span data-i18n="laptopDesc">Performance on the go.</span>
-                </button>
-            </div>
+   
+<dialog class="modal" id="typeDialog">
+    <div class="modal-card">
+        <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+
+        <p class="eyebrow" data-i18n="chooseTypeEyebrow">FIND YOUR SETUP</p>
+        <h2 id="typeDialogTitle" data-i18n="chooseType">Choose your computer type</h2>
+        <p id="typeDialogText" data-i18n="chooseTypeText">Choose your preferred computer setup.</p>
+
+        <div class="type-choice-grid" id="formFactorChoices">
+            <button class="type-choice" type="button" data-form-factor="Stationary">
+                <span class="type-choice-icon">▣</span>
+                <strong data-i18n="stationary">Stationary</strong>
+                <span data-i18n="stationaryDesc">Computers designed for a fixed workspace.</span>
+            </button>
+
+            <button class="type-choice" type="button" data-form-factor="Mobile">
+                <span class="type-choice-icon">▱</span>
+                <strong data-i18n="mobile">Mobile</strong>
+                <span data-i18n="mobileDesc">Computers designed for use on the go.</span>
+            </button>
         </div>
-    </dialog>
+
+        <div class="type-choice-grid" id="specificTypeChoices" hidden>
+            <button class="type-choice" type="button" data-computer-type="Desktop" hidden>
+                <span class="type-choice-icon">▣</span>
+                <strong data-i18n="desktop">Desktop</strong>
+                <span data-i18n="desktopDesc">Power and flexibility.</span>
+            </button>
+
+            <button class="type-choice" type="button" data-computer-type="Workstation" hidden>
+                <span class="type-choice-icon">▣</span>
+                <strong data-i18n="workstation">Workstation</strong>
+                <span data-i18n="workstationDesc">Performance for demanding professional tasks.</span>
+            </button>
+
+            <button class="type-choice" type="button" data-computer-type="Laptop" hidden>
+                <span class="type-choice-icon">▱</span>
+                <strong data-i18n="laptop">Laptop</strong>
+                <span data-i18n="laptopDesc">Performance on the go.</span>
+            </button>
+
+            <button class="type-choice" type="button" data-computer-type="Tablet" hidden>
+                <span class="type-choice-icon">▱</span>
+                <strong data-i18n="tablet">Tablet</strong>
+                <span data-i18n="tabletDesc">Portable computing in a compact design.</span>
+            </button>
+        </div>
+
+        <button class="text-button" id="backToFormFactors" type="button" hidden>
+            ← Back
+        </button>
+    </div>
+</dialog>
+
 
     <dialog class="modal" id="detailDialog">
         <div class="modal-card detail-card">
