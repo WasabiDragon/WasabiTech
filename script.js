@@ -20,7 +20,10 @@
         return;
     }
 
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
     let language = localStorage.getItem(STORAGE_KEY) || "en";
     let developerMode = false;
@@ -77,20 +80,11 @@
             viewComputers: "View Computers →",
             chooseTypeEyebrow: "FIND YOUR SETUP",
             chooseType: "Choose your computer type",
-            chooseTypeText: "First, choose a stationary computer or a mobile device.",
-            chooseDevice: "Choose your device",
-            stationary: "Stationary",
-            stationaryDesc: "A computer for your desk or workspace.",
-            mobile: "Mobile",
-            mobileDesc: "A computer you can take with you.",
+            chooseTypeText: "Would you prefer a desktop or a laptop?",
             desktop: "Desktop",
             desktopDesc: "Power and flexibility.",
-            workstation: "Workstation",
-            workstationDesc: "High performance for demanding work.",
             laptop: "Laptop",
             laptopDesc: "Performance on the go.",
-            tablet: "Tablet",
-            tabletDesc: "Portable computing in a compact design.",
             catalogSelection: "THE COLLECTION",
             featuredComputers: "Featured Computers",
             clearFilters: "Clear Filters",
@@ -185,20 +179,11 @@
             viewComputers: "Ver computadoras →",
             chooseTypeEyebrow: "ENCUENTRA TU EQUIPO",
             chooseType: "Elige el tipo de computadora",
-            chooseTypeText: "Primero, elige una computadora fija o un dispositivo móvil.",
-            chooseDevice: "Elige tu dispositivo",
-            stationary: "Fija",
-            stationaryDesc: "Una computadora para tu escritorio o espacio de trabajo.",
-            mobile: "Móvil",
-            mobileDesc: "Una computadora que puedes llevar contigo.",
+            chooseTypeText: "¿Prefieres una computadora de escritorio o portátil?",
             desktop: "Escritorio",
             desktopDesc: "Potencia y flexibilidad.",
-            workstation: "Estación de trabajo",
-            workstationDesc: "Alto rendimiento para trabajos exigentes.",
             laptop: "Portátil",
             laptopDesc: "Rendimiento donde vayas.",
-            tablet: "Tableta",
-            tabletDesc: "Computación portátil en un diseño compacto.",
             catalogSelection: "LA COLECCIÓN",
             featuredComputers: "Computadoras destacadas",
             clearFilters: "Limpiar filtros",
@@ -252,6 +237,8 @@
         }
     };
 
+    // Sample computers are inserted only when an administrator logs in
+    // and the online database is completely empty.
     const starterComputers = [
         {
             name: "EverydayBook 15",
@@ -386,19 +373,13 @@
             Business: "business",
             Professional: "professional"
         }[category];
-
         return key ? t(key) : category || "";
     }
 
     function typeLabel(type) {
-        const labels = {
-            Desktop: "desktop",
-            Workstation: "workstation",
-            Laptop: "laptop",
-            Tablet: "tablet"
-        };
-
-        return labels[type] ? t(labels[type]) : type || "";
+        if (type === "Desktop") return t("desktop");
+        if (type === "Laptop") return t("laptop");
+        return type || "";
     }
 
     function normalizeComputer(row) {
@@ -444,7 +425,6 @@
         updateBrandOptions();
         renderComputers();
         renderManageList();
-
         return true;
     }
 
@@ -578,7 +558,6 @@
             const labels = [];
             if (activeCategory) labels.push(categoryLabel(activeCategory));
             if (activeType) labels.push(typeLabel(activeType));
-
             chips.innerHTML = labels.map(label =>
                 `<span class="filter-chip">${escapeHTML(label)}</span>`
             ).join("");
@@ -736,12 +715,10 @@
 
         form.reset();
         if ($("#editId")) $("#editId").value = "";
-
         if ($("#imagePreview")) {
             $("#imagePreview").hidden = true;
             $("#imagePreview").removeAttribute("src");
         }
-
         if ($("#editorTitle")) $("#editorTitle").textContent = t("editorAdd");
         form.hidden = true;
     }
@@ -892,83 +869,11 @@
 
     function openTypeDialog(category) {
         selectedCategory = category;
-
         const dialog = $("#typeDialog");
         const title = $("#typeDialogTitle");
-        const grid = dialog?.querySelector(".type-choice-grid");
-
-        if (!dialog || !grid) return;
 
         if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
-
-        grid.innerHTML = `
-            <button class="type-choice" type="button" data-device-group="Stationary">
-                <span class="type-choice-icon">▣</span>
-                <strong>${escapeHTML(t("stationary"))}</strong>
-                <span>${escapeHTML(t("stationaryDesc"))}</span>
-            </button>
-            <button class="type-choice" type="button" data-device-group="Mobile">
-                <span class="type-choice-icon">▱</span>
-                <strong>${escapeHTML(t("mobile"))}</strong>
-                <span>${escapeHTML(t("mobileDesc"))}</span>
-            </button>
-        `;
-
-        dialog.dataset.step = "group";
-
-        if (!dialog.open) dialog.showModal();
-    }
-
-    function chooseDeviceGroup(group) {
-        const dialog = $("#typeDialog");
-        const title = $("#typeDialogTitle");
-        const grid = dialog?.querySelector(".type-choice-grid");
-
-        if (!dialog || !grid) return;
-
-        const options = group === "Stationary"
-            ? [
-                {
-                    type: "Desktop",
-                    icon: "▣",
-                    name: "desktop",
-                    description: "desktopDesc"
-                },
-                {
-                    type: "Workstation",
-                    icon: "▤",
-                    name: "workstation",
-                    description: "workstationDesc"
-                }
-            ]
-            : [
-                {
-                    type: "Laptop",
-                    icon: "▱",
-                    name: "laptop",
-                    description: "laptopDesc"
-                },
-                {
-                    type: "Tablet",
-                    icon: "▯",
-                    name: "tablet",
-                    description: "tabletDesc"
-                }
-            ];
-
-        if (title) {
-            title.textContent = `${categoryLabel(selectedCategory)} — ${t("chooseDevice")}`;
-        }
-
-        grid.innerHTML = options.map(option => `
-            <button class="type-choice" type="button" data-computer-type="${option.type}">
-                <span class="type-choice-icon">${option.icon}</span>
-                <strong>${escapeHTML(t(option.name))}</strong>
-                <span>${escapeHTML(t(option.description))}</span>
-            </button>
-        `).join("");
-
-        dialog.dataset.step = "device";
+        if (dialog && !dialog.open) dialog.showModal();
     }
 
     function chooseType(type) {
@@ -979,10 +884,7 @@
         if (dialog?.open) dialog.close();
 
         renderComputers();
-        $("#catalogResults")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+        $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function setLanguage(nextLanguage) {
@@ -1006,42 +908,13 @@
                 : 'ES <span>|</span> EN';
         }
 
-        const typeSelect = $("#computerType");
-        if (typeSelect) {
-            [...typeSelect.options].forEach(option => {
-                if (option.value) option.textContent = typeLabel(option.value);
-            });
-        }
-
         updateBrandOptions();
         renderComputers();
         renderManageList();
-
-        // Refresh the choices if the selection dialog is already open.
-        const dialog = $("#typeDialog");
-        if (dialog?.open && selectedCategory) {
-            if (dialog.dataset.step === "device") {
-                const group = ["Desktop", "Workstation"].includes(activeType)
-                    ? "Stationary"
-                    : "Mobile";
-                chooseDeviceGroup(group);
-            } else {
-                openTypeDialog(selectedCategory);
-            }
-        }
     }
 
     function setupEvents() {
         ensureEmailField();
-
-        const typeSelect = $("#computerType");
-        if (typeSelect) {
-            ["Desktop", "Workstation", "Laptop", "Tablet"].forEach(type => {
-                if (![...typeSelect.options].some(option => option.value === type)) {
-                    typeSelect.add(new Option(typeLabel(type), type));
-                }
-            });
-        }
 
         $("#languageToggle")?.addEventListener("click", () => {
             setLanguage(language === "en" ? "es" : "en");
@@ -1067,9 +940,7 @@
                 clearTimeout(shortcutTimer);
 
                 if (developerMode) {
-                    if ($("#adminMenu")) {
-                        $("#adminMenu").hidden = !$("#adminMenu").hidden;
-                    }
+                    if ($("#adminMenu")) $("#adminMenu").hidden = !$("#adminMenu").hidden;
                 } else {
                     openLogin();
                 }
@@ -1079,9 +950,7 @@
         $("#loginForm")?.addEventListener("submit", handleLogin);
 
         $$("[data-close-dialog]").forEach(button => {
-            button.addEventListener("click", () => {
-                button.closest("dialog")?.close();
-            });
+            button.addEventListener("click", () => button.closest("dialog")?.close());
         });
 
         $("#exitDeveloperMode")?.addEventListener("click", exitDeveloperMode);
@@ -1094,41 +963,23 @@
                 if (category === "Professional") {
                     activeCategory = category;
                     activeType = "";
-                    selectedCategory = "";
                     renderComputers();
-                    $("#catalogResults")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
                 } else {
                     openTypeDialog(category);
                 }
             });
         });
 
-        // Delegation handles both the first step and dynamically created device buttons.
-        $("#typeDialog")?.addEventListener("click", event => {
-            const groupButton = event.target.closest("[data-device-group]");
-            const typeButton = event.target.closest("[data-computer-type]");
-
-            if (groupButton) {
-                chooseDeviceGroup(groupButton.dataset.deviceGroup);
-                return;
-            }
-
-            if (typeButton) {
-                chooseType(typeButton.dataset.computerType);
-            }
+        $$("[data-computer-type]").forEach(button => {
+            button.addEventListener("click", () => chooseType(button.dataset.computerType));
         });
 
         ["searchInput", "brandFilter", "priceFilter", "sortFilter"].forEach(id => {
             const element = $("#" + id);
             if (!element) return;
 
-            element.addEventListener(
-                id === "searchInput" ? "input" : "change",
-                renderComputers
-            );
+            element.addEventListener(id === "searchInput" ? "input" : "change", renderComputers);
         });
 
         $("#clearFilters")?.addEventListener("click", clearFilters);
@@ -1147,10 +998,7 @@
             resetEditor();
             $("#computerForm").hidden = false;
             $("#editorTitle").textContent = t("editorAdd");
-            $("#computerForm").scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            $("#computerForm").scrollIntoView({ behavior: "smooth", block: "start" });
         });
 
         $("#cancelEditor")?.addEventListener("click", resetEditor);
@@ -1169,7 +1017,6 @@
             if (!preview) return;
 
             const url = event.target.value.trim();
-
             if (!url) {
                 preview.hidden = true;
                 preview.removeAttribute("src");
@@ -1190,10 +1037,9 @@
         await loadComputers();
 
         const { data: sessionData } = await db.auth.getSession();
-
         if (sessionData.session) {
             // A session alone does not grant admin privileges.
-            // Database policies still determine whether writes are allowed.
+            // The database policies still decide whether writes are allowed.
             developerMode = sessionStorage.getItem(DEV_KEY) === "true";
             updateDeveloperUI();
         }
