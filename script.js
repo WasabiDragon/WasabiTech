@@ -1,3 +1,4 @@
+
 /* =========================================
    WASABITECH — SUPABASE DATABASE VERSION
    ========================================= */
@@ -19,10 +20,7 @@
         return;
     }
 
-    const db = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let language = localStorage.getItem(STORAGE_KEY) || "en";
     let developerMode = false;
@@ -186,7 +184,7 @@
             professionalDesc: "Para creadores, programadores y usuarios avanzados.",
             viewComputers: "Ver computadoras →",
             chooseTypeEyebrow: "ENCUENTRA TU EQUIPO",
-           chooseType: "Elige el tipo de computadora",
+            chooseType: "Elige el tipo de computadora",
             chooseTypeText: "Primero, elige una computadora fija o un dispositivo móvil.",
             chooseDevice: "Elige tu dispositivo",
             stationary: "Fija",
@@ -200,7 +198,7 @@
             laptop: "Portátil",
             laptopDesc: "Rendimiento donde vayas.",
             tablet: "Tableta",
-         tabletDesc: "Computación portátil en un diseño compacto.",
+            tabletDesc: "Computación portátil en un diseño compacto.",
             catalogSelection: "LA COLECCIÓN",
             featuredComputers: "Computadoras destacadas",
             clearFilters: "Limpiar filtros",
@@ -254,8 +252,6 @@
         }
     };
 
-    // Sample computers are inserted only when an administrator logs in
-    // and the online database is completely empty.
     const starterComputers = [
         {
             name: "EverydayBook 15",
@@ -390,19 +386,20 @@
             Business: "business",
             Professional: "professional"
         }[category];
+
         return key ? t(key) : category || "";
     }
 
-  function typeLabel(type) {
-    const labels = {
-        Desktop: "desktop",
-        Workstation: "workstation",
-        Laptop: "laptop",
-        Tablet: "tablet"
-    };
+    function typeLabel(type) {
+        const labels = {
+            Desktop: "desktop",
+            Workstation: "workstation",
+            Laptop: "laptop",
+            Tablet: "tablet"
+        };
 
-    return labels[type] ? t(labels[type]) : type || "";
-}
+        return labels[type] ? t(labels[type]) : type || "";
+    }
 
     function normalizeComputer(row) {
         return {
@@ -447,6 +444,7 @@
         updateBrandOptions();
         renderComputers();
         renderManageList();
+
         return true;
     }
 
@@ -580,6 +578,7 @@
             const labels = [];
             if (activeCategory) labels.push(categoryLabel(activeCategory));
             if (activeType) labels.push(typeLabel(activeType));
+
             chips.innerHTML = labels.map(label =>
                 `<span class="filter-chip">${escapeHTML(label)}</span>`
             ).join("");
@@ -737,10 +736,12 @@
 
         form.reset();
         if ($("#editId")) $("#editId").value = "";
+
         if ($("#imagePreview")) {
             $("#imagePreview").hidden = true;
             $("#imagePreview").removeAttribute("src");
         }
+
         if ($("#editorTitle")) $("#editorTitle").textContent = t("editorAdd");
         form.hidden = true;
     }
@@ -889,101 +890,100 @@
         renderComputers();
     }
 
-function openTypeDialog(category) {
-    selectedCategory = category;
+    function openTypeDialog(category) {
+        selectedCategory = category;
 
-    const dialog = $("#typeDialog");
-    const title = $("#typeDialogTitle");
-    const grid = dialog?.querySelector(".type-choice-grid");
+        const dialog = $("#typeDialog");
+        const title = $("#typeDialogTitle");
+        const grid = dialog?.querySelector(".type-choice-grid");
 
-    if (!dialog || !grid) return;
+        if (!dialog || !grid) return;
 
-    if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
+        if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
 
-    grid.innerHTML = `
-        <button class="type-choice" type="button" data-device-group="Stationary">
-            <span class="type-choice-icon">▣</span>
-            <strong>${escapeHTML(t("stationary"))}</strong>
-            <span>${escapeHTML(t("stationaryDesc"))}</span>
-        </button>
-        <button class="type-choice" type="button" data-device-group="Mobile">
-            <span class="type-choice-icon">▱</span>
-            <strong>${escapeHTML(t("mobile"))}</strong>
-            <span>${escapeHTML(t("mobileDesc"))}</span>
-        </button>
-    `;
+        grid.innerHTML = `
+            <button class="type-choice" type="button" data-device-group="Stationary">
+                <span class="type-choice-icon">▣</span>
+                <strong>${escapeHTML(t("stationary"))}</strong>
+                <span>${escapeHTML(t("stationaryDesc"))}</span>
+            </button>
+            <button class="type-choice" type="button" data-device-group="Mobile">
+                <span class="type-choice-icon">▱</span>
+                <strong>${escapeHTML(t("mobile"))}</strong>
+                <span>${escapeHTML(t("mobileDesc"))}</span>
+            </button>
+        `;
 
-    dialog.dataset.step = "group";
+        dialog.dataset.step = "group";
 
-    if (!dialog.open) dialog.showModal();
-}
+        if (!dialog.open) dialog.showModal();
+    }
 
-function chooseDeviceGroup(group) {
-    const dialog = $("#typeDialog");
-    const title = $("#typeDialogTitle");
-    const grid = dialog?.querySelector(".type-choice-grid");
+    function chooseDeviceGroup(group) {
+        const dialog = $("#typeDialog");
+        const title = $("#typeDialogTitle");
+        const grid = dialog?.querySelector(".type-choice-grid");
 
-    if (!dialog || !grid) return;
+        if (!dialog || !grid) return;
 
-    const options = group === "Stationary"
-        ? [
-            {
-                type: "Desktop",
-                icon: "▣",
-                name: "desktop",
-                description: "desktopDesc"
-            },
-            {
-                type: "Workstation",
-                icon: "▤",
-                name: "workstation",
-                description: "workstationDesc"
-            }
-        ]
-        : [
-            {
-                type: "Laptop",
-                icon: "▱",
-                name: "laptop",
-                description: "laptopDesc"
-            },
-            {
-                type: "Tablet",
-                icon: "▯",
-                name: "tablet",
-                description: "tabletDesc"
-            }
-        ];
+        const options = group === "Stationary"
+            ? [
+                {
+                    type: "Desktop",
+                    icon: "▣",
+                    name: "desktop",
+                    description: "desktopDesc"
+                },
+                {
+                    type: "Workstation",
+                    icon: "▤",
+                    name: "workstation",
+                    description: "workstationDesc"
+                }
+            ]
+            : [
+                {
+                    type: "Laptop",
+                    icon: "▱",
+                    name: "laptop",
+                    description: "laptopDesc"
+                },
+                {
+                    type: "Tablet",
+                    icon: "▯",
+                    name: "tablet",
+                    description: "tabletDesc"
+                }
+            ];
 
-    if (title) title.textContent = `${categoryLabel(selectedCategory)} — ${t("chooseDevice")}`;
+        if (title) {
+            title.textContent = `${categoryLabel(selectedCategory)} — ${t("chooseDevice")}`;
+        }
 
-    grid.innerHTML = options.map(option => `
-        <button class="type-choice" type="button" data-computer-type="${option.type}">
-            <span class="type-choice-icon">${option.icon}</span>
-            <strong>${escapeHTML(t(option.name))}</strong>
-            <span>${escapeHTML(t(option.description))}</span>
-        </button>
-    `).join("");
+        grid.innerHTML = options.map(option => `
+            <button class="type-choice" type="button" data-computer-type="${option.type}">
+                <span class="type-choice-icon">${option.icon}</span>
+                <strong>${escapeHTML(t(option.name))}</strong>
+                <span>${escapeHTML(t(option.description))}</span>
+            </button>
+        `).join("");
 
-    dialog.dataset.step = "device";
-}
+        dialog.dataset.step = "device";
+    }
 
-function chooseType(type) {
-    activeCategory = selectedCategory;
-    activeType = type;
+    function chooseType(type) {
+        activeCategory = selectedCategory;
+        activeType = type;
 
-    const dialog = $("#typeDialog");
+        const dialog = $("#typeDialog");
+        if (dialog?.open) dialog.close();
 
-    if (dialog?.open) dialog.close();
-
-    renderComputers();
-    $("#catalogResults")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}
-
-    
+        renderComputers();
+        $("#catalogResults")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 
     function setLanguage(nextLanguage) {
         language = nextLanguage === "es" ? "es" : "en";
@@ -1006,26 +1006,47 @@ function chooseType(type) {
                 : 'ES <span>|</span> EN';
         }
 
+        const typeSelect = $("#computerType");
+        if (typeSelect) {
+            [...typeSelect.options].forEach(option => {
+                if (option.value) option.textContent = typeLabel(option.value);
+            });
+        }
+
         updateBrandOptions();
         renderComputers();
         renderManageList();
+
+        // Refresh the choices if the selection dialog is already open.
+        const dialog = $("#typeDialog");
+        if (dialog?.open && selectedCategory) {
+            if (dialog.dataset.step === "device") {
+                const group = ["Desktop", "Workstation"].includes(activeType)
+                    ? "Stationary"
+                    : "Mobile";
+                chooseDeviceGroup(group);
+            } else {
+                openTypeDialog(selectedCategory);
+            }
+        }
     }
 
     function setupEvents() {
         ensureEmailField();
 
+        const typeSelect = $("#computerType");
+        if (typeSelect) {
+            ["Desktop", "Workstation", "Laptop", "Tablet"].forEach(type => {
+                if (![...typeSelect.options].some(option => option.value === type)) {
+                    typeSelect.add(new Option(typeLabel(type), type));
+                }
+            });
+        }
+
         $("#languageToggle")?.addEventListener("click", () => {
             setLanguage(language === "en" ? "es" : "en");
         });
-const typeSelect = $("#computerType");
 
-if (typeSelect) {
-    ["Desktop", "Workstation", "Laptop", "Tablet"].forEach(type => {
-        if (![...typeSelect.options].some(option => option.value === type)) {
-            typeSelect.add(new Option(typeLabel(type), type));
-        }
-    });
-}
         document.addEventListener("keydown", event => {
             if (!event.shiftKey) {
                 shortcutStep = 0;
@@ -1046,7 +1067,9 @@ if (typeSelect) {
                 clearTimeout(shortcutTimer);
 
                 if (developerMode) {
-                    if ($("#adminMenu")) $("#adminMenu").hidden = !$("#adminMenu").hidden;
+                    if ($("#adminMenu")) {
+                        $("#adminMenu").hidden = !$("#adminMenu").hidden;
+                    }
                 } else {
                     openLogin();
                 }
@@ -1056,7 +1079,9 @@ if (typeSelect) {
         $("#loginForm")?.addEventListener("submit", handleLogin);
 
         $$("[data-close-dialog]").forEach(button => {
-            button.addEventListener("click", () => button.closest("dialog")?.close());
+            button.addEventListener("click", () => {
+                button.closest("dialog")?.close();
+            });
         });
 
         $("#exitDeveloperMode")?.addEventListener("click", exitDeveloperMode);
@@ -1069,33 +1094,41 @@ if (typeSelect) {
                 if (category === "Professional") {
                     activeCategory = category;
                     activeType = "";
+                    selectedCategory = "";
                     renderComputers();
-                    $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    $("#catalogResults")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
                 } else {
                     openTypeDialog(category);
                 }
             });
         });
 
+        // Delegation handles both the first step and dynamically created device buttons.
         $("#typeDialog")?.addEventListener("click", event => {
-    const groupButton = event.target.closest("[data-device-group]");
-    const typeButton = event.target.closest("[data-computer-type]");
+            const groupButton = event.target.closest("[data-device-group]");
+            const typeButton = event.target.closest("[data-computer-type]");
 
-    if (groupButton) {
-        chooseDeviceGroup(groupButton.dataset.deviceGroup);
-        return;
-    }
+            if (groupButton) {
+                chooseDeviceGroup(groupButton.dataset.deviceGroup);
+                return;
+            }
 
-    if (typeButton) {
-        chooseType(typeButton.dataset.computerType);
-    }
-});
+            if (typeButton) {
+                chooseType(typeButton.dataset.computerType);
+            }
+        });
 
         ["searchInput", "brandFilter", "priceFilter", "sortFilter"].forEach(id => {
             const element = $("#" + id);
             if (!element) return;
 
-            element.addEventListener(id === "searchInput" ? "input" : "change", renderComputers);
+            element.addEventListener(
+                id === "searchInput" ? "input" : "change",
+                renderComputers
+            );
         });
 
         $("#clearFilters")?.addEventListener("click", clearFilters);
@@ -1114,7 +1147,10 @@ if (typeSelect) {
             resetEditor();
             $("#computerForm").hidden = false;
             $("#editorTitle").textContent = t("editorAdd");
-            $("#computerForm").scrollIntoView({ behavior: "smooth", block: "start" });
+            $("#computerForm").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         });
 
         $("#cancelEditor")?.addEventListener("click", resetEditor);
@@ -1133,6 +1169,7 @@ if (typeSelect) {
             if (!preview) return;
 
             const url = event.target.value.trim();
+
             if (!url) {
                 preview.hidden = true;
                 preview.removeAttribute("src");
@@ -1153,9 +1190,10 @@ if (typeSelect) {
         await loadComputers();
 
         const { data: sessionData } = await db.auth.getSession();
+
         if (sessionData.session) {
             // A session alone does not grant admin privileges.
-            // The database policies still decide whether writes are allowed.
+            // Database policies still determine whether writes are allowed.
             developerMode = sessionStorage.getItem(DEV_KEY) === "true";
             updateDeveloperUI();
         }
