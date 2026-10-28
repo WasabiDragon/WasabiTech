@@ -20,10 +20,7 @@
         return;
     }
 
-    const db = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let language = localStorage.getItem(STORAGE_KEY) || "en";
     let developerMode = false;
@@ -80,11 +77,19 @@
             viewComputers: "View Computers →",
             chooseTypeEyebrow: "FIND YOUR SETUP",
             chooseType: "Choose your computer type",
-            chooseTypeText: "Would you prefer a desktop or a laptop?",
+            chooseTypeText: "First, choose Stationary or Mobile.",
+            stationary: "Stationary",
+            stationaryDesc: "Desktop computers and workstations.",
+            mobile: "Mobile",
+            mobileDesc: "Laptops and tablets.",
             desktop: "Desktop",
             desktopDesc: "Power and flexibility.",
+            workstation: "Workstation",
+            workstationDesc: "High-performance professional computing.",
             laptop: "Laptop",
             laptopDesc: "Performance on the go.",
+            tablet: "Tablet",
+            tabletDesc: "Portable computing with a touchscreen.",
             catalogSelection: "THE COLLECTION",
             featuredComputers: "Featured Computers",
             clearFilters: "Clear Filters",
@@ -136,6 +141,7 @@
             saveError: "Could not save changes. Check your login and database permissions.",
             loginRequired: "Please log in to Developer Mode first."
         },
+
         es: {
             navHome: "Inicio",
             navComputers: "Computadoras",
@@ -179,11 +185,19 @@
             viewComputers: "Ver computadoras →",
             chooseTypeEyebrow: "ENCUENTRA TU EQUIPO",
             chooseType: "Elige el tipo de computadora",
-            chooseTypeText: "¿Prefieres una computadora de escritorio o portátil?",
+            chooseTypeText: "Primero, elige entre Stationary o Mobile.",
+            stationary: "Estacionaria",
+            stationaryDesc: "Computadoras de escritorio y estaciones de trabajo.",
+            mobile: "Móvil",
+            mobileDesc: "Portátiles y tabletas.",
             desktop: "Escritorio",
             desktopDesc: "Potencia y flexibilidad.",
+            workstation: "Estación de trabajo",
+            workstationDesc: "Alto rendimiento para trabajo profesional.",
             laptop: "Portátil",
             laptopDesc: "Rendimiento donde vayas.",
+            tablet: "Tableta",
+            tabletDesc: "Computación portátil con pantalla táctil.",
             catalogSelection: "LA COLECCIÓN",
             featuredComputers: "Computadoras destacadas",
             clearFilters: "Limpiar filtros",
@@ -237,97 +251,53 @@
         }
     };
 
-    // Sample computers are inserted only when an administrator logs in
-    // and the online database is completely empty.
     const starterComputers = [
         {
-            name: "EverydayBook 15",
-            brand: "Lenovo",
-            category: "Basic",
-            type: "Laptop",
-            price: 449,
-            cpu: "Intel Core i3",
-            ram: "8 GB",
-            storage: "256 GB SSD",
-            gpu: "Integrated Graphics",
-            os: "Windows 11",
-            screen: "15.6 inches",
-            image: "",
+            name: "EverydayBook 15", brand: "Lenovo",
+            category: "Basic", type: "Laptop", price: 449,
+            cpu: "Intel Core i3", ram: "8 GB",
+            storage: "256 GB SSD", gpu: "Integrated Graphics",
+            os: "Windows 11", screen: "15.6 inches", image: "",
             description: "A practical laptop for browsing, schoolwork, video calls, and everyday tasks."
         },
         {
-            name: "HomeDesk S",
-            brand: "HP",
-            category: "Basic",
-            type: "Desktop",
-            price: 399,
-            cpu: "Intel Core i3",
-            ram: "8 GB",
-            storage: "512 GB SSD",
-            gpu: "Integrated Graphics",
-            os: "Windows 11",
-            screen: "Not included",
-            image: "",
+            name: "HomeDesk S", brand: "HP",
+            category: "Basic", type: "Desktop", price: 399,
+            cpu: "Intel Core i3", ram: "8 GB",
+            storage: "512 GB SSD", gpu: "Integrated Graphics",
+            os: "Windows 11", screen: "Not included", image: "",
             description: "An affordable desktop for everyday computing, homework, and home use."
         },
         {
-            name: "ThinkBook Pro 14",
-            brand: "Lenovo",
-            category: "Business",
-            type: "Laptop",
-            price: 899,
-            cpu: "Intel Core i5",
-            ram: "16 GB",
-            storage: "512 GB SSD",
-            gpu: "Integrated Graphics",
-            os: "Windows 11 Pro",
-            screen: "14 inches",
-            image: "",
+            name: "ThinkBook Pro 14", brand: "Lenovo",
+            category: "Business", type: "Laptop", price: 899,
+            cpu: "Intel Core i5", ram: "16 GB",
+            storage: "512 GB SSD", gpu: "Integrated Graphics",
+            os: "Windows 11 Pro", screen: "14 inches", image: "",
             description: "A productivity-focused laptop suited to office work, meetings, and multitasking."
         },
         {
-            name: "OfficeTower 5",
-            brand: "Dell",
-            category: "Business",
-            type: "Desktop",
-            price: 799,
-            cpu: "Intel Core i5",
-            ram: "16 GB",
-            storage: "1 TB SSD",
-            gpu: "Integrated Graphics",
-            os: "Windows 11 Pro",
-            screen: "Not included",
-            image: "",
+            name: "OfficeTower 5", brand: "Dell",
+            category: "Business", type: "Desktop", price: 799,
+            cpu: "Intel Core i5", ram: "16 GB",
+            storage: "1 TB SSD", gpu: "Integrated Graphics",
+            os: "Windows 11 Pro", screen: "Not included", image: "",
             description: "A dependable office desktop designed for documents, spreadsheets, and business applications."
         },
         {
-            name: "CreatorBook 16",
-            brand: "ASUS",
-            category: "Professional",
-            type: "Laptop",
-            price: 1799,
-            cpu: "Intel Core i7",
-            ram: "32 GB",
-            storage: "1 TB SSD",
-            gpu: "NVIDIA GeForce RTX 4060",
-            os: "Windows 11",
-            screen: "16 inches",
-            image: "",
+            name: "CreatorBook 16", brand: "ASUS",
+            category: "Professional", type: "Laptop", price: 1799,
+            cpu: "Intel Core i7", ram: "32 GB",
+            storage: "1 TB SSD", gpu: "NVIDIA GeForce RTX 4060",
+            os: "Windows 11", screen: "16 inches", image: "",
             description: "A powerful laptop for programming, creative applications, and demanding workloads."
         },
         {
-            name: "StudioTower X",
-            brand: "Custom Build",
-            category: "Professional",
-            type: "Desktop",
-            price: 2199,
-            cpu: "AMD Ryzen 9",
-            ram: "32 GB",
-            storage: "2 TB NVMe SSD",
-            gpu: "NVIDIA GeForce RTX 4070",
-            os: "Windows 11",
-            screen: "Not included",
-            image: "",
+            name: "StudioTower X", brand: "Custom Build",
+            category: "Professional", type: "Desktop", price: 2199,
+            cpu: "AMD Ryzen 9", ram: "32 GB",
+            storage: "2 TB NVMe SSD", gpu: "NVIDIA GeForce RTX 4070",
+            os: "Windows 11", screen: "Not included", image: "",
             description: "A high-performance desktop for 3D modeling, design, programming, and intensive creative work."
         }
     ];
@@ -338,11 +308,8 @@
 
     function escapeHTML(value) {
         return String(value ?? "").replace(/[&<>"']/g, char => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
+            "&": "&amp;", "<": "&lt;", ">": "&gt;",
+            '"': "&quot;", "'": "&#39;"
         })[char]);
     }
 
@@ -368,18 +335,22 @@
     }
 
     function categoryLabel(category) {
-        const key = {
+        const keys = {
             Basic: "basic",
             Business: "business",
             Professional: "professional"
-        }[category];
-        return key ? t(key) : category || "";
+        };
+        return keys[category] ? t(keys[category]) : category || "";
     }
 
     function typeLabel(type) {
-        if (type === "Desktop") return t("desktop");
-        if (type === "Laptop") return t("laptop");
-        return type || "";
+        const keys = {
+            Desktop: "desktop",
+            Workstation: "workstation",
+            Laptop: "laptop",
+            Tablet: "tablet"
+        };
+        return keys[type] ? t(keys[type]) : type || "";
     }
 
     function normalizeComputer(row) {
@@ -429,23 +400,23 @@
     }
 
     async function seedStarterComputersIfEmpty() {
-        const { count, error: countError } = await db
+        const { count, error } = await db
             .from("computers")
             .select("id", { count: "exact", head: true });
 
-        if (countError) {
-            console.error("Could not check existing computers:", countError);
+        if (error) {
+            console.error("Could not check existing computers:", error);
             return;
         }
 
         if (count !== 0) return;
 
-        const { error } = await db
+        const { error: insertError } = await db
             .from("computers")
             .insert(starterComputers);
 
-        if (error) {
-            console.error("Could not add starter computers:", error);
+        if (insertError) {
+            console.error("Could not add starter computers:", insertError);
             showToast(t("saveError"));
             return;
         }
@@ -622,7 +593,7 @@
             <div class="manage-item">
                 <div class="manage-item-info">
                     <strong>${escapeHTML(pc.name)}</strong>
-                    <small>${escapeHTML(pc.brand)} · ${escapeHTML(categoryLabel(pc.category))} · ${formatPrice(pc.price)}</small>
+                    <small>${escapeHTML(pc.brand)} · ${escapeHTML(categoryLabel(pc.category))} · ${escapeHTML(typeLabel(pc.type))} · ${formatPrice(pc.price)}</small>
                 </div>
                 <div class="manage-item-actions">
                     <button class="small-button" type="button" data-edit-id="${escapeHTML(pc.id)}">${escapeHTML(t("edit"))}</button>
@@ -723,12 +694,36 @@
         form.hidden = true;
     }
 
+    // Add Workstation and Tablet to the admin dropdown if they are missing.
+    function ensureComputerTypeOptions() {
+        const select = $("#computerType");
+        if (!select) return;
+
+        const types = [
+            ["Desktop", "Desktop"],
+            ["Workstation", "Workstation"],
+            ["Laptop", "Laptop"],
+            ["Tablet", "Tablet"]
+        ];
+
+        types.forEach(([value, label]) => {
+            if (![...select.options].some(option => option.value === value)) {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = label;
+                select.appendChild(option);
+            }
+        });
+    }
+
     function editComputer(id) {
         const pc = computers.find(item => String(item.id) === String(id));
         if (!pc) return;
 
         const form = $("#computerForm");
         if (!form) return;
+
+        ensureComputerTypeOptions();
         form.hidden = false;
 
         $("#editId").value = pc.id;
@@ -867,24 +862,114 @@
         renderComputers();
     }
 
+    // STEP 1: Choose Stationary or Mobile.
     function openTypeDialog(category) {
         selectedCategory = category;
+
         const dialog = $("#typeDialog");
         const title = $("#typeDialogTitle");
+        const buttons = $$("[data-computer-type]");
 
-        if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
-        if (dialog && !dialog.open) dialog.showModal();
+        if (!dialog || buttons.length < 2) {
+            console.error("The type dialog needs at least two [data-computer-type] buttons.");
+            return;
+        }
+
+        if (title) {
+            title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
+        }
+
+        const options = [
+            {
+                type: "Stationary",
+                label: t("stationary"),
+                description: t("stationaryDesc")
+            },
+            {
+                type: "Mobile",
+                label: t("mobile"),
+                description: t("mobileDesc")
+            }
+        ];
+
+        buttons.slice(0, 2).forEach((button, index) => {
+            const option = options[index];
+            button.dataset.computerType = option.type;
+            button.innerHTML = `
+                <strong>${escapeHTML(option.label)}</strong>
+                <span>${escapeHTML(option.description)}</span>
+            `;
+        });
+
+        dialog.dataset.selectionStep = "formFactor";
+
+        if (!dialog.open) dialog.showModal();
     }
 
+    // STEP 2: Choose the actual device type.
+    // Then filter the catalog.
     function chooseType(type) {
+        const dialog = $("#typeDialog");
+        const title = $("#typeDialogTitle");
+        const buttons = $$("[data-computer-type]");
+
+        if (type === "Stationary" || type === "Mobile") {
+            if (!dialog || buttons.length < 2) return;
+
+            const options = type === "Stationary"
+                ? [
+                    {
+                        type: "Desktop",
+                        label: t("desktop"),
+                        description: t("desktopDesc")
+                    },
+                    {
+                        type: "Workstation",
+                        label: t("workstation"),
+                        description: t("workstationDesc")
+                    }
+                ]
+                : [
+                    {
+                        type: "Laptop",
+                        label: t("laptop"),
+                        description: t("laptopDesc")
+                    },
+                    {
+                        type: "Tablet",
+                        label: t("tablet"),
+                        description: t("tabletDesc")
+                    }
+                ];
+
+            if (title) {
+                title.textContent =
+                    `${categoryLabel(selectedCategory)} — ${t(type === "Stationary" ? "stationary" : "mobile")}`;
+            }
+
+            buttons.slice(0, 2).forEach((button, index) => {
+                const option = options[index];
+                button.dataset.computerType = option.type;
+                button.innerHTML = `
+                    <strong>${escapeHTML(option.label)}</strong>
+                    <span>${escapeHTML(option.description)}</span>
+                `;
+            });
+
+            dialog.dataset.selectionStep = "deviceType";
+            return;
+        }
+
         activeCategory = selectedCategory;
         activeType = type;
 
-        const dialog = $("#typeDialog");
         if (dialog?.open) dialog.close();
 
         renderComputers();
-        $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        $("#catalogResults")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     }
 
     function setLanguage(nextLanguage) {
@@ -911,10 +996,17 @@
         updateBrandOptions();
         renderComputers();
         renderManageList();
+
+        // Refresh the first-step options if the dialog is open.
+        const dialog = $("#typeDialog");
+        if (dialog?.open && dialog.dataset.selectionStep === "formFactor") {
+            openTypeDialog(selectedCategory);
+        }
     }
 
     function setupEvents() {
         ensureEmailField();
+        ensureComputerTypeOptions();
 
         $("#languageToggle")?.addEventListener("click", () => {
             setLanguage(language === "en" ? "es" : "en");
@@ -940,7 +1032,9 @@
                 clearTimeout(shortcutTimer);
 
                 if (developerMode) {
-                    if ($("#adminMenu")) $("#adminMenu").hidden = !$("#adminMenu").hidden;
+                    if ($("#adminMenu")) {
+                        $("#adminMenu").hidden = !$("#adminMenu").hidden;
+                    }
                 } else {
                     openLogin();
                 }
@@ -950,7 +1044,9 @@
         $("#loginForm")?.addEventListener("submit", handleLogin);
 
         $$("[data-close-dialog]").forEach(button => {
-            button.addEventListener("click", () => button.closest("dialog")?.close());
+            button.addEventListener("click", () => {
+                button.closest("dialog")?.close();
+            });
         });
 
         $("#exitDeveloperMode")?.addEventListener("click", exitDeveloperMode);
@@ -964,22 +1060,30 @@
                     activeCategory = category;
                     activeType = "";
                     renderComputers();
-                    $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    $("#catalogResults")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
                 } else {
                     openTypeDialog(category);
                 }
             });
         });
 
-        $$("[data-computer-type]").forEach(button => {
-            button.addEventListener("click", () => chooseType(button.dataset.computerType));
+        // Delegation keeps the new button choices working after each step.
+        $("#typeDialog")?.addEventListener("click", event => {
+            const button = event.target.closest("[data-computer-type]");
+            if (button) chooseType(button.dataset.computerType);
         });
 
         ["searchInput", "brandFilter", "priceFilter", "sortFilter"].forEach(id => {
             const element = $("#" + id);
             if (!element) return;
 
-            element.addEventListener(id === "searchInput" ? "input" : "change", renderComputers);
+            element.addEventListener(
+                id === "searchInput" ? "input" : "change",
+                renderComputers
+            );
         });
 
         $("#clearFilters")?.addEventListener("click", clearFilters);
@@ -996,9 +1100,15 @@
             }
 
             resetEditor();
-            $("#computerForm").hidden = false;
-            $("#editorTitle").textContent = t("editorAdd");
-            $("#computerForm").scrollIntoView({ behavior: "smooth", block: "start" });
+            ensureComputerTypeOptions();
+
+            if ($("#computerForm")) $("#computerForm").hidden = false;
+            if ($("#editorTitle")) $("#editorTitle").textContent = t("editorAdd");
+
+            $("#computerForm")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         });
 
         $("#cancelEditor")?.addEventListener("click", resetEditor);
@@ -1017,6 +1127,7 @@
             if (!preview) return;
 
             const url = event.target.value.trim();
+
             if (!url) {
                 preview.hidden = true;
                 preview.removeAttribute("src");
@@ -1037,9 +1148,9 @@
         await loadComputers();
 
         const { data: sessionData } = await db.auth.getSession();
+
         if (sessionData.session) {
-            // A session alone does not grant admin privileges.
-            // The database policies still decide whether writes are allowed.
+            // Database RLS policies remain the authority for write permissions.
             developerMode = sessionStorage.getItem(DEV_KEY) === "true";
             updateDeveloperUI();
         }
