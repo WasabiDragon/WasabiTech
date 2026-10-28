@@ -91,6 +91,7 @@
 
             <div class="active-filters" id="activeFilters"></div>
             <div class="computer-grid" id="computerGrid"></div>
+
             <div class="empty-state" id="emptyState" hidden>
                 <h3 data-i18n="noResults">No computers match those filters.</h3>
                 <p>Try changing your search or clearing the filters.</p>
@@ -130,7 +131,9 @@
                         <span data-i18n="type">Type</span>
                         <select id="computerType" required>
                             <option value="Desktop">Desktop</option>
+                            <option value="Workstation">Workstation</option>
                             <option value="Laptop">Laptop</option>
+                            <option value="Tablet">Tablet</option>
                         </select>
                     </label>
                     <label>
@@ -183,7 +186,10 @@
     <footer class="site-footer">
         <a class="brand footer-brand" href="index.html">
             <span class="brand-mark">W</span>
-            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span><small data-i18n="footerTagline">Tech for a better tomorrow.</small></span>
+            <span>
+                <span class="wasabi">Wasabi</span><span class="tech">Tech</span>
+                <small data-i18n="footerTagline">Tech for a better tomorrow.</small>
+            </span>
         </a>
         <div class="footer-links">
             <a href="index.html" data-i18n="navHome">Home</a>
@@ -196,17 +202,17 @@
             <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
             <p class="eyebrow" data-i18n="chooseTypeEyebrow">FIND YOUR SETUP</p>
             <h2 id="typeDialogTitle" data-i18n="chooseType">Choose your computer type</h2>
-            <p data-i18n="chooseTypeText">Would you prefer a desktop or a laptop?</p>
-            <div class="type-choice-grid">
-                <button class="type-choice" type="button" data-computer-type="Desktop">
+            <p id="typeDialogText" data-i18n="chooseTypeText">Choose the setup that fits your needs.</p>
+            <div class="type-choice-grid" id="typeChoiceGrid">
+                <button class="type-choice" type="button" data-setup-choice="Stationary">
                     <span class="type-choice-icon">▣</span>
-                    <strong data-i18n="desktop">Desktop</strong>
-                    <span data-i18n="desktopDesc">Power and flexibility.</span>
+                    <strong data-i18n="stationary">Stationary</strong>
+                    <span data-i18n="stationaryDesc">Computers designed to stay in one place.</span>
                 </button>
-                <button class="type-choice" type="button" data-computer-type="Laptop">
+                <button class="type-choice" type="button" data-setup-choice="Mobile">
                     <span class="type-choice-icon">▱</span>
-                    <strong data-i18n="laptop">Laptop</strong>
-                    <span data-i18n="laptopDesc">Performance on the go.</span>
+                    <strong data-i18n="mobile">Mobile</strong>
+                    <span data-i18n="mobileDesc">Computers you can take with you.</span>
                 </button>
             </div>
         </div>
