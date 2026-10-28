@@ -79,11 +79,20 @@
             viewComputers: "View Computers →",
             chooseTypeEyebrow: "FIND YOUR SETUP",
             chooseType: "Choose your computer type",
-            chooseTypeText: "Would you prefer a desktop or a laptop?",
+            chooseTypeText: "First, choose a stationary computer or a mobile device.",
+            chooseDevice: "Choose your device",
+            stationary: "Stationary",
+            stationaryDesc: "A computer for your desk or workspace.",
+            mobile: "Mobile",
+            mobileDesc: "A computer you can take with you.",
             desktop: "Desktop",
             desktopDesc: "Power and flexibility.",
+            workstation: "Workstation",
+            workstationDesc: "High performance for demanding work.",
             laptop: "Laptop",
             laptopDesc: "Performance on the go.",
+            tablet: "Tablet",
+            tabletDesc: "Portable computing in a compact design.",
             catalogSelection: "THE COLLECTION",
             featuredComputers: "Featured Computers",
             clearFilters: "Clear Filters",
@@ -177,12 +186,21 @@
             professionalDesc: "Para creadores, programadores y usuarios avanzados.",
             viewComputers: "Ver computadoras →",
             chooseTypeEyebrow: "ENCUENTRA TU EQUIPO",
-            chooseType: "Elige el tipo de computadora",
-            chooseTypeText: "¿Prefieres una computadora de escritorio o portátil?",
+           chooseType: "Elige el tipo de computadora",
+            chooseTypeText: "Primero, elige una computadora fija o un dispositivo móvil.",
+            chooseDevice: "Elige tu dispositivo",
+            stationary: "Fija",
+            stationaryDesc: "Una computadora para tu escritorio o espacio de trabajo.",
+            mobile: "Móvil",
+            mobileDesc: "Una computadora que puedes llevar contigo.",
             desktop: "Escritorio",
             desktopDesc: "Potencia y flexibilidad.",
+            workstation: "Estación de trabajo",
+            workstationDesc: "Alto rendimiento para trabajos exigentes.",
             laptop: "Portátil",
             laptopDesc: "Rendimiento donde vayas.",
+            tablet: "Tableta",
+         tabletDesc: "Computación portátil en un diseño compacto.",
             catalogSelection: "LA COLECCIÓN",
             featuredComputers: "Computadoras destacadas",
             clearFilters: "Limpiar filtros",
@@ -375,11 +393,16 @@
         return key ? t(key) : category || "";
     }
 
-    function typeLabel(type) {
-        if (type === "Desktop") return t("desktop");
-        if (type === "Laptop") return t("laptop");
-        return type || "";
-    }
+  function typeLabel(type) {
+    const labels = {
+        Desktop: "desktop",
+        Workstation: "workstation",
+        Laptop: "laptop",
+        Tablet: "tablet"
+    };
+
+    return labels[type] ? t(labels[type]) : type || "";
+}
 
     function normalizeComputer(row) {
         return {
@@ -866,25 +889,101 @@
         renderComputers();
     }
 
-    function openTypeDialog(category) {
-        selectedCategory = category;
-        const dialog = $("#typeDialog");
-        const title = $("#typeDialogTitle");
+function openTypeDialog(category) {
+    selectedCategory = category;
 
-        if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
-        if (dialog && !dialog.open) dialog.showModal();
-    }
+    const dialog = $("#typeDialog");
+    const title = $("#typeDialogTitle");
+    const grid = dialog?.querySelector(".type-choice-grid");
 
-    function chooseType(type) {
-        activeCategory = selectedCategory;
-        activeType = type;
+    if (!dialog || !grid) return;
 
-        const dialog = $("#typeDialog");
-        if (dialog?.open) dialog.close();
+    if (title) title.textContent = `${categoryLabel(category)} — ${t("chooseType")}`;
 
-        renderComputers();
-        $("#catalogResults")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    grid.innerHTML = `
+        <button class="type-choice" type="button" data-device-group="Stationary">
+            <span class="type-choice-icon">▣</span>
+            <strong>${escapeHTML(t("stationary"))}</strong>
+            <span>${escapeHTML(t("stationaryDesc"))}</span>
+        </button>
+        <button class="type-choice" type="button" data-device-group="Mobile">
+            <span class="type-choice-icon">▱</span>
+            <strong>${escapeHTML(t("mobile"))}</strong>
+            <span>${escapeHTML(t("mobileDesc"))}</span>
+        </button>
+    `;
+
+    dialog.dataset.step = "group";
+
+    if (!dialog.open) dialog.showModal();
+}
+
+function chooseDeviceGroup(group) {
+    const dialog = $("#typeDialog");
+    const title = $("#typeDialogTitle");
+    const grid = dialog?.querySelector(".type-choice-grid");
+
+    if (!dialog || !grid) return;
+
+    const options = group === "Stationary"
+        ? [
+            {
+                type: "Desktop",
+                icon: "▣",
+                name: "desktop",
+                description: "desktopDesc"
+            },
+            {
+                type: "Workstation",
+                icon: "▤",
+                name: "workstation",
+                description: "workstationDesc"
+            }
+        ]
+        : [
+            {
+                type: "Laptop",
+                icon: "▱",
+                name: "laptop",
+                description: "laptopDesc"
+            },
+            {
+                type: "Tablet",
+                icon: "▯",
+                name: "tablet",
+                description: "tabletDesc"
+            }
+        ];
+
+    if (title) title.textContent = `${categoryLabel(selectedCategory)} — ${t("chooseDevice")}`;
+
+    grid.innerHTML = options.map(option => `
+        <button class="type-choice" type="button" data-computer-type="${option.type}">
+            <span class="type-choice-icon">${option.icon}</span>
+            <strong>${escapeHTML(t(option.name))}</strong>
+            <span>${escapeHTML(t(option.description))}</span>
+        </button>
+    `).join("");
+
+    dialog.dataset.step = "device";
+}
+
+function chooseType(type) {
+    activeCategory = selectedCategory;
+    activeType = type;
+
+    const dialog = $("#typeDialog");
+
+    if (dialog?.open) dialog.close();
+
+    renderComputers();
+    $("#catalogResults")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+    
 
     function setLanguage(nextLanguage) {
         language = nextLanguage === "es" ? "es" : "en";
@@ -918,7 +1017,15 @@
         $("#languageToggle")?.addEventListener("click", () => {
             setLanguage(language === "en" ? "es" : "en");
         });
+const typeSelect = $("#computerType");
 
+if (typeSelect) {
+    ["Desktop", "Workstation", "Laptop", "Tablet"].forEach(type => {
+        if (![...typeSelect.options].some(option => option.value === type)) {
+            typeSelect.add(new Option(typeLabel(type), type));
+        }
+    });
+}
         document.addEventListener("keydown", event => {
             if (!event.shiftKey) {
                 shortcutStep = 0;
@@ -970,9 +1077,19 @@
             });
         });
 
-        $$("[data-computer-type]").forEach(button => {
-            button.addEventListener("click", () => chooseType(button.dataset.computerType));
-        });
+        $("#typeDialog")?.addEventListener("click", event => {
+    const groupButton = event.target.closest("[data-device-group]");
+    const typeButton = event.target.closest("[data-computer-type]");
+
+    if (groupButton) {
+        chooseDeviceGroup(groupButton.dataset.deviceGroup);
+        return;
+    }
+
+    if (typeButton) {
+        chooseType(typeButton.dataset.computerType);
+    }
+});
 
         ["searchInput", "brandFilter", "priceFilter", "sortFilter"].forEach(id => {
             const element = $("#" + id);
