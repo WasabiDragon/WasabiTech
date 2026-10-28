@@ -1,300 +1,247 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore computers for basic, business, and professional needs at WasabiTech.">
-    <title>Computers | WasabiTech</title>
+    <meta name="theme-color" content="#080d16">
+    <title>Computer Catalog | WasabiTech</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
-
     <header class="site-header">
-        <div class="container header-content">
-            <a href="index.html" class="brand" aria-label="WasabiTech Home">
-                <span class="brand-wasabi">Wasabi</span><span class="brand-tech">Tech</span>
-            </a>
+        <a class="brand" href="index.html">
+            <span class="brand-mark">W</span>
+            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span></span>
+        </a>
 
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="index.html" data-i18n="home">Home</a>
-                <a href="computers.html" class="active" data-i18n="computers">Computers</a>
-            </nav>
+        <nav class="main-nav">
+            <a href="index.html" data-i18n="navHome">Home</a>
+            <a class="active" href="computers.html" data-i18n="navComputers">Computers</a>
+            <a href="index.html#about" data-i18n="navAbout">About</a>
+            <a href="index.html#support" data-i18n="navSupport">Support</a>
+        </nav>
 
-            <div class="header-actions">
-                <button id="languageToggle" class="language-toggle" type="button">
-                    ES
-                </button>
-                <button id="adminMenu" class="admin-menu" type="button" data-i18n="manage">
-                    Manage
-                </button>
-            </div>
+        <div class="header-actions">
+            <button class="language-button" id="languageToggle" type="button">EN <span>|</span> ES</button>
         </div>
     </header>
 
-    <main>
-        <section class="page-hero">
-            <div class="container">
-                <h1 data-i18n="heroTitle">Find the right computer for you</h1>
-                <p data-i18n="heroText">Explore computers for every need and budget.</p>
-            </div>
+    <main class="catalog-main">
+        <a class="back-link" href="index.html" data-i18n="backHome">← Back to Home</a>
+
+        <section class="catalog-heading">
+            <p class="eyebrow" data-i18n="catalogEyebrow">FIND YOUR MATCH</p>
+            <h1 data-i18n="catalogTitle">Computer Catalog</h1>
+            <p data-i18n="catalogText">Browse categories, compare specifications, and find the computer that fits your needs.</p>
         </section>
 
-        <section class="category-section" id="categories">
-            <div class="container">
-                <h2 data-i18n="chooseCategory">Choose a Category</h2>
+        <section class="category-grid" aria-label="Computer categories">
+            <button class="category-card basic" type="button" data-category="Basic">
+                <span class="category-symbol">⌂</span>
+                <strong data-i18n="basic">Basic</strong>
+                <span data-i18n="basicDesc">For everyday use and simple tasks.</span>
+                <b data-i18n="viewComputers">View Computers →</b>
+            </button>
 
-                <div class="category-grid">
-                    <button class="category-card basic" type="button" data-category="Basic">
-                        <span class="category-card-title" data-i18n="basicTitle">Basic</span>
-                        <span class="category-card-description" data-i18n="basicDescription">
-                            Everyday computing and essential tasks.
-                        </span>
-                    </button>
+            <button class="category-card business" type="button" data-category="Business">
+                <span class="category-symbol">▤</span>
+                <strong data-i18n="business">Business</strong>
+                <span data-i18n="businessDesc">For productivity, office work, and multitasking.</span>
+                <b data-i18n="viewComputers">View Computers →</b>
+            </button>
 
-                    <button class="category-card business" type="button" data-category="Business">
-                        <span class="category-card-title" data-i18n="businessTitle">Business</span>
-                        <span class="category-card-description" data-i18n="businessDescription">
-                            Productivity, work, and professional use.
-                        </span>
-                    </button>
-
-                    <button class="category-card professional" type="button" data-category="Professional">
-                        <span class="category-card-title" data-i18n="professionalTitle">Professional</span>
-                        <span class="category-card-description" data-i18n="professionalDescription">
-                            High-performance systems for demanding work.
-                        </span>
-                    </button>
-                </div>
-            </div>
+            <button class="category-card professional" type="button" data-category="Professional">
+                <span class="category-symbol">✧</span>
+                <strong data-i18n="professional">Professional</strong>
+                <span data-i18n="professionalDesc">For creators, developers, and power users.</span>
+                <b data-i18n="viewComputers">View Computers →</b>
+            </button>
         </section>
 
-        <section class="catalog-section" id="catalog">
-            <div class="container">
-                <div class="catalog-heading">
-                    <h2 id="resultsTitle" data-i18n="results">Computers</h2>
+        <section class="catalog-results" id="catalogResults">
+            <div class="section-title-row">
+                <div>
+                    <p class="eyebrow" data-i18n="catalogSelection">THE COLLECTION</p>
+                    <h2 id="resultsTitle" data-i18n="featuredComputers">Featured Computers</h2>
                 </div>
+                <button class="text-button" id="clearFilters" type="button" data-i18n="clearFilters">Clear Filters</button>
+            </div>
 
-                <div class="catalog-controls">
-                    <input
-                        type="search"
-                        id="searchInput"
-                        placeholder="Search computers..."
-                        data-i18n-placeholder="searchPlaceholder"
-                        aria-label="Search computers"
-                    >
+            <div class="catalog-tools">
+                <input id="searchInput" type="search" placeholder="Search computers..." data-i18n-placeholder="searchPlaceholder" aria-label="Search computers">
+                <select id="brandFilter" aria-label="Brand filter">
+                    <option value="">All Brands</option>
+                </select>
+                <select id="priceFilter" aria-label="Price filter">
+                    <option value="" data-i18n="allPrices">All Prices</option>
+                    <option value="500" data-i18n="under500">Under $500</option>
+                    <option value="1000" data-i18n="under1000">Under $1,000</option>
+                    <option value="1001" data-i18n="over1000">$1,001 and up</option>
+                </select>
+                <select id="sortFilter" aria-label="Sort computers">
+                    <option value="featured" data-i18n="sortFeatured">Featured</option>
+                    <option value="price-asc" data-i18n="sortLow">Price: Low to High</option>
+                    <option value="price-desc" data-i18n="sortHigh">Price: High to Low</option>
+                    <option value="name" data-i18n="sortName">Name</option>
+                </select>
+            </div>
 
-                    <select id="brandFilter" aria-label="Filter by brand">
-                        <option value="" data-i18n="allBrands">All Brands</option>
-                    </select>
-
-                    <select id="priceFilter" aria-label="Filter by price">
-                        <option value="" data-i18n="allPrices">All Prices</option>
-                        <option value="0-500">$0 - $500</option>
-                        <option value="500-1000">$500 - $1,000</option>
-                        <option value="1000-2000">$1,000 - $2,000</option>
-                        <option value="2000+">$2,000+</option>
-                    </select>
-
-                    <select id="sortFilter" aria-label="Sort computers">
-                        <option value="featured" data-i18n="sortFeatured">Featured</option>
-                        <option value="price-low" data-i18n="sortPriceLow">Price: Low to High</option>
-                        <option value="price-high" data-i18n="sortPriceHigh">Price: High to Low</option>
-                        <option value="name" data-i18n="sortName">Name: A to Z</option>
-                    </select>
-
-                    <button id="clearFilters" type="button" data-i18n="clearFilters">
-                        Clear Filters
-                    </button>
-                </div>
-
-                <div id="activeFilters" class="active-filters"></div>
-
-                <div id="computerGrid" class="computer-grid">
-                    <p class="loading-message" data-i18n="loading">Loading computers...</p>
-                </div>
-
-                <div id="emptyState" class="empty-state" hidden>
-                    No computers found. Try changing your search or filters.
-                </div>
+            <div class="active-filters" id="activeFilters"></div>
+            <div class="computer-grid" id="computerGrid"></div>
+            <div class="empty-state" id="emptyState" hidden>
+                <h3 data-i18n="noResults">No computers match those filters.</h3>
+                <p>Try changing your search or clearing the filters.</p>
             </div>
         </section>
 
         <section class="manage-section" id="manage" hidden>
-            <div class="container">
-                <div class="manage-heading">
-                    <h2 data-i18n="adminTitle">Computer Management</h2>
-                    <button id="addComputerButton" type="button" data-i18n="addComputer">
-                        Add Computer
-                    </button>
+            <p class="eyebrow">DEVELOPER AREA</p>
+            <h2 data-i18n="manageTitle">Manage Catalog</h2>
+            <p class="muted" data-i18n="storageNote">Changes are saved to the shared WasabiTech catalog.</p>
+
+            <div id="manageList" class="manage-list"></div>
+            <button class="button button-primary" id="addComputerButton" type="button" data-i18n="addComputer">+ Add Computer</button>
+
+            <form id="computerForm" class="editor-form" hidden>
+                <h3 id="editorTitle" data-i18n="editorAdd">Add Computer</h3>
+                <input id="editId" type="hidden">
+
+                <div class="form-grid">
+                    <label>
+                        <span data-i18n="computerName">Computer Name</span>
+                        <input id="computerName" required maxlength="100">
+                    </label>
+                    <label>
+                        <span data-i18n="brand">Brand</span>
+                        <input id="computerBrand" required maxlength="80">
+                    </label>
+                    <label>
+                        <span data-i18n="category">Category</span>
+                        <select id="computerCategory" required>
+                            <option value="Basic">Basic</option>
+                            <option value="Business">Business</option>
+                            <option value="Professional">Professional</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span data-i18n="type">Type</span>
+                        <select id="computerType" required>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Laptop">Laptop</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span data-i18n="price">Price (USD)</span>
+                        <input id="computerPrice" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label>
+                        <span data-i18n="cpu">CPU</span>
+                        <input id="computerCPU">
+                    </label>
+                    <label>
+                        <span data-i18n="ram">RAM</span>
+                        <input id="computerRAM">
+                    </label>
+                    <label>
+                        <span data-i18n="storage">Storage</span>
+                        <input id="computerStorage">
+                    </label>
+                    <label>
+                        <span data-i18n="gpu">GPU</span>
+                        <input id="computerGPU">
+                    </label>
+                    <label>
+                        <span data-i18n="os">Operating System</span>
+                        <input id="computerOS">
+                    </label>
+                    <label>
+                        <span data-i18n="screen">Screen Size</span>
+                        <input id="computerScreen" placeholder="15.6 inches">
+                    </label>
+                    <label class="wide">
+                        <span data-i18n="imageUrl">Image URL</span>
+                        <input id="computerImage" type="url" placeholder="https://example.com/computer.jpg">
+                        <img id="imagePreview" class="image-preview" alt="Computer image preview" hidden>
+                    </label>
+                    <label class="wide">
+                        <span data-i18n="description">Description</span>
+                        <textarea id="computerDescription" rows="3"></textarea>
+                    </label>
                 </div>
 
-                <div id="manageList" class="manage-list"></div>
-
-                <button id="exitDeveloperMode" type="button" data-i18n="logout">
-                    Exit Developer Mode
-                </button>
-            </div>
+                <div class="form-actions">
+                    <button class="button button-primary" type="submit" data-i18n="saveComputer">Save Computer</button>
+                    <button class="button button-secondary" id="cancelEditor" type="button" data-i18n="cancel">Cancel</button>
+                </div>
+            </form>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="container">
-            <a href="index.html" class="brand" aria-label="WasabiTech Home">
-                <span class="brand-wasabi">Wasabi</span><span class="brand-tech">Tech</span>
-            </a>
+        <a class="brand footer-brand" href="index.html">
+            <span class="brand-mark">W</span>
+            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span><small data-i18n="footerTagline">Tech for a better tomorrow.</small></span>
+        </a>
+        <div class="footer-links">
+            <a href="index.html" data-i18n="navHome">Home</a>
+            <a href="computers.html" data-i18n="navComputers">Computers</a>
         </div>
     </footer>
 
-    <!-- Category device selection -->
-    <dialog id="typeDialog" class="site-dialog">
+    <dialog class="modal" id="typeDialog">
         <div class="modal-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">
-                &times;
-            </button>
-
-            <h2 id="typeDialogTitle" data-i18n="chooseDevice">
-                Choose a Device Type
-            </h2>
-
-            <p data-i18n="chooseTypeText">
-                First, choose whether you want a stationary or mobile computer.
-            </p>
-
+            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+            <p class="eyebrow" data-i18n="chooseTypeEyebrow">FIND YOUR SETUP</p>
+            <h2 id="typeDialogTitle" data-i18n="chooseType">Choose your computer type</h2>
+            <p data-i18n="chooseTypeText">Would you prefer a desktop or a laptop?</p>
             <div class="type-choice-grid">
-                <button class="type-choice" type="button" data-computer-mode="Stationary">
-                    <span class="type-choice-icon" aria-hidden="true">S</span>
-                    <span class="type-choice-title" data-i18n="stationary">Stationary</span>
-                    <span class="type-choice-description" data-i18n="stationaryDesc">
-                        A computer designed to stay in one place.
-                    </span>
+                <button class="type-choice" type="button" data-computer-type="Desktop">
+                    <span class="type-choice-icon">▣</span>
+                    <strong data-i18n="desktop">Desktop</strong>
+                    <span data-i18n="desktopDesc">Power and flexibility.</span>
                 </button>
-
-                <button class="type-choice" type="button" data-computer-mode="Mobile">
-                    <span class="type-choice-icon" aria-hidden="true">M</span>
-                    <span class="type-choice-title" data-i18n="mobile">Mobile</span>
-                    <span class="type-choice-description" data-i18n="mobileDesc">
-                        A computer you can easily take with you.
-                    </span>
+                <button class="type-choice" type="button" data-computer-type="Laptop">
+                    <span class="type-choice-icon">▱</span>
+                    <strong data-i18n="laptop">Laptop</strong>
+                    <span data-i18n="laptopDesc">Performance on the go.</span>
                 </button>
             </div>
         </div>
     </dialog>
 
-    <!-- Computer details -->
-    <dialog id="detailDialog" class="site-dialog">
-        <div class="modal-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">
-                &times;
-            </button>
-
+    <dialog class="modal" id="detailDialog">
+        <div class="modal-card detail-card">
+            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
             <div id="detailContent"></div>
         </div>
     </dialog>
 
-    <!-- Developer login -->
-    <dialog id="loginDialog" class="site-dialog">
-        <div class="modal-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">
-                &times;
-            </button>
+    <dialog class="modal" id="loginDialog">
+        <form class="modal-card" id="loginForm">
+            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+            <p class="eyebrow">WASABITECH</p>
+            <h2 data-i18n="adminLogin">Developer Login</h2>
+            <p class="muted" data-i18n="loginNote">Log in with your authorized administrator email and password.</p>
 
-            <h2 data-i18n="loginTitle">Developer Login</h2>
+            <label for="adminEmail">Administrator Email</label>
+            <input id="adminEmail" type="email" autocomplete="username" required>
 
-            <form id="loginForm">
-                <label for="adminEmail" data-i18n="email">Email</label>
-                <input
-                    type="email"
-                    id="adminEmail"
-                    name="email"
-                    autocomplete="username"
-                    required
-                >
+            <label for="adminPassword" data-i18n="password">Password</label>
+            <input id="adminPassword" type="password" autocomplete="current-password" required>
 
-                <label for="adminPassword" data-i18n="password">Password</label>
-                <input
-                    type="password"
-                    id="adminPassword"
-                    name="password"
-                    autocomplete="current-password"
-                    required
-                >
-
-                <p id="loginError" class="error-message" role="alert"></p>
-
-                <button type="submit" data-i18n="login">Log In</button>
-            </form>
-        </div>
+            <p class="form-error" id="loginError" role="alert"></p>
+            <button class="button button-primary full-width" type="submit" data-i18n="login">Log In</button>
+        </form>
     </dialog>
 
-    <!-- Add or edit a computer -->
-    <dialog id="computerFormDialog" class="site-dialog">
-        <div class="modal-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">
-                &times;
-            </button>
+    <aside class="admin-menu" id="adminMenu" hidden>
+        <strong>Developer Tools</strong>
+        <a href="#manage" data-i18n="manageComputers">Manage Computers</a>
+        <button type="button" id="exitDeveloperMode" data-i18n="exitDev">Exit Developer Mode</button>
+    </aside>
 
-            <h2 id="computerFormTitle" data-i18n="addComputer">Add Computer</h2>
-
-            <form id="computerForm">
-                <label for="computerName" data-i18n="computerName">Computer Name</label>
-                <input type="text" id="computerName" name="name" required>
-
-                <label for="computerBrand" data-i18n="computerBrand">Brand</label>
-                <input type="text" id="computerBrand" name="brand" required>
-
-                <label for="computerPrice" data-i18n="computerPrice">Price</label>
-                <input type="number" id="computerPrice" name="price" min="0" step="0.01" required>
-
-                <label for="computerCategory" data-i18n="computerCategory">Category</label>
-                <select id="computerCategory" name="category" required>
-                    <option value="Basic" data-i18n="basic">Basic</option>
-                    <option value="Business" data-i18n="business">Business</option>
-                    <option value="Professional" data-i18n="professional">Professional</option>
-                </select>
-
-                <label for="computerType" data-i18n="computerType">Device Type</label>
-                <select id="computerType" name="type" required>
-                    <option value="Desktop" data-i18n="desktopType">Desktop</option>
-                    <option value="Workstation" data-i18n="workstationType">Workstation</option>
-                    <option value="Laptop" data-i18n="laptopType">Laptop</option>
-                    <option value="Tablet" data-i18n="tabletType">Tablet</option>
-                </select>
-
-                <label for="computerImage" data-i18n="computerImage">Image URL</label>
-                <input
-                    type="url"
-                    id="computerImage"
-                    name="image_url"
-                    placeholder="https://example.com/image.jpg"
-                    data-i18n-placeholder="imagePlaceholder"
-                >
-
-                <label for="computerDescription" data-i18n="computerDescription">Description</label>
-                <textarea
-                    id="computerDescription"
-                    name="description"
-                    data-i18n-placeholder="descriptionPlaceholder"
-                ></textarea>
-
-                <label for="computerSpecs" data-i18n="computerSpecs">Specifications</label>
-                <textarea
-                    id="computerSpecs"
-                    name="specifications"
-                    data-i18n-placeholder="specsPlaceholder"
-                ></textarea>
-
-                <div class="form-actions">
-                    <button type="submit" data-i18n="saveComputer">Save Computer</button>
-                    <button type="button" data-close-dialog data-i18n="cancel">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
-
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
