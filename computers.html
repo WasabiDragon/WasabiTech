@@ -4,10 +4,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Browse WasabiTech computers for basic and business needs.">
+  <meta name="description" content="Explore WasabiTech computers for basic, business, and professional needs.">
   <title>Computers | WasabiTech</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    [hidden] {
+      display: none !important;
+    }
+
+    .computer-categories {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 230px;
+      padding: 28px 20px;
+      color: inherit;
+      text-align: center;
+      background: rgba(30, 35, 30, 0.65);
+      border: 2px solid #466b42;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease,
+                  box-shadow 0.2s ease;
+    }
+
+    .category-card:hover,
+    .category-card:focus-visible {
+      transform: translateY(-5px);
+      border-color: #9ccc65;
+      box-shadow: 0 8px 24px rgba(120, 180, 90, 0.15);
+      outline: none;
+    }
+
+    .category-card.business-card {
+      border-color: #7661a8;
+    }
+
+    .category-card.business-card:hover,
+    .category-card.business-card:focus-visible {
+      border-color: #b9a0ff;
+      box-shadow: 0 8px 24px rgba(140, 110, 220, 0.18);
+    }
+
+    .category-card.professional-card {
+      border-color: #438a8b;
+    }
+
+    .category-card.professional-card:hover,
+    .category-card.professional-card:focus-visible {
+      border-color: #72d5d2;
+      box-shadow: 0 8px 24px rgba(90, 200, 190, 0.16);
+    }
+
+    .category-card .category-symbol {
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    .category-card h2 {
+      margin: 0;
+    }
+
+    .category-card p {
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    .dialog-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .dialog-options button {
+      min-height: 58px;
+      padding: 14px;
+      cursor: pointer;
+    }
+
+    .catalog-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .search-container,
+    .filter-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .catalog-controls input,
+    .catalog-controls select {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .results-heading,
+    .management-actions,
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .computer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .site-footer {
+      margin-top: 48px;
+    }
+
+    @media (max-width: 700px) {
+      .computer-categories {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        min-height: 175px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -32,9 +168,55 @@
       </p>
     </section>
 
+    <!-- Main category selection: Basic, Business, Professional -->
+    <section aria-label="Computer categories">
+      <div class="computer-categories">
+
+        <button
+          type="button"
+          class="category-card"
+          data-open-category="Basic"
+        >
+          <span class="category-symbol" aria-hidden="true">💻</span>
+          <h2 data-i18n="basic">Basic</h2>
+          <p data-i18n="basicDescription">
+            Computers for everyday use.
+          </p>
+        </button>
+
+        <button
+          type="button"
+          class="category-card business-card"
+          data-open-category="Business"
+        >
+          <span class="category-symbol" aria-hidden="true">💼</span>
+          <h2 data-i18n="business">Business</h2>
+          <p data-i18n="businessDescription">
+            Computers for work and productivity.
+          </p>
+        </button>
+
+        <button
+          type="button"
+          class="category-card professional-card"
+          data-open-category="Professional"
+        >
+          <span class="category-symbol" aria-hidden="true">⚙️</span>
+          <h2 data-i18n="professional">Professional</h2>
+          <p data-i18n="professionalDescription">
+            High-performance computers for demanding tasks.
+          </p>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Search and catalog filters -->
     <section class="catalog-controls">
       <div class="search-container">
-        <label for="searchInput" data-i18n="searchLabel">Search computers</label>
+        <label for="searchInput" data-i18n="searchLabel">
+          Search computers
+        </label>
         <input
           type="search"
           id="searchInput"
@@ -56,6 +238,7 @@
           <option value="" data-i18n="allCategories">All categories</option>
           <option value="Basic" data-i18n="basic">Basic</option>
           <option value="Business" data-i18n="business">Business</option>
+          <option value="Professional" data-i18n="professional">Professional</option>
         </select>
       </div>
 
@@ -81,6 +264,7 @@
       </div>
     </section>
 
+    <!-- Computer results -->
     <section class="catalog-results">
       <div class="results-heading">
         <h2 data-i18n="availableComputers">Available Computers</h2>
@@ -101,15 +285,23 @@
     </section>
   </main>
 
-  <!-- Step 1: Choose Basic or Business -->
+  <!-- Category selection dialog -->
   <div id="categoryDialog" class="modal" hidden>
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="categoryDialogTitle">
-      <button class="modal-close" type="button" data-close-dialog="categoryDialog" aria-label="Close">
-        &times;
-      </button>
+      <button
+        class="modal-close"
+        type="button"
+        data-close-dialog="categoryDialog"
+        aria-label="Close"
+      >&times;</button>
 
-      <h2 id="categoryDialogTitle" data-i18n="chooseCategory">Choose a category</h2>
-      <p data-i18n="chooseCategoryDescription">What will you use your computer for?</p>
+      <h2 id="categoryDialogTitle" data-i18n="chooseCategory">
+        Choose a category
+      </h2>
+
+      <p data-i18n="chooseCategoryDescription">
+        What will you use your computer for?
+      </p>
 
       <div class="dialog-options">
         <button type="button" data-computer-category="Basic" data-i18n="basic">
@@ -123,14 +315,20 @@
     </div>
   </div>
 
-  <!-- Steps 2 and 3: Stationary/Mobile, then the specific device -->
+  <!-- Stationary/Mobile, followed by Desktop/Workstation or Laptop/Tablet -->
   <div id="typeDialog" class="modal" hidden>
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="typeDialogTitle">
-      <button class="modal-close" type="button" data-close-dialog="typeDialog" aria-label="Close">
-        &times;
-      </button>
+      <button
+        class="modal-close"
+        type="button"
+        data-close-dialog="typeDialog"
+        aria-label="Close"
+      >&times;</button>
 
-      <h2 id="typeDialogTitle" data-i18n="chooseDevice">Choose your device</h2>
+      <h2 id="typeDialogTitle" data-i18n="chooseDevice">
+        Choose your device
+      </h2>
+
       <p id="typeDialogDescription" data-i18n="chooseDeviceDescription">
         Choose how you want to use your computer.
       </p>
@@ -147,12 +345,15 @@
     </div>
   </div>
 
-  <!-- Computer details dialog -->
+  <!-- Computer details -->
   <div id="computerDetailsDialog" class="modal" hidden>
     <div class="modal-content computer-details-content" role="dialog" aria-modal="true" aria-labelledby="computerDetailsTitle">
-      <button class="modal-close" type="button" data-close-dialog="computerDetailsDialog" aria-label="Close">
-        &times;
-      </button>
+      <button
+        class="modal-close"
+        type="button"
+        data-close-dialog="computerDetailsDialog"
+        aria-label="Close"
+      >&times;</button>
 
       <div id="computerDetails">
         <!-- Computer details are generated by script.js -->
@@ -160,14 +361,19 @@
     </div>
   </div>
 
-  <!-- Developer/admin login dialog -->
+  <!-- Developer/admin login -->
   <div id="developerDialog" class="modal" hidden>
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="developerDialogTitle">
-      <button class="modal-close" type="button" data-close-dialog="developerDialog" aria-label="Close">
-        &times;
-      </button>
+      <button
+        class="modal-close"
+        type="button"
+        data-close-dialog="developerDialog"
+        aria-label="Close"
+      >&times;</button>
 
-      <h2 id="developerDialogTitle" data-i18n="developerLogin">Developer Login</h2>
+      <h2 id="developerDialogTitle" data-i18n="developerLogin">
+        Developer Login
+      </h2>
 
       <form id="developerLoginForm">
         <label for="developerEmail" data-i18n="email">Email</label>
@@ -194,14 +400,19 @@
     </div>
   </div>
 
-  <!-- Developer management dialog -->
+  <!-- Developer management -->
   <div id="managementDialog" class="modal" hidden>
     <div class="modal-content management-content" role="dialog" aria-modal="true" aria-labelledby="managementDialogTitle">
-      <button class="modal-close" type="button" data-close-dialog="managementDialog" aria-label="Close">
-        &times;
-      </button>
+      <button
+        class="modal-close"
+        type="button"
+        data-close-dialog="managementDialog"
+        aria-label="Close"
+      >&times;</button>
 
-      <h2 id="managementDialogTitle" data-i18n="manageComputers">Manage Computers</h2>
+      <h2 id="managementDialogTitle" data-i18n="manageComputers">
+        Manage Computers
+      </h2>
 
       <div class="management-actions">
         <button id="addComputerButton" type="button" data-i18n="addComputer">
@@ -213,13 +424,13 @@
         </button>
       </div>
 
-      <div id="managementList">
-        <!-- Management list is generated by script.js -->
-      </div>
+      <div id="managementList"></div>
 
       <div id="computerFormContainer">
         <form id="computerForm" hidden>
-          <h3 id="computerFormTitle" data-i18n="computerInformation">Computer Information</h3>
+          <h3 id="computerFormTitle" data-i18n="computerInformation">
+            Computer Information
+          </h3>
 
           <input id="computerId" name="id" type="hidden">
 
@@ -233,6 +444,7 @@
           <select id="computerCategory" name="category" required>
             <option value="Basic" data-i18n="basic">Basic</option>
             <option value="Business" data-i18n="business">Business</option>
+            <option value="Professional" data-i18n="professional">Professional</option>
           </select>
 
           <label for="computerType" data-i18n="deviceType">Device type</label>
@@ -271,8 +483,13 @@
           <textarea id="computerDescription" name="description" rows="4"></textarea>
 
           <div class="form-actions">
-            <button type="submit" id="saveComputerButton" data-i18n="save">Save</button>
-            <button type="button" id="cancelComputerButton" data-i18n="cancel">Cancel</button>
+            <button type="submit" id="saveComputerButton" data-i18n="save">
+              Save
+            </button>
+
+            <button type="button" id="cancelComputerButton" data-i18n="cancel">
+              Cancel
+            </button>
           </div>
 
           <p id="computerFormMessage" role="status" aria-live="polite"></p>
@@ -288,10 +505,57 @@
   <script src="script.js"></script>
 
   <script>
-    // Keep the footer year current.
-    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
 
-    // Basic support for close buttons and clicking outside a dialog.
+    // Basic and Business start the device-selection flow.
+    // Professional opens the catalog directly with its category selected.
+    document.querySelectorAll("[data-open-category]").forEach((card) => {
+      card.addEventListener("click", () => {
+        const category = card.dataset.openCategory;
+        const categoryFilter = document.getElementById("categoryFilter");
+
+        if (category === "Professional") {
+          if (categoryFilter) {
+            categoryFilter.value = "Professional";
+            categoryFilter.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+
+          document.getElementById("categoryDialog").hidden = true;
+          document.getElementById("typeDialog").hidden = true;
+
+          document.querySelector(".catalog-results")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+          return;
+        }
+
+        // Let the existing script handle the category selection.
+        const categoryDialog = document.getElementById("categoryDialog");
+        categoryDialog.hidden = false;
+
+        // The selected category is represented by the matching dialog button.
+        categoryDialog.querySelectorAll("[data-computer-category]").forEach((button) => {
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.computerCategory === category)
+          );
+        });
+
+        // Trigger the existing category handler so it can continue the flow.
+        const matchingButton = categoryDialog.querySelector(
+          '[data-computer-category="' + category + '"]'
+        );
+
+        if (matchingButton) {
+          matchingButton.click();
+        }
+      });
+    });
+
+    // Close dialogs using their close buttons or by clicking the backdrop.
     document.querySelectorAll("[data-close-dialog]").forEach((button) => {
       button.addEventListener("click", () => {
         const dialog = document.getElementById(button.dataset.closeDialog);
@@ -301,7 +565,9 @@
 
     document.querySelectorAll(".modal").forEach((modal) => {
       modal.addEventListener("click", (event) => {
-        if (event.target === modal) modal.hidden = true;
+        if (event.target === modal) {
+          modal.hidden = true;
+        }
       });
     });
   </script>
