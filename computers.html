@@ -219,9 +219,11 @@
     </dialog>
 
     <dialog class="modal" id="detailDialog">
-        <div class="modal-card detail-card">
-            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
-            <div id="detailContent"></div>
+        <div class="detail-modal-shell">
+            <button class="modal-close detail-modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+            <div class="modal-card detail-card">
+                <div id="detailContent"></div>
+            </div>
         </div>
     </dialog>
 
