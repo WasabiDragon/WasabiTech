@@ -1,46 +1,126 @@
 
-        // Keep the background page locked while a popup is open.
-        const dialogs = $$("dialog");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d16">
+    <title>WasabiTech | Find Your Next Computer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="WasabiTech home">
+            <span class="brand-mark">W</span>
+            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span></span>
+        </a>
 
-        function syncDialogScrollLock() {
-            const openDialog = dialogs.find(dialog => dialog.open);
+        <nav class="main-nav">
+            <a class="active" href="index.html" data-i18n="navHome">Home</a>
+            <a href="computers.html" data-i18n="navComputers">Computers</a>
+            <a href="#about" data-i18n="navAbout">About</a>
+            <a href="#support" data-i18n="navSupport">Support</a>
+        </nav>
 
-            document.body.classList.toggle(
-                "dialog-open",
-                Boolean(openDialog)
-            );
-        }
+        <div class="header-actions">
+            <button class="language-button" id="languageToggle" type="button">EN <span>|</span> ES</button>
+        </div>
+    </header>
 
-        dialogs.forEach(dialog => {
-            dialog.addEventListener("close", syncDialogScrollLock);
-            dialog.addEventListener("cancel", () => {
-                requestAnimationFrame(syncDialogScrollLock);
-            });
-        });
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow" data-i18n="heroEyebrow">TECHNOLOGY THAT FITS YOUR LIFE</p>
+                <h1><span class="wasabi">Wasabi</span><span class="tech">Tech</span></h1>
+                <h2 data-i18n="heroTitle">Your next computer starts here.</h2>
+                <p data-i18n="heroText">Discover computers for every need, from everyday browsing to professional-grade performance.</p>
+                <a class="button button-primary" href="computers.html" data-i18n="exploreComputers">Explore Computers <span>→</span></a>
+            </div>
 
-        // Redirect mouse-wheel scrolling to the open popup,
-        // even when the pointer is outside the popup itself.
-        document.addEventListener("wheel", event => {
-            const openDialog = dialogs.find(dialog => dialog.open);
+            <div class="hero-art" aria-label="Stylized desktop computer illustration">
+                <span class="glow glow-green"></span>
+                <span class="glow glow-purple"></span>
+                <div class="monitor">
+                    <div class="monitor-screen">
+                        <span class="screen-logo">W.</span>
+                    </div>
+                    <div class="monitor-stand"></div>
+                </div>
+                <div class="computer-tower">
+                    <span class="tower-fan"></span>
+                    <span class="tower-fan"></span>
+                    <span class="tower-fan"></span>
+                </div>
+                <div class="desk"></div>
+            </div>
+        </section>
 
-            if (!openDialog) return;
+        <section class="benefits">
+            <article class="benefit">
+                <div class="benefit-icon">✦</div>
+                <h3 data-i18n="benefit1">Reliable</h3>
+                <p data-i18n="benefit1Text">Built to last, backed by care.</p>
+            </article>
+            <article class="benefit">
+                <div class="benefit-icon">ϟ</div>
+                <h3 data-i18n="benefit2">Powerful</h3>
+                <p data-i18n="benefit2Text">Performance you can count on.</p>
+            </article>
+            <article class="benefit">
+                <div class="benefit-icon">◇</div>
+                <h3 data-i18n="benefit3">Great Value</h3>
+                <p data-i18n="benefit3Text">Great technology for your budget.</p>
+            </article>
+        </section>
 
-            const scrollArea = openDialog.querySelector(
-                ".detail-card, .modal-card"
-            );
+        <section class="about-section" id="about">
+            <p class="eyebrow" data-i18n="aboutEyebrow">A BETTER WAY TO CHOOSE</p>
+            <h2 data-i18n="aboutTitle">Find the right computer for your world.</h2>
+            <p data-i18n="aboutText">Compare options, explore specifications, and find a computer that fits the way you work, learn, and create.</p>
+            <a class="button button-secondary" href="computers.html" data-i18n="browseCatalog">Browse the Catalog →</a>
+        </section>
 
-            if (!scrollArea) return;
+        <section class="about-section support-section" id="support">
+            <p class="eyebrow" data-i18n="navSupport">Support</p>
+            <h2 data-i18n="supportTitle">Need help choosing?</h2>
+            <p data-i18n="supportText">Explore our catalog to compare computer types, specifications, and prices.</p>
+            <a class="text-link" href="computers.html" data-i18n="exploreComputers">Explore Computers →</a>
+        </section>
+    </main>
 
-            event.preventDefault();
-            scrollArea.scrollTop += event.deltaY;
-        }, { passive: false });
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="index.html">
+            <span class="brand-mark">W</span>
+            <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span><small data-i18n="footerTagline">Tech for a better tomorrow.</small></span>
+        </a>
+        <div class="footer-links">
+            <a href="index.html" data-i18n="navHome">Home</a>
+            <a href="computers.html" data-i18n="navComputers">Computers</a>
+            <a href="#about" data-i18n="navAbout">About</a>
+        </div>
+    </footer>
 
-        // Keep the body locked when dialogs open.
-        const dialogObserver = new MutationObserver(syncDialogScrollLock);
+    <dialog class="modal" id="loginDialog">
+        <form class="modal-card" id="loginForm">
+            <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
+            <p class="eyebrow">WASABITECH</p>
+            <h2 data-i18n="adminLogin">Developer Login</h2>
+            <p class="muted" data-i18n="loginNote">Enter the developer password to manage catalog entries.</p>
+            <label for="adminPassword" data-i18n="password">Password</label>
+            <input id="adminPassword" type="password" autocomplete="current-password" required>
+            <p class="form-error" id="loginError" role="alert"></p>
+            <button class="button button-primary full-width" type="submit" data-i18n="login">Log In</button>
+        </form>
+    </dialog>
 
-        dialogs.forEach(dialog => {
-            dialogObserver.observe(dialog, {
-                attributes: true,
-                attributeFilter: ["open"]
-            });
-        });
+    <aside class="admin-menu" id="adminMenu" hidden>
+        <strong>Developer Tools</strong>
+        <a href="computers.html#manage" data-i18n="manageComputers">Manage Computers</a>
+        <button type="button" id="exitDeveloperMode" data-i18n="exitDev">Exit Developer Mode</button>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
