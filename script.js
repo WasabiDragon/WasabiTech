@@ -24,9 +24,7 @@
         SUPABASE_KEY
     );
 
-    let language =
-        localStorage.getItem(STORAGE_KEY) || "en";
-
+    let language = localStorage.getItem(STORAGE_KEY) || "en";
     let developerMode = false;
 
     let activeCategory = "";
@@ -36,731 +34,359 @@
     let computers = [];
 
     let toastTimeout;
-
     let shortcutStep = 0;
     let shortcutTimer;
-
     let loading = true;
-
 
     /* =========================================
        TRANSLATIONS
        ========================================= */
 
     const translations = {
-
         en: {
-
             navHome: "Home",
             navComputers: "Computers",
             navAbout: "About",
             navSupport: "Support",
-
             backHome: "← Back to Home",
 
             heroEyebrow: "YOUR TRUSTED TECH SOURCE",
             heroTitle: "WasabiTech",
-
-            heroText:
-                "Discover the right technology for your needs. Explore computers, compare options, and find your next upgrade.",
-
+            heroText: "Discover the right technology for your needs. Explore computers, compare options, and find your next upgrade.",
             exploreComputers: "Explore Computers",
 
             benefit1: "Quality Selection",
-
-            benefit1Text:
-                "Explore computers selected for different needs and budgets.",
-
+            benefit1Text: "Explore computers selected for different needs and budgets.",
             benefit2: "Find Your Match",
-
-            benefit2Text:
-                "Compare options and discover the right computer for you.",
-
+            benefit2Text: "Compare options and discover the right computer for you.",
             benefit3: "Technology Made Simple",
-
-            benefit3Text:
-                "Make smarter technology choices with WasabiTech.",
+            benefit3Text: "Make smarter technology choices with WasabiTech.",
 
             aboutEyebrow: "ABOUT WASABITECH",
-
-            aboutTitle:
-                "Technology for Everyone",
-
-            aboutText:
-                "WasabiTech makes exploring computer technology easier. Whether you need a computer for everyday tasks, business, or demanding professional work, we help you find the right fit.",
-
+            aboutTitle: "Technology for Everyone",
+            aboutText: "WasabiTech makes exploring computer technology easier. Whether you need a computer for everyday tasks, business, or demanding professional work, we help you find the right fit.",
             browseCatalog: "Browse Catalog",
 
-            supportTitle:
-                "We're Here to Help",
+            supportTitle: "We're Here to Help",
+            supportText: "Ready to find your next computer? Explore our catalog and discover the options available to you.",
 
-            supportText:
-                "Ready to find your next computer? Explore our catalog and discover the options available to you.",
+            catalogEyebrow: "FIND YOUR MATCH",
+            catalogTitle: "Computer Catalog",
+            catalogText: "Browse categories, compare specifications, and find the computer that fits your needs.",
 
+            searchPlaceholder: "Search computers...",
+            allBrands: "All Brands",
+            allPrices: "All Prices",
 
-            catalogEyebrow:
-                "FIND YOUR MATCH",
+            under500: "Under $500",
+            under1000: "Under $1,000",
+            over1000: "$1,001 and up",
 
-            catalogTitle:
-                "Computer Catalog",
+            sortFeatured: "Featured",
+            sortLow: "Price: Low to High",
+            sortHigh: "Price: High to Low",
+            sortName: "Name",
 
-            catalogText:
-                "Browse categories, compare specifications, and find the computer that fits your needs.",
+            basic: "Basic",
+            basicDesc: "For everyday use and simple tasks.",
 
+            business: "Business",
+            businessDesc: "For productivity, office work, and multitasking.",
 
-            searchPlaceholder:
-                "Search computers...",
+            professional: "Professional",
+            professionalDesc: "For creators, developers, and power users.",
 
-            allBrands:
-                "All Brands",
+            viewComputers: "View Computers →",
 
-            allPrices:
-                "All Prices",
+            chooseTypeEyebrow: "FIND YOUR SETUP",
+            chooseType: "Choose your computer type",
+            chooseTypeText: "Choose the setup that fits your needs.",
 
-            under500:
-                "Under $500",
+            stationary: "Stationary",
+            stationaryDesc: "Computers designed to stay in one place.",
 
-            under1000:
-                "Under $1,000",
+            mobile: "Mobile",
+            mobileDesc: "Computers you can take with you.",
 
-            over1000:
-                "$1,001 and up",
+            chooseStationaryType: "Choose a stationary computer",
+            chooseStationaryText: "Select a desktop or workstation.",
 
-            sortFeatured:
-                "Featured",
+            chooseMobileType: "Choose a mobile computer",
+            chooseMobileText: "Select a laptop or tablet.",
 
-            sortLow:
-                "Price: Low to High",
+            desktop: "Desktop",
+            desktopDesc: "Power and flexibility.",
 
-            sortHigh:
-                "Price: High to Low",
+            laptop: "Laptop",
+            laptopDesc: "Performance on the go.",
 
-            sortName:
-                "Name",
+            workstation: "Workstation",
+            workstationDesc: "Powerful systems for demanding professional tasks.",
 
+            tablet: "Tablet",
+            tabletDesc: "A compact touchscreen computer.",
 
-            basic:
-                "Basic",
+            catalogSelection: "THE COLLECTION",
+            featuredComputers: "Featured Computers",
+            clearFilters: "Clear Filters",
+            noResults: "No computers match those filters.",
+            tryChangingFilters: "Try changing your search or clearing the filters.",
 
-            basicDesc:
-                "For everyday use and simple tasks.",
+            manageTitle: "Manage Catalog",
+            addComputer: "+ Add Computer",
+            storageNote: "Changes are saved to the shared WasabiTech catalog.",
 
-            business:
-                "Business",
+            computerName: "Computer Name",
+            brand: "Brand",
+            category: "Category",
+            type: "Type",
+            price: "Price (USD)",
+            cpu: "CPU",
+            ram: "RAM",
+            storage: "Storage",
+            gpu: "GPU",
+            os: "Operating System",
+            screen: "Screen Size",
+            imageUrl: "Image URL",
 
-            businessDesc:
-                "For productivity, office work, and multitasking.",
+            description: "Description",
+            descriptionEnglish: "Description — English",
+            descriptionSpanish: "Description — Spanish",
 
-            professional:
-                "Professional",
+            descriptionEnglishPlaceholder: "Enter the English description...",
+            descriptionSpanishPlaceholder: "Enter the Spanish description...",
 
-            professionalDesc:
-                "For creators, developers, and power users.",
+            saveComputer: "Save Computer",
+            cancel: "Cancel",
 
-            viewComputers:
-                "View Computers →",
+            adminLogin: "Developer Login",
+            loginNote: "Log in with your administrator email and password.",
+            password: "Password",
+            login: "Log In",
 
+            manageComputers: "Manage Computers",
+            exitDev: "Exit Developer Mode",
 
-            chooseTypeEyebrow:
-                "FIND YOUR SETUP",
+            loginFailed: "Login failed. Check your email and password.",
+            loginSuccess: "Developer mode activated.",
+            devExited: "Developer mode deactivated.",
 
-            chooseType:
-                "Choose your computer type",
+            addSuccess: "Computer added to the shared catalog.",
+            editSuccess: "Computer updated.",
+            deleteSuccess: "Computer deleted.",
 
-            chooseTypeText:
-                "Choose the setup that fits your needs.",
+            confirmDelete: "Delete this computer?",
 
+            edit: "Edit",
+            delete: "Delete",
+            details: "Details",
+            specifications: "Specifications",
 
-            stationary:
-                "Stationary",
+            noDescription: "No description provided.",
 
-            stationaryDesc:
-                "Computers designed to stay in one place.",
+            showing: "Showing",
+            computers: "computers",
 
-            mobile:
-                "Mobile",
+            invalidForm: "Please complete all required fields.",
 
-            mobileDesc:
-                "Computers you can take with you.",
+            editorAdd: "Add Computer",
+            editorEdit: "Edit Computer",
 
+            imagePlaceholder: "Image not available",
 
-            chooseStationaryType:
-                "Choose a stationary computer",
+            loading: "Loading computers...",
+            loadError: "Could not load the catalog. Please refresh the page.",
 
-            chooseStationaryText:
-                "Select a desktop or workstation.",
+            saveError: "Could not save changes. Check your login and database permissions.",
 
-            chooseMobileType:
-                "Choose a mobile computer",
+            loginRequired: "Please log in to Developer Mode first.",
 
-            chooseMobileText:
-                "Select a laptop or tablet.",
-
-
-            desktop:
-                "Desktop",
-
-            desktopDesc:
-                "Power and flexibility.",
-
-            laptop:
-                "Laptop",
-
-            laptopDesc:
-                "Performance on the go.",
-
-            workstation:
-                "Workstation",
-
-            workstationDesc:
-                "Powerful systems for demanding professional tasks.",
-
-            tablet:
-                "Tablet",
-
-            tabletDesc:
-                "A compact touchscreen computer.",
-
-
-            catalogSelection:
-                "THE COLLECTION",
-
-            featuredComputers:
-                "Featured Computers",
-
-            clearFilters:
-                "Clear Filters",
-
-            noResults:
-                "No computers match those filters.",
-
-
-            manageTitle:
-                "Manage Catalog",
-
-            addComputer:
-                "+ Add Computer",
-
-            storageNote:
-                "Changes are saved to the shared WasabiTech catalog.",
-
-
-            computerName:
-                "Computer Name",
-
-            brand:
-                "Brand",
-
-            category:
-                "Category",
-
-            type:
-                "Type",
-
-            price:
-                "Price (USD)",
-
-            cpu:
-                "CPU",
-
-            ram:
-                "RAM",
-
-            storage:
-                "Storage",
-
-            gpu:
-                "GPU",
-
-            os:
-                "Operating System",
-
-            screen:
-                "Screen Size",
-
-            imageUrl:
-                "Image URL",
-
-            description:
-                "Description",
-
-            saveComputer:
-                "Save Computer",
-
-            cancel:
-                "Cancel",
-
-
-            adminLogin:
-                "Developer Login",
-
-            loginNote:
-                "Log in with your administrator email and password.",
-
-            password:
-                "Password",
-
-            login:
-                "Log In",
-
-            manageComputers:
-                "Manage Computers",
-
-            exitDev:
-                "Exit Developer Mode",
-
-
-            loginFailed:
-                "Login failed. Check your email and password.",
-
-            loginSuccess:
-                "Developer mode activated.",
-
-            devExited:
-                "Developer mode deactivated.",
-
-
-            addSuccess:
-                "Computer added to the shared catalog.",
-
-            editSuccess:
-                "Computer updated.",
-
-            deleteSuccess:
-                "Computer deleted.",
-
-            confirmDelete:
-                "Delete this computer?",
-
-            edit:
-                "Edit",
-
-            delete:
-                "Delete",
-
-            details:
-                "Details",
-
-            specifications:
-                "Specifications",
-
-            noDescription:
-                "No description provided.",
-
-            showing:
-                "Showing",
-
-            computers:
-                "computers",
-
-            invalidForm:
-                "Please complete all required fields.",
-
-            editorAdd:
-                "Add Computer",
-
-            editorEdit:
-                "Edit Computer",
-
-            imagePlaceholder:
-                "Image not available",
-
-            loading:
-                "Loading computers...",
-
-            loadError:
-                "Could not load the catalog. Please refresh the page.",
-
-            saveError:
-                "Could not save changes. Check your login and database permissions.",
-
-            loginRequired:
-                "Please log in to Developer Mode first.",
-
-
-            footerTagline:
-                "Tech for a better tomorrow."
+            footerTagline: "Tech for a better tomorrow."
         },
 
-
         es: {
+            navHome: "Inicio",
+            navComputers: "Computadoras",
+            navAbout: "Acerca de",
+            navSupport: "Ayuda",
+            backHome: "← Volver al inicio",
+
+            heroEyebrow: "TU FUENTE DE TECNOLOGÍA",
+            heroTitle: "WasabiTech",
+            heroText: "Descubre la tecnología ideal para tus necesidades. Explora computadoras, compara opciones y encuentra tu próxima actualización.",
+            exploreComputers: "Explorar computadoras",
+
+            benefit1: "Selección de calidad",
+            benefit1Text: "Explora computadoras seleccionadas para distintas necesidades y presupuestos.",
+
+            benefit2: "Encuentra tu equipo ideal",
+            benefit2Text: "Compara opciones y descubre la computadora adecuada para ti.",
 
-            navHome:
-                "Inicio",
+            benefit3: "Tecnología simplificada",
+            benefit3Text: "Toma mejores decisiones tecnológicas con WasabiTech.",
 
-            navComputers:
-                "Computadoras",
+            aboutEyebrow: "SOBRE WASABITECH",
+            aboutTitle: "Tecnología para todos",
+            aboutText: "WasabiTech facilita la búsqueda de tecnología informática. Ya sea que necesites una computadora para tareas diarias, negocios o trabajo profesional exigente, te ayudamos a encontrar la ideal.",
+            browseCatalog: "Explorar catálogo",
 
-            navAbout:
-                "Acerca de",
+            supportTitle: "Estamos aquí para ayudarte",
+            supportText: "¿Listo para encontrar tu próxima computadora? Explora nuestro catálogo y descubre las opciones disponibles.",
 
-            navSupport:
-                "Ayuda",
+            catalogEyebrow: "ENCUENTRA TU OPCIÓN",
+            catalogTitle: "Catálogo de computadoras",
+            catalogText: "Explora categorías, compara especificaciones y encuentra la computadora ideal para ti.",
 
-            backHome:
-                "← Volver al inicio",
+            searchPlaceholder: "Buscar computadoras...",
+            allBrands: "Todas las marcas",
+            allPrices: "Todos los precios",
 
+            under500: "Menos de $500",
+            under1000: "Menos de $1,000",
+            over1000: "$1,001 o más",
 
-            heroEyebrow:
-                "TU FUENTE DE TECNOLOGÍA",
+            sortFeatured: "Destacadas",
+            sortLow: "Precio: menor a mayor",
+            sortHigh: "Precio: mayor a menor",
+            sortName: "Nombre",
 
-            heroTitle:
-                "WasabiTech",
+            basic: "Básica",
+            basicDesc: "Para el uso diario y tareas sencillas.",
 
-            heroText:
-                "Descubre la tecnología ideal para tus necesidades. Explora computadoras, compara opciones y encuentra tu próxima actualización.",
+            business: "Negocios",
+            businessDesc: "Para productividad, oficina y multitarea.",
 
-            exploreComputers:
-                "Explorar computadoras",
+            professional: "Profesional",
+            professionalDesc: "Para creadores, programadores y usuarios avanzados.",
 
+            viewComputers: "Ver computadoras →",
 
-            benefit1:
-                "Selección de calidad",
+            chooseTypeEyebrow: "ENCUENTRA TU EQUIPO",
+            chooseType: "Elige el tipo de computadora",
+            chooseTypeText: "Elige la configuración que mejor se adapte a ti.",
 
-            benefit1Text:
-                "Explora computadoras seleccionadas para distintas necesidades y presupuestos.",
+            stationary: "Fija",
+            stationaryDesc: "Computadoras diseñadas para permanecer en un lugar.",
 
-            benefit2:
-                "Encuentra tu equipo ideal",
+            mobile: "Móvil",
+            mobileDesc: "Computadoras que puedes llevar contigo.",
 
-            benefit2Text:
-                "Compara opciones y descubre la computadora adecuada para ti.",
+            chooseStationaryType: "Elige una computadora fija",
+            chooseStationaryText: "Selecciona una computadora de escritorio o estación de trabajo.",
 
-            benefit3:
-                "Tecnología simplificada",
+            chooseMobileType: "Elige una computadora móvil",
+            chooseMobileText: "Selecciona una portátil o tableta.",
 
-            benefit3Text:
-                "Toma mejores decisiones tecnológicas con WasabiTech.",
+            desktop: "Escritorio",
+            desktopDesc: "Potencia y flexibilidad.",
 
+            laptop: "Portátil",
+            laptopDesc: "Rendimiento donde vayas.",
 
-            aboutEyebrow:
-                "SOBRE WASABITECH",
+            workstation: "Estación de trabajo",
+            workstationDesc: "Equipos potentes para tareas profesionales exigentes.",
 
-            aboutTitle:
-                "Tecnología para todos",
+            tablet: "Tableta",
+            tabletDesc: "Una computadora compacta con pantalla táctil.",
 
-            aboutText:
-                "WasabiTech facilita la búsqueda de tecnología informática. Ya sea que necesites una computadora para tareas diarias, negocios o trabajo profesional exigente, te ayudamos a encontrar la ideal.",
+            catalogSelection: "LA COLECCIÓN",
+            featuredComputers: "Computadoras destacadas",
+            clearFilters: "Limpiar filtros",
+            noResults: "Ninguna computadora coincide con esos filtros.",
+            tryChangingFilters: "Intenta cambiar la búsqueda o limpiar los filtros.",
 
-            browseCatalog:
-                "Explorar catálogo",
+            manageTitle: "Administrar catálogo",
+            addComputer: "+ Añadir computadora",
+            storageNote: "Los cambios se guardan en el catálogo compartido de WasabiTech.",
 
+            computerName: "Nombre de la computadora",
+            brand: "Marca",
+            category: "Categoría",
+            type: "Tipo",
+            price: "Precio (USD)",
+            cpu: "Procesador",
+            ram: "Memoria RAM",
+            storage: "Almacenamiento",
+            gpu: "Tarjeta gráfica",
+            os: "Sistema operativo",
+            screen: "Tamaño de pantalla",
+            imageUrl: "URL de imagen",
 
-            supportTitle:
-                "Estamos aquí para ayudarte",
+            description: "Descripción",
+            descriptionEnglish: "Descripción — Inglés",
+            descriptionSpanish: "Descripción — Español",
 
-            supportText:
-                "¿Listo para encontrar tu próxima computadora? Explora nuestro catálogo y descubre las opciones disponibles.",
+            descriptionEnglishPlaceholder: "Escribe la descripción en inglés...",
+            descriptionSpanishPlaceholder: "Escribe la descripción en español...",
 
+            saveComputer: "Guardar computadora",
+            cancel: "Cancelar",
 
-            catalogEyebrow:
-                "ENCUENTRA TU OPCIÓN",
+            adminLogin: "Acceso de desarrollador",
+            loginNote: "Inicia sesión con tu correo y contraseña de administrador.",
+            password: "Contraseña",
+            login: "Iniciar sesión",
 
-            catalogTitle:
-                "Catálogo de computadoras",
+            manageComputers: "Administrar computadoras",
+            exitDev: "Salir del modo desarrollador",
 
-            catalogText:
-                "Explora categorías, compara especificaciones y encuentra la computadora ideal para ti.",
+            loginFailed: "No se pudo iniciar sesión. Verifica tu correo y contraseña.",
+            loginSuccess: "Modo desarrollador activado.",
+            devExited: "Modo desarrollador desactivado.",
 
+            addSuccess: "Computadora añadida al catálogo compartido.",
+            editSuccess: "Computadora actualizada.",
+            deleteSuccess: "Computadora eliminada.",
 
-            searchPlaceholder:
-                "Buscar computadoras...",
+            confirmDelete: "¿Eliminar esta computadora?",
 
-            allBrands:
-                "Todas las marcas",
+            edit: "Editar",
+            delete: "Eliminar",
+            details: "Detalles",
+            specifications: "Especificaciones",
 
-            allPrices:
-                "Todos los precios",
+            noDescription: "No hay descripción disponible.",
 
-            under500:
-                "Menos de $500",
+            showing: "Mostrando",
+            computers: "computadoras",
 
-            under1000:
-                "Menos de $1,000",
+            invalidForm: "Completa los campos obligatorios.",
 
-            over1000:
-                "$1,001 o más",
+            editorAdd: "Añadir computadora",
+            editorEdit: "Editar computadora",
 
-            sortFeatured:
-                "Destacadas",
+            imagePlaceholder: "Imagen no disponible",
 
-            sortLow:
-                "Precio: menor a mayor",
+            loading: "Cargando computadoras...",
+            loadError: "No se pudo cargar el catálogo. Recarga la página.",
 
-            sortHigh:
-                "Precio: mayor a menor",
+            saveError: "No se pudieron guardar los cambios. Verifica tu sesión y permisos.",
 
-            sortName:
-                "Nombre",
+            loginRequired: "Inicia sesión en el modo desarrollador primero.",
 
-
-            basic:
-                "Básica",
-
-            basicDesc:
-                "Para el uso diario y tareas sencillas.",
-
-            business:
-                "Negocios",
-
-            businessDesc:
-                "Para productividad, oficina y multitarea.",
-
-            professional:
-                "Profesional",
-
-            professionalDesc:
-                "Para creadores, programadores y usuarios avanzados.",
-
-            viewComputers:
-                "Ver computadoras →",
-
-
-            chooseTypeEyebrow:
-                "ENCUENTRA TU EQUIPO",
-
-            chooseType:
-                "Elige el tipo de computadora",
-
-            chooseTypeText:
-                "Elige la configuración que mejor se adapte a ti.",
-
-
-            stationary:
-                "Fija",
-
-            stationaryDesc:
-                "Computadoras diseñadas para permanecer en un lugar.",
-
-            mobile:
-                "Móvil",
-
-            mobileDesc:
-                "Computadoras que puedes llevar contigo.",
-
-
-            chooseStationaryType:
-                "Elige una computadora fija",
-
-            chooseStationaryText:
-                "Selecciona una computadora de escritorio o estación de trabajo.",
-
-            chooseMobileType:
-                "Elige una computadora móvil",
-
-            chooseMobileText:
-                "Selecciona una portátil o tableta.",
-
-
-            desktop:
-                "Escritorio",
-
-            desktopDesc:
-                "Potencia y flexibilidad.",
-
-            laptop:
-                "Portátil",
-
-            laptopDesc:
-                "Rendimiento donde vayas.",
-
-            workstation:
-                "Estación de trabajo",
-
-            workstationDesc:
-                "Equipos potentes para tareas profesionales exigentes.",
-
-            tablet:
-                "Tableta",
-
-            tabletDesc:
-                "Una computadora compacta con pantalla táctil.",
-
-
-            catalogSelection:
-                "LA COLECCIÓN",
-
-            featuredComputers:
-                "Computadoras destacadas",
-
-            clearFilters:
-                "Limpiar filtros",
-
-            noResults:
-                "Ninguna computadora coincide con esos filtros.",
-
-
-            manageTitle:
-                "Administrar catálogo",
-
-            addComputer:
-                "+ Añadir computadora",
-
-            storageNote:
-                "Los cambios se guardan en el catálogo compartido de WasabiTech.",
-
-
-            computerName:
-                "Nombre de la computadora",
-
-            brand:
-                "Marca",
-
-            category:
-                "Categoría",
-
-            type:
-                "Tipo",
-
-            price:
-                "Precio (USD)",
-
-            cpu:
-                "Procesador",
-
-            ram:
-                "Memoria RAM",
-
-            storage:
-                "Almacenamiento",
-
-            gpu:
-                "Tarjeta gráfica",
-
-            os:
-                "Sistema operativo",
-
-            screen:
-                "Tamaño de pantalla",
-
-            imageUrl:
-                "URL de imagen",
-
-            description:
-                "Descripción",
-
-            saveComputer:
-                "Guardar computadora",
-
-            cancel:
-                "Cancelar",
-
-
-            adminLogin:
-                "Acceso de desarrollador",
-
-            loginNote:
-                "Inicia sesión con tu correo y contraseña de administrador.",
-
-            password:
-                "Contraseña",
-
-            login:
-                "Iniciar sesión",
-
-            manageComputers:
-                "Administrar computadoras",
-
-            exitDev:
-                "Salir del modo desarrollador",
-
-
-            loginFailed:
-                "No se pudo iniciar sesión. Verifica tu correo y contraseña.",
-
-            loginSuccess:
-                "Modo desarrollador activado.",
-
-            devExited:
-                "Modo desarrollador desactivado.",
-
-
-            addSuccess:
-                "Computadora añadida al catálogo compartido.",
-
-            editSuccess:
-                "Computadora actualizada.",
-
-            deleteSuccess:
-                "Computadora eliminada.",
-
-            confirmDelete:
-                "¿Eliminar esta computadora?",
-
-            edit:
-                "Editar",
-
-            delete:
-                "Eliminar",
-
-            details:
-                "Detalles",
-
-            specifications:
-                "Especificaciones",
-
-            noDescription:
-                "No hay descripción disponible.",
-
-            showing:
-                "Mostrando",
-
-            computers:
-                "computadoras",
-
-            invalidForm:
-                "Completa los campos obligatorios.",
-
-            editorAdd:
-                "Añadir computadora",
-
-            editorEdit:
-                "Editar computadora",
-
-            imagePlaceholder:
-                "Imagen no disponible",
-
-            loading:
-                "Cargando computadoras...",
-
-            loadError:
-                "No se pudo cargar el catálogo. Recarga la página.",
-
-            saveError:
-                "No se pudieron guardar los cambios. Verifica tu sesión y permisos.",
-
-            loginRequired:
-                "Inicia sesión en el modo desarrollador primero.",
-
-
-            footerTagline:
-                "Tecnología para un mañana mejor."
+            footerTagline: "Tecnología para un mañana mejor."
         }
     };
 
+    /* =========================================
+       BASIC HELPERS
+       ========================================= */
 
     function t(key) {
-        return (
-            translations[language]?.[key] ||
-            translations.en[key] ||
-            key
-        );
+        return translations[language]?.[key]
+            || translations.en[key]
+            || key;
     }
-
 
     function escapeHTML(value) {
-        return String(value ?? "").replace(
-            /[&<>"']/g,
-            char => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;"
-            })[char]
-        );
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
     }
-
 
     function showToast(message) {
         const toast = $("#toast");
@@ -771,7 +397,6 @@
         }
 
         toast.textContent = message;
-
         toast.classList.add("visible");
 
         clearTimeout(toastTimeout);
@@ -781,12 +406,9 @@
         }, 3500);
     }
 
-
     function formatPrice(price) {
         return new Intl.NumberFormat(
-            language === "es"
-                ? "es-PR"
-                : "en-US",
+            language === "es" ? "es-PR" : "en-US",
             {
                 style: "currency",
                 currency: "USD",
@@ -795,7 +417,6 @@
         ).format(Number(price) || 0);
     }
 
-
     function categoryLabel(category) {
         const key = {
             Basic: "basic",
@@ -803,11 +424,8 @@
             Professional: "professional"
         }[category];
 
-        return key
-            ? t(key)
-            : category || "";
+        return key ? t(key) : category || "";
     }
-
 
     function typeLabel(type) {
         const labels = {
@@ -822,6 +440,33 @@
             : type || "";
     }
 
+    /* =========================================
+       COMPUTER DESCRIPTION TRANSLATION
+       ========================================= */
+
+    function computerDescription(pc) {
+        if (!pc) {
+            return t("noDescription");
+        }
+
+        if (language === "es") {
+            return (
+                pc.description_es ||
+                pc.description ||
+                t("noDescription")
+            );
+        }
+
+        return (
+            pc.description ||
+            pc.description_es ||
+            t("noDescription")
+        );
+    }
+
+    /* =========================================
+       NORMALIZE DATABASE COMPUTER
+       ========================================= */
 
     function normalizeComputer(row) {
         return {
@@ -829,90 +474,27 @@
 
             id: String(row.id),
 
-            price:
-                Number(row.price) || 0,
+            price: Number(row.price) || 0,
 
-            name:
-                row.name || "",
+            name: row.name || "",
+            brand: row.brand || "",
 
-            brand:
-                row.brand || "",
+            category: row.category || "Basic",
+            type: row.type || "Laptop",
 
-            category:
-                row.category || "Basic",
+            cpu: row.cpu || "",
+            ram: row.ram || "",
+            storage: row.storage || "",
+            gpu: row.gpu || "",
+            os: row.os || "",
+            screen: row.screen || "",
 
-            type:
-                row.type || "Laptop",
+            image: row.image || "",
 
-            cpu:
-                row.cpu || "",
-
-            ram:
-                row.ram || "",
-
-            storage:
-                row.storage || "",
-
-            gpu:
-                row.gpu || "",
-
-            os:
-                row.os || "",
-
-            screen:
-                row.screen || "",
-
-            image:
-                row.image || "",
-
-            description:
-                row.description || ""
+            description: row.description || "",
+            description_es: row.description_es || ""
         };
     }
-
-
-    /* =========================================
-       POPUP SCROLL LOCK
-       ========================================= */
-
-    function getOpenDialog() {
-        return $$("dialog").find(
-            dialog => dialog.open
-        );
-    }
-
-
-    function syncDialogScrollLock() {
-        document.body.classList.toggle(
-            "dialog-open",
-            Boolean(getOpenDialog())
-        );
-    }
-
-
-    function openDialog(dialog) {
-        if (!dialog) return;
-
-        if (!dialog.open) {
-            dialog.showModal();
-        }
-
-        syncDialogScrollLock();
-    }
-
-
-    function closeDialog(dialog) {
-        if (!dialog) return;
-
-        if (dialog.open) {
-            dialog.close();
-        }
-
-        requestAnimationFrame(
-            syncDialogScrollLock
-        );
-    }
-
 
     /* =========================================
        DATABASE
@@ -920,21 +502,14 @@
 
     async function loadComputers() {
         loading = true;
-
         renderComputers();
 
-        const {
-            data,
-            error
-        } = await db
+        const { data, error } = await db
             .from("computers")
             .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+            .order("created_at", {
+                ascending: false
+            });
 
         loading = false;
 
@@ -948,36 +523,30 @@
 
             renderComputers();
 
-            showToast(
-                t("loadError")
-            );
+            showToast(t("loadError"));
 
             return false;
         }
 
-        computers =
-            (data || []).map(
-                normalizeComputer
-            );
+        computers = (data || []).map(normalizeComputer);
 
         updateBrandOptions();
-
         renderComputers();
-
         renderManageList();
 
         return true;
     }
 
+    /* =========================================
+       BRAND FILTER
+       ========================================= */
 
     function updateBrandOptions() {
-        const select =
-            $("#brandFilter");
+        const select = $("#brandFilter");
 
         if (!select) return;
 
-        const selected =
-            select.value;
+        const selected = select.value;
 
         const brands = [
             ...new Set(
@@ -985,534 +554,404 @@
                     .map(pc => pc.brand)
                     .filter(Boolean)
             )
-        ].sort(
-            (a, b) =>
-                a.localeCompare(b)
-        );
+        ].sort((a, b) => a.localeCompare(b));
 
         select.innerHTML =
             `<option value="">${escapeHTML(t("allBrands"))}</option>` +
+            brands.map(brand => `
+                <option value="${escapeHTML(brand)}">
+                    ${escapeHTML(brand)}
+                </option>
+            `).join("");
 
-            brands.map(
-                brand =>
-                    `<option value="${escapeHTML(brand)}">${escapeHTML(brand)}</option>`
-            ).join("");
-
-        if (
-            brands.includes(
-                selected
-            )
-        ) {
-            select.value =
-                selected;
+        if (brands.includes(selected)) {
+            select.value = selected;
         }
     }
 
+    /* =========================================
+       FILTERING
+       ========================================= */
 
     function getFilteredComputers() {
         const search =
-            (
-                $("#searchInput")?.value ||
-                ""
-            )
+            ($("#searchInput")?.value || "")
                 .trim()
                 .toLowerCase();
 
         const brand =
-            $("#brandFilter")?.value ||
-            "";
+            $("#brandFilter")?.value || "";
 
         const price =
-            $("#priceFilter")?.value ||
-            "";
+            $("#priceFilter")?.value || "";
 
         const sort =
-            $("#sortFilter")?.value ||
-            "featured";
+            $("#sortFilter")?.value || "featured";
 
+        let results = computers.filter(pc => {
+            const searchable = [
+                pc.name,
+                pc.brand,
+                pc.category,
+                pc.type,
+                pc.cpu,
+                pc.ram,
+                pc.storage,
+                pc.gpu,
+                pc.os,
+                pc.description,
+                pc.description_es
+            ]
+                .join(" ")
+                .toLowerCase();
 
-        let results =
-            computers.filter(pc => {
+            if (
+                search &&
+                !searchable.includes(search)
+            ) {
+                return false;
+            }
 
-                const searchable = [
-                    pc.name,
-                    pc.brand,
-                    pc.category,
-                    pc.type,
-                    pc.cpu,
-                    pc.ram,
-                    pc.storage,
-                    pc.gpu,
-                    pc.os,
-                    pc.description
-                ]
-                    .join(" ")
-                    .toLowerCase();
+            if (
+                brand &&
+                pc.brand !== brand
+            ) {
+                return false;
+            }
 
+            if (
+                activeCategory &&
+                pc.category !== activeCategory
+            ) {
+                return false;
+            }
 
-                if (
-                    search &&
-                    !searchable.includes(search)
-                ) {
-                    return false;
-                }
+            if (
+                activeType &&
+                pc.type !== activeType
+            ) {
+                return false;
+            }
 
+            if (
+                price === "500" &&
+                pc.price >= 500
+            ) {
+                return false;
+            }
 
-                if (
-                    brand &&
-                    pc.brand !== brand
-                ) {
-                    return false;
-                }
+            if (
+                price === "1000" &&
+                pc.price >= 1000
+            ) {
+                return false;
+            }
 
+            if (
+                price === "1001" &&
+                pc.price < 1001
+            ) {
+                return false;
+            }
 
-                if (
-                    activeCategory &&
-                    pc.category !== activeCategory
-                ) {
-                    return false;
-                }
+            return true;
+        });
 
-
-                if (
-                    activeType &&
-                    pc.type !== activeType
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    price === "500" &&
-                    pc.price >= 500
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    price === "1000" &&
-                    pc.price >= 1000
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    price === "1001" &&
-                    pc.price < 1001
-                ) {
-                    return false;
-                }
-
-
-                return true;
-            });
-
-
-        if (
-            sort === "price-asc"
-        ) {
+        if (sort === "price-asc") {
             results.sort(
-                (a, b) =>
-                    a.price - b.price
+                (a, b) => a.price - b.price
             );
         }
 
-
-        if (
-            sort === "price-desc"
-        ) {
+        if (sort === "price-desc") {
             results.sort(
-                (a, b) =>
-                    b.price - a.price
+                (a, b) => b.price - a.price
             );
         }
 
-
-        if (
-            sort === "name"
-        ) {
+        if (sort === "name") {
             results.sort(
-                (a, b) =>
-                    a.name.localeCompare(
-                        b.name
-                    )
+                (a, b) => a.name.localeCompare(b.name)
             );
         }
-
 
         return results;
     }
 
-
     /* =========================================
-       COMPUTER CARDS
+       RENDER COMPUTER CARDS
        ========================================= */
 
     function renderComputers() {
-        const grid =
-            $("#computerGrid");
+        const grid = $("#computerGrid");
 
         if (!grid) return;
 
-
         if (loading) {
-
             grid.innerHTML =
                 `<p>${escapeHTML(t("loading"))}</p>`;
 
             if ($("#emptyState")) {
-                $("#emptyState").hidden =
-                    true;
+                $("#emptyState").hidden = true;
             }
 
             return;
         }
 
+        const results = getFilteredComputers();
 
-        const results =
-            getFilteredComputers();
+        grid.innerHTML = results.map(pc => {
+            const image = pc.image
+                ? `
+                    <img
+                        class="computer-image"
+                        src="${escapeHTML(pc.image)}"
+                        alt="${escapeHTML(pc.name)}"
+                        loading="lazy"
+                        onerror="this.style.display='none';this.nextElementSibling.hidden=false"
+                    >
+                `
+                : "";
 
+            const description =
+                computerDescription(pc);
 
-        grid.innerHTML =
-            results.map(pc => {
+            return `
+                <article class="computer-card">
 
-                const image =
-                    pc.image
-                        ? `
-                            <img
-                                class="computer-image"
-                                src="${escapeHTML(pc.image)}"
-                                alt="${escapeHTML(pc.name)}"
-                                loading="lazy"
-                                onerror="this.style.display='none';this.nextElementSibling.hidden=false"
-                            >
-                        `
-                        : "";
+                    <div class="computer-image-wrap">
+                        ${image}
 
+                        <span
+                            class="computer-placeholder"
+                            ${pc.image ? "hidden" : ""}
+                            aria-hidden="true"
+                        >
+                            ⌘
+                        </span>
+                    </div>
 
-                return `
-                    <article class="computer-card">
+                    <div class="computer-card-body">
 
-                        <div class="computer-image-wrap">
-
-                            ${image}
-
-                            <span
-                                class="computer-placeholder"
-                                ${pc.image ? "hidden" : ""}
-                                aria-hidden="true"
-                            >
-                                ⌘
+                        <div class="computer-badges">
+                            <span class="computer-badge">
+                                ${escapeHTML(
+                                    categoryLabel(pc.category)
+                                )}
                             </span>
 
+                            <span class="computer-badge type">
+                                ${escapeHTML(
+                                    typeLabel(pc.type)
+                                )}
+                            </span>
                         </div>
 
+                        <h3>
+                            ${escapeHTML(pc.name)}
+                        </h3>
 
-                        <div class="computer-card-body">
+                        <p class="computer-description">
+                            ${escapeHTML(description)}
+                        </p>
 
-                            <div class="computer-badges">
-
-                                <span class="computer-badge">
-                                    ${escapeHTML(categoryLabel(pc.category))}
+                        <ul class="spec-list">
+                            <li>
+                                <span>
+                                    ${escapeHTML(t("cpu"))}
                                 </span>
 
-                                <span class="computer-badge type">
-                                    ${escapeHTML(typeLabel(pc.type))}
+                                <span>
+                                    ${escapeHTML(
+                                        pc.cpu || "—"
+                                    )}
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>
+                                    ${escapeHTML(t("ram"))}
                                 </span>
 
-                            </div>
+                                <span>
+                                    ${escapeHTML(
+                                        pc.ram || "—"
+                                    )}
+                                </span>
+                            </li>
 
-
-                            <h3>
-                                ${escapeHTML(pc.name)}
-                            </h3>
-
-
-                            <p class="computer-description">
-                                ${escapeHTML(pc.description || t("noDescription"))}
-                            </p>
-
-
-                            <ul class="spec-list">
-
-                                <li>
-                                    <span>
-                                        ${escapeHTML(t("cpu"))}
-                                    </span>
-
-                                    <span>
-                                        ${escapeHTML(pc.cpu || "—")}
-                                    </span>
-                                </li>
-
-
-                                <li>
-                                    <span>
-                                        ${escapeHTML(t("ram"))}
-                                    </span>
-
-                                    <span>
-                                        ${escapeHTML(pc.ram || "—")}
-                                    </span>
-                                </li>
-
-
-                                <li>
-                                    <span>
-                                        ${escapeHTML(t("storage"))}
-                                    </span>
-
-                                    <span>
-                                        ${escapeHTML(pc.storage || "—")}
-                                    </span>
-                                </li>
-
-                            </ul>
-
-
-                            <div class="computer-card-footer">
-
-                                <span class="computer-price">
-                                    ${formatPrice(pc.price)}
+                            <li>
+                                <span>
+                                    ${escapeHTML(t("storage"))}
                                 </span>
 
+                                <span>
+                                    ${escapeHTML(
+                                        pc.storage || "—"
+                                    )}
+                                </span>
+                            </li>
+                        </ul>
 
-                                <button
-                                    class="details-button"
-                                    type="button"
-                                    data-details-id="${escapeHTML(pc.id)}"
-                                >
-                                    ${escapeHTML(t("details"))}
-                                </button>
+                        <div class="computer-card-footer">
+                            <span class="computer-price">
+                                ${formatPrice(pc.price)}
+                            </span>
 
-                            </div>
-
+                            <button
+                                class="details-button"
+                                type="button"
+                                data-details-id="${escapeHTML(pc.id)}"
+                            >
+                                ${escapeHTML(t("details"))}
+                            </button>
                         </div>
 
-                    </article>
-                `;
-
-            }).join("");
-
+                    </div>
+                </article>
+            `;
+        }).join("");
 
         if ($("#emptyState")) {
             $("#emptyState").hidden =
                 results.length > 0;
         }
 
-
-        const title =
-            $("#resultsTitle");
-
+        const title = $("#resultsTitle");
 
         if (title) {
             title.textContent =
                 activeCategory
-                    ? categoryLabel(
-                        activeCategory
-                    )
-                    : t(
-                        "featuredComputers"
-                    );
+                    ? categoryLabel(activeCategory)
+                    : t("featuredComputers");
         }
 
-
-        const chips =
-            $("#activeFilters");
-
+        const chips = $("#activeFilters");
 
         if (chips) {
-
             const labels = [];
 
             if (activeCategory) {
                 labels.push(
-                    categoryLabel(
-                        activeCategory
-                    )
+                    categoryLabel(activeCategory)
                 );
             }
 
             if (activeType) {
                 labels.push(
-                    typeLabel(
-                        activeType
-                    )
+                    typeLabel(activeType)
                 );
             }
 
-            chips.innerHTML =
-                labels.map(
-                    label =>
-                        `<span class="filter-chip">${escapeHTML(label)}</span>`
-                ).join("");
+            chips.innerHTML = labels.map(label => `
+                <span class="filter-chip">
+                    ${escapeHTML(label)}
+                </span>
+            `).join("");
         }
 
-
-        $$(".category-card")
-            .forEach(card => {
-
-                card.classList.toggle(
-                    "selected",
-                    card.dataset.category ===
-                        activeCategory
-                );
-
-            });
+        $$(".category-card").forEach(card => {
+            card.classList.toggle(
+                "selected",
+                card.dataset.category === activeCategory
+            );
+        });
     }
 
-
     /* =========================================
-       DETAILS
+       DETAILS POPUP
        ========================================= */
 
     function openDetails(id) {
-        const pc =
-            computers.find(
-                item =>
-                    String(item.id) ===
-                    String(id)
-            );
+        const pc = computers.find(
+            item =>
+                String(item.id) === String(id)
+        );
 
         if (!pc) return;
 
+        const dialog = $("#detailDialog");
+        const content = $("#detailContent");
 
-        const dialog =
-            $("#detailDialog");
+        if (!dialog || !content) return;
 
-        const content =
-            $("#detailContent");
-
-
-        if (
-            !dialog ||
-            !content
-        ) {
-            return;
-        }
-
-
-        const image =
-            pc.image
-                ? `
-                    <img
-                        class="detail-image"
-                        src="${escapeHTML(pc.image)}"
-                        alt="${escapeHTML(pc.name)}"
-                    >
-                `
-                : `
-                    <span
-                        class="computer-placeholder"
-                        aria-hidden="true"
-                    >
-                        ⌘
-                    </span>
-                `;
-
+        const image = pc.image
+            ? `
+                <img
+                    class="detail-image"
+                    src="${escapeHTML(pc.image)}"
+                    alt="${escapeHTML(pc.name)}"
+                >
+            `
+            : `
+                <span
+                    class="computer-placeholder"
+                    aria-hidden="true"
+                >
+                    ⌘
+                </span>
+            `;
 
         const specs = [
-
-            [
-                t("brand"),
-                pc.brand
-            ],
+            [t("brand"), pc.brand],
 
             [
                 t("category"),
-                categoryLabel(
-                    pc.category
-                )
+                categoryLabel(pc.category)
             ],
 
             [
                 t("type"),
-                typeLabel(
-                    pc.type
-                )
+                typeLabel(pc.type)
             ],
 
-            [
-                t("cpu"),
-                pc.cpu
-            ],
+            [t("cpu"), pc.cpu],
+            [t("ram"), pc.ram],
+            [t("storage"), pc.storage],
+            [t("gpu"), pc.gpu],
+            [t("os"), pc.os],
+            [t("screen"), pc.screen]
 
-            [
-                t("ram"),
-                pc.ram
-            ],
-
-            [
-                t("storage"),
-                pc.storage
-            ],
-
-            [
-                t("gpu"),
-                pc.gpu
-            ],
-
-            [
-                t("os"),
-                pc.os
-            ],
-
-            [
-                t("screen"),
-                pc.screen
-            ]
-
-        ].filter(
-            ([, value]) =>
-                value
-        );
-
+        ].filter(([, value]) => value);
 
         content.innerHTML = `
-
             <div class="detail-layout">
 
                 <div class="detail-image-wrap">
                     ${image}
                 </div>
 
-
                 <div>
-
                     <p class="eyebrow">
-                        ${escapeHTML(categoryLabel(pc.category))}
+                        ${escapeHTML(
+                            categoryLabel(pc.category)
+                        )}
                     </p>
-
 
                     <h2>
                         ${escapeHTML(pc.name)}
                     </h2>
 
-
                     <p>
-                        ${escapeHTML(pc.description || t("noDescription"))}
+                        ${escapeHTML(
+                            computerDescription(pc)
+                        )}
                     </p>
-
 
                     <p class="detail-price">
                         ${formatPrice(pc.price)}
                     </p>
 
-
                     <h3>
-                        ${escapeHTML(t("specifications"))}
+                        ${escapeHTML(
+                            t("specifications")
+                        )}
                     </h3>
 
-
                     <div class="detail-specs">
-
                         ${specs.map(
                             ([label, value]) => `
-
                                 <div class="detail-spec">
-
                                     <span>
                                         ${escapeHTML(label)}
                                     </span>
@@ -1520,285 +959,212 @@
                                     <span>
                                         ${escapeHTML(value)}
                                     </span>
-
                                 </div>
-
                             `
                         ).join("")}
-
                     </div>
-
                 </div>
 
             </div>
         `;
 
-
-        const detailCard =
-            dialog.querySelector(
-                ".detail-card"
-            );
-
-        if (detailCard) {
-            detailCard.scrollTop = 0;
+        if (!dialog.open) {
+            dialog.showModal();
         }
-
-
-        openDialog(dialog);
     }
 
-
     /* =========================================
-       DEVELOPER MANAGEMENT
+       DEVELOPER MANAGEMENT LIST
        ========================================= */
 
     function renderManageList() {
-        const list =
-            $("#manageList");
+        const list = $("#manageList");
 
         if (!list) return;
 
+        list.innerHTML = computers.map(pc => `
+            <div class="manage-item">
 
-        list.innerHTML =
-            computers.map(pc => `
+                <div class="manage-item-info">
+                    <strong>
+                        ${escapeHTML(pc.name)}
+                    </strong>
 
-                <div class="manage-item">
-
-                    <div class="manage-item-info">
-
-                        <strong>
-                            ${escapeHTML(pc.name)}
-                        </strong>
-
-                        <small>
-                            ${escapeHTML(pc.brand)}
-                            ·
-                            ${escapeHTML(categoryLabel(pc.category))}
-                            ·
-                            ${escapeHTML(typeLabel(pc.type))}
-                            ·
-                            ${formatPrice(pc.price)}
-                        </small>
-
-                    </div>
-
-
-                    <div class="manage-item-actions">
-
-                        <button
-                            class="small-button"
-                            type="button"
-                            data-edit-id="${escapeHTML(pc.id)}"
-                        >
-                            ${escapeHTML(t("edit"))}
-                        </button>
-
-
-                        <button
-                            class="small-button delete"
-                            type="button"
-                            data-delete-id="${escapeHTML(pc.id)}"
-                        >
-                            ${escapeHTML(t("delete"))}
-                        </button>
-
-                    </div>
-
+                    <small>
+                        ${escapeHTML(pc.brand)}
+                        ·
+                        ${escapeHTML(
+                            categoryLabel(pc.category)
+                        )}
+                        ·
+                        ${escapeHTML(
+                            typeLabel(pc.type)
+                        )}
+                        ·
+                        ${formatPrice(pc.price)}
+                    </small>
                 </div>
 
-            `).join("");
+                <div class="manage-item-actions">
+                    <button
+                        class="small-button"
+                        type="button"
+                        data-edit-id="${escapeHTML(pc.id)}"
+                    >
+                        ${escapeHTML(t("edit"))}
+                    </button>
+
+                    <button
+                        class="small-button delete"
+                        type="button"
+                        data-delete-id="${escapeHTML(pc.id)}"
+                    >
+                        ${escapeHTML(t("delete"))}
+                    </button>
+                </div>
+
+            </div>
+        `).join("");
     }
 
-
     function updateDeveloperUI() {
-
         if ($("#adminMenu")) {
             $("#adminMenu").hidden =
                 !developerMode;
         }
-
 
         if ($("#manage")) {
             $("#manage").hidden =
                 !developerMode;
         }
 
-
         if (developerMode) {
             renderManageList();
         }
     }
 
+    /* =========================================
+       DEVELOPER LOGIN
+       ========================================= */
 
     async function handleLogin(event) {
-
         event.preventDefault();
 
-
         const email =
-            (
-                $("#adminEmail")?.value ||
-                ""
-            ).trim();
-
+            ($("#adminEmail")?.value || "")
+                .trim();
 
         const password =
-            $("#adminPassword")?.value ||
-            "";
+            $("#adminPassword")?.value || "";
 
-
-        const error =
-            $("#loginError");
-
+        const error = $("#loginError");
 
         if (error) {
             error.textContent = "";
         }
 
-
         const {
             data,
             error: loginError
-        } =
-            await db.auth
-                .signInWithPassword({
-                    email,
-                    password
-                });
-
+        } = await db.auth.signInWithPassword({
+            email,
+            password
+        });
 
         if (
             loginError ||
             !data.user
         ) {
-
             console.error(
                 "Supabase login error:",
                 loginError
             );
-
 
             if (error) {
                 error.textContent =
                     t("loginFailed");
             }
 
-
             return;
         }
 
-
         developerMode = true;
-
 
         sessionStorage.setItem(
             DEV_KEY,
             "true"
         );
 
-
-        closeDialog(
-            $("#loginDialog")
-        );
-
+        if ($("#loginDialog")?.open) {
+            $("#loginDialog").close();
+        }
 
         updateDeveloperUI();
-
 
         showToast(
             t("loginSuccess")
         );
 
-
         await loadComputers();
     }
 
-
     async function exitDeveloperMode() {
-
         await db.auth.signOut();
 
-
         developerMode = false;
-
 
         sessionStorage.removeItem(
             DEV_KEY
         );
 
-
         updateDeveloperUI();
-
 
         showToast(
             t("devExited")
         );
     }
 
+    /* =========================================
+       EDITOR
+       ========================================= */
 
     function resetEditor() {
-
-        const form =
-            $("#computerForm");
-
+        const form = $("#computerForm");
 
         if (!form) return;
 
-
         form.reset();
-
 
         if ($("#editId")) {
             $("#editId").value = "";
         }
 
-
         if ($("#imagePreview")) {
-
-            $("#imagePreview").hidden =
-                true;
-
-            $("#imagePreview")
-                .removeAttribute("src");
-
+            $("#imagePreview").hidden = true;
+            $("#imagePreview").removeAttribute("src");
         }
-
 
         if ($("#editorTitle")) {
-
-            $("#editorTitle")
-                .textContent =
-                    t("editorAdd");
-
+            $("#editorTitle").textContent =
+                t("editorAdd");
         }
-
 
         form.hidden = true;
     }
 
-
     function editComputer(id) {
-
-        const pc =
-            computers.find(
-                item =>
-                    String(item.id) ===
-                    String(id)
-            );
-
+        const pc = computers.find(
+            item =>
+                String(item.id) === String(id)
+        );
 
         if (!pc) return;
 
-
-        const form =
-            $("#computerForm");
-
+        const form = $("#computerForm");
 
         if (!form) return;
 
-
         form.hidden = false;
-
 
         $("#editId").value =
             pc.id;
@@ -1842,35 +1208,24 @@
         $("#computerDescription").value =
             pc.description;
 
+        $("#computerDescriptionEs").value =
+            pc.description_es;
 
         $("#editorTitle").textContent =
             t("editorEdit");
 
-
         const preview =
             $("#imagePreview");
 
-
         if (preview) {
-
-            preview.hidden =
-                !pc.image;
-
+            preview.hidden = !pc.image;
 
             if (pc.image) {
-
-                preview.src =
-                    pc.image;
-
+                preview.src = pc.image;
             } else {
-
-                preview.removeAttribute(
-                    "src"
-                );
-
+                preview.removeAttribute("src");
             }
         }
-
 
         form.scrollIntoView({
             behavior: "smooth",
@@ -1878,86 +1233,58 @@
         });
     }
 
-
     function getComputerFromForm() {
-
         return {
-
             name:
-                $("#computerName")
-                    .value
-                    .trim(),
+                $("#computerName").value.trim(),
 
             brand:
-                $("#computerBrand")
-                    .value
-                    .trim(),
+                $("#computerBrand").value.trim(),
 
             category:
-                $("#computerCategory")
-                    .value,
+                $("#computerCategory").value,
 
             type:
-                $("#computerType")
-                    .value,
+                $("#computerType").value,
 
             price:
                 Number(
-                    $("#computerPrice")
-                        .value
+                    $("#computerPrice").value
                 ),
 
             cpu:
-                $("#computerCPU")
-                    .value
-                    .trim(),
+                $("#computerCPU").value.trim(),
 
             ram:
-                $("#computerRAM")
-                    .value
-                    .trim(),
+                $("#computerRAM").value.trim(),
 
             storage:
-                $("#computerStorage")
-                    .value
-                    .trim(),
+                $("#computerStorage").value.trim(),
 
             gpu:
-                $("#computerGPU")
-                    .value
-                    .trim(),
+                $("#computerGPU").value.trim(),
 
             os:
-                $("#computerOS")
-                    .value
-                    .trim(),
+                $("#computerOS").value.trim(),
 
             screen:
-                $("#computerScreen")
-                    .value
-                    .trim(),
+                $("#computerScreen").value.trim(),
 
             image:
-                $("#computerImage")
-                    .value
-                    .trim(),
+                $("#computerImage").value.trim(),
 
             description:
-                $("#computerDescription")
-                    .value
-                    .trim()
+                $("#computerDescription").value.trim(),
 
+            description_es:
+                $("#computerDescriptionEs").value.trim()
         };
     }
 
-
     async function saveComputerFromForm(event) {
-
         event.preventDefault();
 
-
         if (!developerMode) {
-
             showToast(
                 t("loginRequired")
             );
@@ -1965,103 +1292,82 @@
             return;
         }
 
-
         const form =
             $("#computerForm");
 
-
         if (!form.reportValidity()) {
-
             showToast(
                 t("invalidForm")
             );
 
             return;
         }
-
 
         const editId =
             $("#editId").value;
 
-
         const computer =
             getComputerFromForm();
-
 
         if (
             !computer.name ||
             !computer.brand ||
-            !Number.isFinite(
-                computer.price
-            ) ||
+            !Number.isFinite(computer.price) ||
             computer.price < 0
         ) {
-
             showToast(
                 t("invalidForm")
             );
 
             return;
         }
-
 
         const saveButton =
             form.querySelector(
                 '[type="submit"]'
             );
 
-
         if (saveButton) {
-            saveButton.disabled =
-                true;
+            saveButton.disabled = true;
         }
 
+        let result;
 
-        const result =
-            editId
-
-                ? await db
-                    .from("computers")
-                    .update(computer)
-                    .eq("id", editId)
-                    .select()
-                    .single()
-
-                : await db
-                    .from("computers")
-                    .insert(computer)
-                    .select()
-                    .single();
-
-
-        if (saveButton) {
-            saveButton.disabled =
-                false;
+        if (editId) {
+            result = await db
+                .from("computers")
+                .update(computer)
+                .eq("id", editId)
+                .select()
+                .single();
+        } else {
+            result = await db
+                .from("computers")
+                .insert(computer)
+                .select()
+                .single();
         }
 
+        if (saveButton) {
+            saveButton.disabled = false;
+        }
 
         if (result.error) {
-
             console.error(
                 "Supabase save error:",
                 result.error
             );
 
-
             showToast(
                 t("saveError")
             );
 
-
             return;
         }
 
-
         await loadComputers();
 
-
         resetEditor();
-
 
         showToast(
             editId
@@ -2070,11 +1376,8 @@
         );
     }
 
-
     async function deleteComputer(id) {
-
         if (!developerMode) {
-
             showToast(
                 t("loginRequired")
             );
@@ -2082,99 +1385,72 @@
             return;
         }
 
-
-        if (
-            !confirm(
-                t("confirmDelete")
-            )
-        ) {
+        if (!confirm(
+            t("confirmDelete")
+        )) {
             return;
         }
 
-
-        const {
-            error
-        } =
-            await db
-                .from("computers")
-                .delete()
-                .eq("id", id);
-
+        const { error } = await db
+            .from("computers")
+            .delete()
+            .eq("id", id);
 
         if (error) {
-
             console.error(
                 "Supabase delete error:",
                 error
             );
 
-
             showToast(
                 t("saveError")
             );
 
-
             return;
         }
 
-
         await loadComputers();
-
 
         showToast(
             t("deleteSuccess")
         );
     }
 
-
     /* =========================================
-       FILTERS
+       FILTER CONTROLS
        ========================================= */
 
     function clearFilters() {
-
         activeCategory = "";
         activeType = "";
         selectedCategory = "";
 
-
         if ($("#searchInput")) {
-            $("#searchInput").value =
-                "";
+            $("#searchInput").value = "";
         }
-
 
         if ($("#brandFilter")) {
-            $("#brandFilter").value =
-                "";
+            $("#brandFilter").value = "";
         }
-
 
         if ($("#priceFilter")) {
-            $("#priceFilter").value =
-                "";
+            $("#priceFilter").value = "";
         }
-
 
         if ($("#sortFilter")) {
             $("#sortFilter").value =
                 "featured";
         }
 
-
         renderComputers();
     }
 
-
     /* =========================================
-       TYPE SELECTION
+       DEVICE TYPE SELECTION
        ========================================= */
 
     function openTypeDialog(category) {
-
-        selectedCategory =
-            category;
-
+        selectedCategory = category;
 
         const dialog =
             $("#typeDialog");
@@ -2188,7 +1464,6 @@
         const grid =
             $("#typeChoiceGrid");
 
-
         if (
             !dialog ||
             !title ||
@@ -2198,67 +1473,64 @@
             return;
         }
 
-
         title.textContent =
             `${categoryLabel(category)} — ${t("chooseType")}`;
-
 
         text.textContent =
             t("chooseTypeText");
 
-
         grid.innerHTML = `
-
             <button
                 class="type-choice"
                 type="button"
                 data-setup-choice="Stationary"
             >
-
                 <span class="type-choice-icon">
                     ▣
                 </span>
 
                 <strong>
-                    ${escapeHTML(t("stationary"))}
+                    ${escapeHTML(
+                        t("stationary")
+                    )}
                 </strong>
 
                 <span>
-                    ${escapeHTML(t("stationaryDesc"))}
+                    ${escapeHTML(
+                        t("stationaryDesc")
+                    )}
                 </span>
-
             </button>
-
 
             <button
                 class="type-choice"
                 type="button"
                 data-setup-choice="Mobile"
             >
-
                 <span class="type-choice-icon">
                     ▱
                 </span>
 
                 <strong>
-                    ${escapeHTML(t("mobile"))}
+                    ${escapeHTML(
+                        t("mobile")
+                    )}
                 </strong>
 
                 <span>
-                    ${escapeHTML(t("mobileDesc"))}
+                    ${escapeHTML(
+                        t("mobileDesc")
+                    )}
                 </span>
-
             </button>
-
         `;
 
-
-        openDialog(dialog);
+        if (!dialog.open) {
+            dialog.showModal();
+        }
     }
 
-
     function openSpecificTypeDialog(setup) {
-
         const title =
             $("#typeDialogTitle");
 
@@ -2268,7 +1540,6 @@
         const grid =
             $("#typeChoiceGrid");
 
-
         if (
             !title ||
             !text ||
@@ -2277,398 +1548,296 @@
             return;
         }
 
-
         const stationary =
             setup === "Stationary";
 
-
-        const options =
-            stationary
-
-                ? [
-                    [
-                        "Desktop",
-                        "desktop",
-                        "desktopDesc",
-                        "▣"
-                    ],
-
-                    [
-                        "Workstation",
-                        "workstation",
-                        "workstationDesc",
-                        "▤"
-                    ]
+        const options = stationary
+            ? [
+                [
+                    "Desktop",
+                    "desktop",
+                    "desktopDesc",
+                    "▣"
+                ],
+                [
+                    "Workstation",
+                    "workstation",
+                    "workstationDesc",
+                    "▤"
                 ]
+            ]
+            : [
+                [
+                    "Laptop",
+                    "laptop",
+                    "laptopDesc",
+                    "▱"
+                ],
+                [
+                    "Tablet",
+                    "tablet",
+                    "tabletDesc",
+                    "▯"
+                ]
+            ];
 
-                : [
-                    [
-                        "Laptop",
-                        "laptop",
-                        "laptopDesc",
-                        "▱"
-                    ],
+        title.textContent = t(
+            stationary
+                ? "chooseStationaryType"
+                : "chooseMobileType"
+        );
 
-                    [
-                        "Tablet",
-                        "tablet",
-                        "tabletDesc",
-                        "▯"
-                    ]
-                ];
+        text.textContent = t(
+            stationary
+                ? "chooseStationaryText"
+                : "chooseMobileText"
+        );
 
+        grid.innerHTML = options.map(
+            ([type, label, description, symbol]) => `
+                <button
+                    class="type-choice"
+                    type="button"
+                    data-computer-type="${type}"
+                >
+                    <span class="type-choice-icon">
+                        ${symbol}
+                    </span>
 
-        title.textContent =
-            t(
-                stationary
-                    ? "chooseStationaryType"
-                    : "chooseMobileType"
-            );
+                    <strong>
+                        ${escapeHTML(
+                            t(label)
+                        )}
+                    </strong>
 
-
-        text.textContent =
-            t(
-                stationary
-                    ? "chooseStationaryText"
-                    : "chooseMobileText"
-            );
-
-
-        grid.innerHTML =
-            options.map(
-                ([
-                    type,
-                    label,
-                    description,
-                    symbol
-                ]) => `
-
-                    <button
-                        class="type-choice"
-                        type="button"
-                        data-computer-type="${type}"
-                    >
-
-                        <span class="type-choice-icon">
-                            ${symbol}
-                        </span>
-
-                        <strong>
-                            ${escapeHTML(t(label))}
-                        </strong>
-
-                        <span>
-                            ${escapeHTML(t(description))}
-                        </span>
-
-                    </button>
-
-                `
-            ).join("");
+                    <span>
+                        ${escapeHTML(
+                            t(description)
+                        )}
+                    </span>
+                </button>
+            `
+        ).join("");
     }
 
-
     function chooseType(type) {
-
         activeCategory =
             selectedCategory;
-
 
         activeType =
             type;
 
+        const dialog =
+            $("#typeDialog");
 
-        closeDialog(
-            $("#typeDialog")
-        );
-
+        if (dialog?.open) {
+            dialog.close();
+        }
 
         renderComputers();
 
-
-        $("#catalogResults")
-            ?.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+        $("#catalogResults")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     }
-
 
     /* =========================================
        LANGUAGE
        ========================================= */
 
     function setLanguage(nextLanguage) {
-
         language =
             nextLanguage === "es"
                 ? "es"
                 : "en";
-
 
         localStorage.setItem(
             STORAGE_KEY,
             language
         );
 
-
         document.documentElement.lang =
             language;
 
+        $$("[data-i18n]").forEach(element => {
+            const key =
+                element.dataset.i18n;
 
-        $$("[data-i18n]")
-            .forEach(element => {
+            if (
+                key &&
+                (
+                    translations[language][key] ||
+                    translations.en[key]
+                )
+            ) {
+                element.textContent =
+                    t(key);
+            }
+        });
 
-                const key =
-                    element.dataset.i18n;
+        $$("[data-i18n-placeholder]").forEach(
+            element => {
+                element.placeholder = t(
+                    element.dataset.i18nPlaceholder
+                );
+            }
+        );
 
+        $$("[data-i18n-title]").forEach(
+            element => {
+                element.title = t(
+                    element.dataset.i18nTitle
+                );
+            }
+        );
 
-                if (
-                    key &&
-                    (
-                        translations[language][key] ||
-                        translations.en[key]
-                    )
-                ) {
-
-                    element.textContent =
-                        t(key);
-
-                }
-
-            });
-
-
-        $$("[data-i18n-placeholder]")
-            .forEach(element => {
-
-                element.placeholder =
+        $$("[data-i18n-aria-label]").forEach(
+            element => {
+                element.setAttribute(
+                    "aria-label",
                     t(
                         element.dataset
-                            .i18nPlaceholder
-                    );
-
-            });
-
+                            .i18nAriaLabel
+                    )
+                );
+            }
+        );
 
         const toggle =
             $("#languageToggle");
 
-
         if (toggle) {
-
             toggle.innerHTML =
                 language === "en"
-
                     ? "EN <span>|</span> ES"
-
                     : "ES <span>|</span> EN";
-
         }
-
 
         updateBrandOptions();
 
+        /*
+         * This re-renders the cards when the
+         * language changes. That means the
+         * computer description also switches.
+         */
         renderComputers();
 
         renderManageList();
-    }
 
+        /*
+         * If the details popup is currently
+         * open, refresh that computer too.
+         */
+        const detailDialog =
+            $("#detailDialog");
+
+        if (
+            detailDialog?.open &&
+            detailDialog.dataset.computerId
+        ) {
+            openDetails(
+                detailDialog.dataset.computerId
+            );
+        }
+
+        const editorTitle =
+            $("#editorTitle");
+
+        if (
+            editorTitle &&
+            $("#computerForm") &&
+            !$("#computerForm").hidden
+        ) {
+            editorTitle.textContent =
+                $("#editId")?.value
+                    ? t("editorEdit")
+                    : t("editorAdd");
+        }
+    }
 
     /* =========================================
        EVENTS
        ========================================= */
 
     function setupEvents() {
-
-        $("#languageToggle")
-            ?.addEventListener(
-                "click",
-                () => {
-
-                    setLanguage(
-                        language === "en"
-                            ? "es"
-                            : "en"
-                    );
-
-                }
-            );
-
+        $("#languageToggle")?.addEventListener(
+            "click",
+            () => {
+                setLanguage(
+                    language === "en"
+                        ? "es"
+                        : "en"
+                );
+            }
+        );
 
         document.addEventListener(
             "keydown",
             event => {
-
                 if (!event.shiftKey) {
                     shortcutStep = 0;
                     return;
                 }
 
-
                 const key =
                     event.key.toLowerCase();
 
-
                 if (key === "w") {
-
                     shortcutStep = 1;
-
 
                     clearTimeout(
                         shortcutTimer
                     );
 
-
                     shortcutTimer =
-                        setTimeout(
-                            () => {
-                                shortcutStep = 0;
-                            },
-                            1800
-                        );
-
+                        setTimeout(() => {
+                            shortcutStep = 0;
+                        }, 1800);
 
                     return;
                 }
-
 
                 if (
                     key === "d" &&
                     shortcutStep === 1
                 ) {
-
                     shortcutStep = 0;
-
 
                     clearTimeout(
                         shortcutTimer
                     );
 
-
                     if (developerMode) {
-
                         if ($("#adminMenu")) {
-
                             $("#adminMenu").hidden =
                                 !$("#adminMenu").hidden;
-
                         }
-
                     } else {
-
-                        openDialog(
-                            $("#loginDialog")
-                        );
-
+                        $("#loginDialog")
+                            ?.showModal();
                     }
                 }
             }
         );
 
+        $("#loginForm")?.addEventListener(
+            "submit",
+            handleLogin
+        );
 
-        $("#loginForm")
-            ?.addEventListener(
-                "submit",
-                handleLogin
-            );
-
-
-        /*
-         Close any dialog and update background scroll.
-        */
-
-        $$("[data-close-dialog]")
-            .forEach(button => {
-
+        $$("[data-close-dialog]").forEach(
+            button => {
                 button.addEventListener(
                     "click",
                     () => {
-
-                        closeDialog(
-                            button.closest(
-                                "dialog"
-                            )
-                        );
-
+                        button
+                            .closest("dialog")
+                            ?.close();
                     }
                 );
-
-            });
-
-
-        /*
-         ESC also restores page scrolling.
-        */
-
-        $$("dialog")
-            .forEach(dialog => {
-
-                dialog.addEventListener(
-                    "close",
-                    syncDialogScrollLock
-                );
-
-                dialog.addEventListener(
-                    "cancel",
-                    () => {
-
-                        requestAnimationFrame(
-                            syncDialogScrollLock
-                        );
-
-                    }
-                );
-
-            });
-
-
-        /*
-         IMPORTANT:
-         When the details popup is open,
-         wheel movement anywhere on the screen
-         scrolls ONLY the detail popup.
-        */
-
-        document.addEventListener(
-            "wheel",
-            event => {
-
-                const dialog =
-                    $("#detailDialog");
-
-
-                if (
-                    !dialog ||
-                    !dialog.open
-                ) {
-                    return;
-                }
-
-
-                const detailCard =
-                    dialog.querySelector(
-                        ".detail-card"
-                    );
-
-
-                if (!detailCard) {
-                    return;
-                }
-
-
-                event.preventDefault();
-
-
-                detailCard.scrollTop +=
-                    event.deltaY;
-
-            },
-            {
-                passive: false
             }
         );
-
 
         $("#exitDeveloperMode")
             ?.addEventListener(
@@ -2676,93 +1845,73 @@
                 exitDeveloperMode
             );
 
-
-        $$(".category-card")
-            .forEach(card => {
-
+        $$(".category-card").forEach(
+            card => {
                 card.addEventListener(
                     "click",
                     () => {
-
                         const category =
                             card.dataset.category;
 
-
-                        if (!category) return;
-
+                        if (!category) {
+                            return;
+                        }
 
                         if (
                             category ===
                             "Professional"
                         ) {
-
                             activeCategory =
                                 "Professional";
 
-
                             activeType = "";
 
-
                             renderComputers();
-
 
                             $("#catalogResults")
                                 ?.scrollIntoView({
                                     behavior:
                                         "smooth",
-
                                     block:
                                         "start"
                                 });
-
                         } else {
-
                             openTypeDialog(
                                 category
                             );
-
                         }
                     }
                 );
-
-            });
-
+            }
+        );
 
         $("#typeChoiceGrid")
             ?.addEventListener(
                 "click",
                 event => {
-
                     const setupButton =
                         event.target.closest(
                             "[data-setup-choice]"
                         );
-
 
                     const typeButton =
                         event.target.closest(
                             "[data-computer-type]"
                         );
 
-
                     if (setupButton) {
-
                         openSpecificTypeDialog(
                             setupButton.dataset
                                 .setupChoice
                         );
-
                     } else if (typeButton) {
-
                         chooseType(
                             typeButton.dataset
                                 .computerType
                         );
-
                     }
                 }
             );
-
 
         [
             "searchInput",
@@ -2770,26 +1919,18 @@
             "priceFilter",
             "sortFilter"
         ].forEach(id => {
-
             const element =
                 $("#" + id);
 
-
             if (element) {
-
                 element.addEventListener(
-
                     id === "searchInput"
                         ? "input"
                         : "change",
-
                     renderComputers
                 );
-
             }
-
         });
-
 
         $("#clearFilters")
             ?.addEventListener(
@@ -2797,67 +1938,63 @@
                 clearFilters
             );
 
-
         $("#computerGrid")
             ?.addEventListener(
                 "click",
                 event => {
-
                     const button =
                         event.target.closest(
                             "[data-details-id]"
                         );
 
-
                     if (button) {
+                        const dialog =
+                            $("#detailDialog");
+
+                        if (dialog) {
+                            dialog.dataset
+                                .computerId =
+                                button.dataset
+                                    .detailsId;
+                        }
 
                         openDetails(
                             button.dataset
                                 .detailsId
                         );
-
                     }
                 }
             );
-
 
         $("#addComputerButton")
             ?.addEventListener(
                 "click",
                 () => {
-
                     if (!developerMode) {
-
                         showToast(
-                            t(
-                                "loginRequired"
-                            )
+                            t("loginRequired")
                         );
 
                         return;
                     }
 
-
                     resetEditor();
-
 
                     $("#computerForm").hidden =
                         false;
 
-
                     $("#editorTitle").textContent =
                         t("editorAdd");
 
-
                     $("#computerForm")
                         .scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
+                            behavior:
+                                "smooth",
+                            block:
+                                "start"
                         });
-
                 }
             );
-
 
         $("#cancelEditor")
             ?.addEventListener(
@@ -2865,157 +2002,106 @@
                 resetEditor
             );
 
-
         $("#computerForm")
             ?.addEventListener(
                 "submit",
                 saveComputerFromForm
             );
 
-
         $("#manageList")
             ?.addEventListener(
                 "click",
                 event => {
-
                     const editButton =
                         event.target.closest(
                             "[data-edit-id]"
                         );
-
 
                     const deleteButton =
                         event.target.closest(
                             "[data-delete-id]"
                         );
 
-
                     if (editButton) {
-
                         editComputer(
                             editButton.dataset
                                 .editId
                         );
-
                     }
 
-
                     if (deleteButton) {
-
                         deleteComputer(
                             deleteButton.dataset
                                 .deleteId
                         );
-
                     }
                 }
             );
-
 
         $("#computerImage")
             ?.addEventListener(
                 "input",
                 event => {
-
                     const preview =
                         $("#imagePreview");
 
-
-                    if (!preview) return;
-
+                    if (!preview) {
+                        return;
+                    }
 
                     const url =
-                        event.target
-                            .value
+                        event.target.value
                             .trim();
 
-
                     if (!url) {
-
-                        preview.hidden =
-                            true;
-
+                        preview.hidden = true;
 
                         preview.removeAttribute(
                             "src"
                         );
 
-
                         return;
                     }
 
+                    preview.onload = () => {
+                        preview.hidden = false;
+                    };
 
-                    preview.onload =
-                        () => {
+                    preview.onerror = () => {
+                        preview.hidden = true;
+                    };
 
-                            preview.hidden =
-                                false;
-
-                        };
-
-
-                    preview.onerror =
-                        () => {
-
-                            preview.hidden =
-                                true;
-
-                        };
-
-
-                    preview.src =
-                        url;
-
+                    preview.src = url;
                 }
             );
     }
 
-
     /* =========================================
-       INIT
+       INITIALIZE
        ========================================= */
 
     async function init() {
-
         setupEvents();
 
-
-        setLanguage(
-            language
-        );
-
+        setLanguage(language);
 
         updateDeveloperUI();
 
-
         await loadComputers();
-
 
         const {
             data: sessionData
-        } =
-            await db.auth
-                .getSession();
+        } = await db.auth.getSession();
 
-
-        if (
-            sessionData.session
-        ) {
-
+        if (sessionData.session) {
             developerMode =
                 sessionStorage.getItem(
                     DEV_KEY
                 ) === "true";
 
-
             updateDeveloperUI();
         }
-
-
-        syncDialogScrollLock();
     }
 
-
     init();
-
 })();
