@@ -424,6 +424,8 @@ p {
     overflow: hidden;
 
     isolation: isolate;
+
+    border-radius: 22px;
 }
 
 .glow {
@@ -1401,12 +1403,6 @@ select option {
    COMPUTER DETAILS DIALOG
    ========================================= */
 
-/*
-   The dialog itself fills the screen invisibly.
-   The actual popup is .detail-card inside it.
-   This lets the close button sit OUTSIDE the box.
-*/
-
 #detailDialog {
     width: 100%;
     height: 100%;
@@ -1536,7 +1532,6 @@ select option {
 
     transform: scale(1.05);
 }
-
 
 .detail-layout {
     display: grid;
