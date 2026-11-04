@@ -3303,19 +3303,99 @@
     }
 
 
+/* =========================================
+   WT MONITOR ANIMATION
+   ========================================= */
+
+function setupBootAnimation() {
+
+    const hero = $(".hero-art");
+    const leaves = $(".wasabi-leaves");
+
+    if (!hero || !leaves) return;
+
+    if (hero.dataset.bootInitialized === "true") {
+        return;
+    }
+
+    hero.dataset.bootInitialized = "true";
+
+    // Create falling wasabi leaves
+    leaves.innerHTML = "";
+
+    for (let i = 0; i < 18; i++) {
+
+        const leaf = document.createElement("span");
+
+        leaf.className = "wasabi-leaf";
+
+        leaf.style.setProperty(
+            "--leaf-left",
+            `${Math.random() * 100}%`
+        );
+
+        leaf.style.setProperty(
+            "--leaf-size",
+            `${8 + Math.random() * 12}px`
+        );
+
+        leaf.style.setProperty(
+            "--leaf-delay",
+            `${Math.random() * 1.4}s`
+        );
+
+        leaf.style.setProperty(
+            "--leaf-duration",
+            `${1.1 + Math.random() * 1.2}s`
+        );
+
+        leaf.style.setProperty(
+            "--leaf-drift",
+            `${Math.random() * 120 - 60}px`
+        );
+
+        leaf.style.setProperty(
+            "--leaf-rotation",
+            `${Math.random() * 720 - 360}deg`
+        );
+
+        leaves.appendChild(leaf);
+    }
+
+    function playBoot() {
+
+        hero.classList.remove("booting");
+
+        // Restart CSS animation
+        void hero.offsetWidth;
+
+        hero.classList.add("booting");
+
+        setTimeout(() => {
+            hero.classList.remove("booting");
+        }, 3000);
+    }
+
+    // First animation after page loads
+    setTimeout(playBoot, 1000);
+
+    // Repeat every 8 seconds
+    setInterval(playBoot, 8000);
+}
+
     /* =========================================
        INITIALIZATION
        ========================================= */
 
-    async function init() {
+            async function init() {
 
         setupEvents();
 
+        setupBootAnimation();
 
         setLanguage(
             language
         );
-
 
         updateDeveloperUI();
 
