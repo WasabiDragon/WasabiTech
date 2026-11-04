@@ -16,14 +16,12 @@
             <span class="brand-mark">W</span>
             <span><span class="wasabi">Wasabi</span><span class="tech">Tech</span></span>
         </a>
-
         <nav class="main-nav">
             <a class="active" href="index.html" data-i18n="navHome">Home</a>
             <a href="computers.html" data-i18n="navComputers">Computers</a>
             <a href="#about" data-i18n="navAbout">About</a>
             <a href="#support" data-i18n="navSupport">Support</a>
         </nav>
-
         <div class="header-actions">
             <button class="language-button" id="languageToggle" type="button">EN <span>|</span> ES</button>
         </div>
@@ -39,12 +37,18 @@
                 <a class="button button-primary" href="computers.html" data-i18n="exploreComputers">Explore Computers <span>→</span></a>
             </div>
 
-            <div class="hero-art" aria-label="Stylized desktop computer illustration">
+            <div class="hero-art" aria-label="Stylized desktop computer illustration with automatic WasabiTech boot animation">
                 <span class="glow glow-green"></span>
                 <span class="glow glow-purple"></span>
                 <div class="monitor">
                     <div class="monitor-screen">
-                        <span class="screen-logo">W.</span>
+                        <div class="boot-screen">
+                            <div class="wt-logo" aria-label="WasabiTech">
+                                <span class="wt-w">W</span><span class="wt-t">T</span>
+                            </div>
+                            <div class="wasabi-leaves" aria-hidden="true"></div>
+                            <div class="boot-light" aria-hidden="true"></div>
+                        </div>
                     </div>
                     <div class="monitor-stand"></div>
                 </div>
@@ -107,7 +111,9 @@
             <button class="modal-close" type="button" data-close-dialog aria-label="Close">×</button>
             <p class="eyebrow">WASABITECH</p>
             <h2 data-i18n="adminLogin">Developer Login</h2>
-            <p class="muted" data-i18n="loginNote">Enter the developer password to manage catalog entries.</p>
+            <p class="muted" data-i18n="loginNote">Log in with your administrator email and password.</p>
+            <label for="adminEmail">Email</label>
+            <input id="adminEmail" type="email" autocomplete="username" required>
             <label for="adminPassword" data-i18n="password">Password</label>
             <input id="adminPassword" type="password" autocomplete="current-password" required>
             <p class="form-error" id="loginError" role="alert"></p>
